@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eryza Mae C. Imatong — Data Analyst + Developer</title>
+<meta name="description" content="Portfolio of Eryza Mae C. Imatong, a BS Information Technology (Data Science) student at PUP Manila looking for data analyst and business analyst internships.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#home" data-go="0">EMI</a>
+  <nav class="links" aria-label="Primary">
+    <a href="#home" data-go="0">Home</a>
+    <a href="#about" data-go="1">About</a>
+    <a href="#projects" data-go="2">Projects</a>
+    <a href="#skills" data-go="3">Skills</a>
+    <a href="#experience" data-go="4">Experience</a>
+    <a href="#leadership" data-go="5">Leadership</a>
+    <a href="#contact" data-go="6">Contact</a>
+  </nav>
+  <a class="btn btn-primary cv" href="#" id="cv" title="Résumé coming soon">Download CV</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true"></div>
+
+<main id="stage">
+
+  <!-- 01 HERO -->
+  <section class="scene hero" id="home" data-title="Home">
+    <div class="sky"></div>
+    <div class="sun-glow"></div><div class="sun"></div>
+    <div class="fireflies" aria-hidden="true"></div>
+    <img class="landscape" src="assets/landscape.png" alt="" aria-hidden="true">
+    <div class="echi-wrap hero-echi">
+      <div class="echi-glow"></div>
+      <img class="echi" src="assets/echi-wave.png" alt="Echi, the echidna mascot, waving hello">
+      <div class="echi-shadow"></div>
+    </div>
+    <div class="content">
+      <div class="glass hero-card rise">
+        <p class="eyebrow">Welcome &nbsp;//&nbsp; 01</p>
+        <h1 class="display">Eryza Mae C. Imatong</h1>
+        <p class="role">Data Analyst + Developer</p>
+        <p class="lead">I'm a third-year IT student who likes turning messy data into something people can use. I'm looking for data analyst and business analyst internships.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#" title="Résumé coming soon">Download CV</a>
+          <a class="btn btn-ghost" href="#projects" data-go="2">View projects</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 ABOUT -->
+  <section class="scene about" id="about" data-title="About">
+    <div class="sky dusk"></div><div class="glow"></div>
+    <div class="content split">
+      <figure class="portrait rise">
+        <img src="assets/eryza.png" alt="Portrait of Eryza Mae Imatong">
+        <i class="gem tl"></i><i class="gem tr"></i><i class="gem bl"></i><i class="gem br"></i>
+      </figure>
+      <div class="glass rise d1">
+        <p class="eyebrow">About &nbsp;//&nbsp; 02</p>
+        <h2 class="display md">Hello, I am Eryza</h2>
+        <p class="lead strong">BSIT student at PUP Manila, bridging software engineering and data science.</p>
+        <p class="lead">I like the part of analysis where messy data turns into something someone can act on, and I build small apps to practice it. I'm looking for data analyst and business analyst internships.</p>
+        <div class="stats">
+          <div class="stat"><b>2</b><span>Projects</span></div>
+          <div class="stat"><b>3</b><span>Credentials</span></div>
+          <div class="stat"><b>2</b><span>Years learning</span></div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="#" title="Résumé coming soon">Download CV</a>
+          <a class="btn btn-ghost" href="#contact" data-go="6">Contact me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 PROJECTS -->
+  <section class="scene projects" id="projects" data-title="Projects">
+    <div class="sky dusk"></div><div class="glow"></div>
+    <div class="content col">
+      <div class="glass head rise">
+        <p class="eyebrow">Projects &nbsp;//&nbsp; 03</p>
+        <h2 class="display md">Selected Work</h2>
+        <p class="sub">Two projects: one deployed, one in progress.</p>
+      </div>
+      <div class="cards rise d1" id="projectCards">
+        <article class="pcard focus" data-project="rewatch" tabindex="0">
+          <div class="art"><div class="orb"></div><i class="gem tl"></i><i class="gem tr"></i><i class="gem bl"></i><i class="gem br"></i></div>
+          <p class="meta"><b>01</b> &nbsp;//&nbsp; Full-stack · Recommender</p>
+          <h3>Re:Watch</h3>
+          <p>A recommendation app that picks movies, shows, and anime by how you feel, using a taste profile that updates as you rate.</p>
+          <span class="more">View project &nbsp;→</span>
+        </article>
+        <article class="pcard" data-project="aura" tabindex="0">
+          <div class="art"><div class="orb"></div><i class="gem tl"></i><i class="gem tr"></i><i class="gem bl"></i><i class="gem br"></i></div>
+          <p class="meta"><b>02</b> &nbsp;//&nbsp; Mobile · In progress</p>
+          <h3>AURA</h3>
+          <p>A mobile app that gives style and appearance guidance, like face shape, makeup, and wardrobe suggestions, based on your own features.</p>
+          <span class="more">View project &nbsp;→</span>
+        </article>
+      </div>
+      <p class="gh-line">All projects on GitHub &nbsp;→&nbsp; <a href="https://github.com/eryzaimatong" target="_blank" rel="noopener">github.com/eryzaimatong</a></p>
+    </div>
+  </section>
+
+  <!-- 04 SKILLS -->
+  <section class="scene skills" id="skills" data-title="Skills">
+    <div class="sky dusk"></div><div class="glow"></div>
+    <div class="content col center">
+      <div class="head-plain rise">
+        <p class="eyebrow">Skills &nbsp;//&nbsp; 04</p>
+        <h2 class="display md">What I Work With</h2>
+        <p class="sub">I clean and analyze data, build small apps around it, and use design tools to present it.</p>
+      </div>
+      <div class="grid3 rise d1">
+        <div class="glass skill"><span class="orb"></span><p class="eyebrow">Data</p><h3>Analyze &amp; Visualize</h3>
+          <div class="chips"><span>SQL</span><span>Python</span><span>R</span><span>Excel</span><span>Regression modeling</span></div></div>
+        <div class="glass skill"><span class="orb"></span><p class="eyebrow">Develop</p><h3>Build &amp; Ship</h3>
+          <div class="chips"><span>React</span><span>Java Spring Boot</span><span>FastAPI</span><span>PostgreSQL</span><span>Tailwind CSS</span></div></div>
+        <div class="glass skill"><span class="orb"></span><p class="eyebrow">Tools</p><h3>Work Smarter</h3>
+          <div class="chips"><span>Git &amp; GitHub</span><span>Figma</span><span>Canva</span><span>Photoshop</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 EXPERIENCE -->
+  <section class="scene experience" id="experience" data-title="Experience">
+    <div class="sky dusk"></div><div class="glow"></div>
+    <div class="content two">
+      <div class="left">
+        <div class="glass head rise">
+          <p class="eyebrow">Experience &nbsp;//&nbsp; 05</p>
+          <h2 class="display md">Where I Have Been</h2>
+          <p class="sub">School, a scholarship, and a few programs that shaped how I work.</p>
+        </div>
+        <ol class="timeline rise d1">
+          <li class="glass tl-card">
+            <img class="org-badge round" src="assets/seal-pup.png" alt="PUP seal">
+            <p class="date">2024 to 2028 (expected)</p>
+            <h3>BS Information Technology, Data Science</h3>
+            <p class="org">Polytechnic University of the Philippines, Manila</p>
+          </li>
+          <li class="glass tl-card">
+            <span class="badge-bg round"><img src="assets/logo-dost.png" alt="DOST logo"></span>
+            <p class="date">2024 to present</p>
+            <h3>Merit Scholar</h3>
+            <p class="org">DOST-SEI (Department of Science and Technology)</p>
+            <p class="detail">Merit scholarship supporting my BS IT studies.</p>
+          </li>
+          <li class="glass tl-card">
+            <span class="badge-bg wide"><img src="assets/logo-gci.png" alt="Matsuo-Iwasawa Lab, University of Tokyo"></span>
+            <p class="date">Sep to Dec 2026</p>
+            <h3><a href="https://weblab.t.u-tokyo.ac.jp/en/lecture/gci" target="_blank" rel="noopener">GCI World participant (in progress)</a></h3>
+            <p class="org">University of Tokyo, Matsuo-Iwasawa Lab (JICA)</p>
+            <p class="detail">Online program with the Matsuo-Iwasawa Lab, supported by JICA.</p>
+          </li>
+        </ol>
+      </div>
+      <div class="right">
+        <div class="glass head rise">
+          <p class="eyebrow">Credentials</p>
+          <h2 class="display md">Certified</h2>
+        </div>
+        <div class="creds rise d1">
+          <button class="glass cred" data-cert="datacamp"><span class="orb"></span><div><h3>Associate Data Analyst</h3><p class="org">DataCamp · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-datacamp.png" alt="DataCamp"></span></button>
+          <button class="glass cred" data-cert="cisco"><span class="orb"></span><div><h3>Data Analytics Essentials</h3><p class="org">Cisco Networking Academy · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-cna.png" alt="Cisco Networking Academy"></span></button>
+          <button class="glass cred" data-cert="sql"><span class="orb"></span><div><h3>Associate Data Analyst in SQL (39-hour track)</h3><p class="org">DataCamp · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-datacamp.png" alt="DataCamp"></span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 LEADERSHIP -->
+  <section class="scene leadership" id="leadership" data-title="Leadership">
+    <div class="sky dusk"></div><div class="glow"></div>
+    <div class="content col center">
+      <div class="glass head rise">
+        <p class="eyebrow">Leadership &nbsp;//&nbsp; 06</p>
+        <h2 class="display md">Beyond the Code</h2>
+        <p class="sub">Teams and communities I design for, build with, or help lead.</p>
+      </div>
+      <div class="grid2 rise d1">
+        <article class="glass inv">
+          <img class="inv-logo" src="assets/logo-netconnect.png" alt="Cisco NetConnect logo">
+          <div><p class="eyebrow">Cisco NetConnect &nbsp;·&nbsp; PUP – Manila</p>
+            <h3>Graphic Designer, Creatives Department</h3>
+            <p class="detail">Design event recap posts and other graphics for the organization's Facebook page.</p>
+            <div class="chips"><span>Visual design</span><span>Figma</span></div></div>
+        </article>
+        <article class="glass inv">
+          <img class="inv-logo" src="assets/logo-ibits.png" alt="IBITS logo">
+          <div><p class="eyebrow">IBITS &nbsp;·&nbsp; Program and Activities Department</p>
+            <h3>Logistics &amp; Resource Operations Member</h3>
+            <p class="detail">Member of the Program and Activities Department, working on logistics and resource operations.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 CONTACT -->
+  <section class="scene contact" id="contact" data-title="Contact">
+    <div class="sky"></div>
+    <div class="fireflies" aria-hidden="true"></div>
+    <img class="landscape" src="assets/landscape.png" alt="" aria-hidden="true">
+    <div class="echi-wrap contact-echi">
+      <div class="echi-glow"></div>
+      <img class="echi" src="assets/echi-sleepy.png" alt="Echi, the echidna mascot, looking sleepy">
+      <div class="echi-shadow"></div>
+    </div>
+    <div class="content col center txt-center">
+      <p class="eyebrow rise">Contact &nbsp;//&nbsp; 07</p>
+      <h2 class="display rise d1">Let us Build Something</h2>
+      <p class="lead rise d1 narrow">I'm looking for data analyst and business analyst internships. If you have one, or want to talk about my projects, email me.</p>
+      <div class="actions rise d2">
+        <a class="btn btn-primary" href="mailto:imatongeryzamae@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" id="linkedin">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/eryzaimatong" target="_blank" rel="noopener">github.com/eryzaimatong</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Project detail overlay -->
+<div class="overlay" id="projectOverlay" aria-hidden="true">
+  <div class="sheet glass-solid" role="dialog" aria-modal="true" aria-labelledby="pdTitle">
+    <button class="back" id="pdBack">←&nbsp; Back to projects</button>
+    <div id="pdBody"></div>
+  </div>
+</div>
+
+<!-- Certificate overlay -->
+<div class="overlay cert" id="certOverlay" aria-hidden="true">
+  <div class="sheet glass-solid" role="dialog" aria-modal="true" aria-label="Certificate">
+    <button class="close" id="certClose" aria-label="Close certificate">✕</button>
+    <img id="certImg" alt="">
+  </div>
+</div>
+
+<footer class="pager" id="pager">
+  <button class="arrow" id="prev" aria-label="Previous section">‹</button><span class="plabel prevlabel">Previous</span>
+  <div class="segments" id="segments"></div>
+  <span class="plabel nextlabel">Next</span><button class="arrow" id="next" aria-label="Next section">›</button>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
