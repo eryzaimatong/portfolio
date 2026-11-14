@@ -345,3 +345,36 @@ body.on-light .menu-btn{background:rgba(255,250,240,.85);border-color:rgba(122,7
 .logo-light{display:none!important}
 body.on-light .logo-dark{display:none!important}
 body.on-light .logo-light{display:block!important}
+/* ===== HERO VISUAL + BENTO ===== */
+/* Hero: wordless data constellation (SVG, transform/opacity/stroke-offset animation only) */
+.hero-viz{position:absolute;right:6vw;top:50%;width:min(38vw,500px);aspect-ratio:1;transform:translateY(-46%);z-index:4;pointer-events:none;animation:vizFloat 18s ease-in-out infinite}
+.hero-viz svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 10px rgba(240,166,90,.45))}
+.hero-viz .links path{fill:none;stroke:rgba(246,201,138,.5);stroke-width:1.3;stroke-dasharray:4 7;animation:vizFlow 14s linear infinite}
+.hero-viz .nodes circle{fill:#f0a65a;transform-box:fill-box;transform-origin:center;animation:vizPulse 5s ease-in-out var(--d,0s) infinite}
+.hero-viz .nodes .hub{fill:#ffd9a3}
+.hero-viz .shard{position:absolute;display:block;background:linear-gradient(135deg,rgba(255,214,160,.2),rgba(196,103,58,.07));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);will-change:transform}
+.hero-viz .s1{width:34%;height:34%;left:2%;top:4%;clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%);animation:shardA 26s ease-in-out infinite}
+.hero-viz .s2{width:26%;height:30%;right:0;top:46%;clip-path:polygon(0 0,100% 18%,78% 100%,10% 82%);animation:shardB 32s ease-in-out infinite}
+.hero-viz .s3{width:22%;height:22%;left:30%;bottom:0;clip-path:polygon(50% 0,100% 100%,0 100%);animation:shardA 38s ease-in-out infinite reverse}
+@keyframes vizFloat{0%,100%{transform:translateY(-46%)}50%{transform:translateY(-50%)}}
+@keyframes vizFlow{to{stroke-dashoffset:-110}}
+@keyframes vizPulse{0%,100%{transform:scale(1);opacity:.65}50%{transform:scale(1.5);opacity:1}}
+@keyframes shardA{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(12px,-16px) rotate(9deg)}}
+@keyframes shardB{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-14px,10px) rotate(-8deg)}}
+@media (max-width:1259px){.hero-viz{display:none}}
+
+/* Leadership: org cards stay compact, deliverables bento below */
+.leadership .content{gap:18px}
+.leadership .inv{padding:20px 24px}
+.leadership .inv h3{font-size:19px;margin:6px 0 8px}
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1.25fr;gap:16px;width:100%;max-width:1100px}
+.tile{position:relative;overflow:hidden;padding:20px 22px;display:flex;flex-direction:column;gap:6px;border-radius:20px;transition:transform .3s,border-color .3s}
+.tile::before,.skill::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(240,178,110,.3),transparent 62%);opacity:0;transition:opacity .3s;pointer-events:none}
+.tile:hover,.skill:hover{transform:translateY(-3px)}
+.tile:hover::before,.skill:hover::before{opacity:1}
+.skill{position:relative;overflow:hidden;transition:transform .3s}
+.tile h3{font-size:19px;line-height:1.25}
+.tile .chips{margin-top:auto;padding-top:10px}
+.tile-media img{width:100%;border-radius:12px;display:block}
+@media (max-width:860px){.bento{grid-template-columns:1fr}}
+.pd .btn[disabled]{opacity:.5;cursor:not-allowed;pointer-events:none}

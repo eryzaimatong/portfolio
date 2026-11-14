@@ -57,7 +57,6 @@
     document.getElementById('prev').style.opacity = i === 0 ? .35 : 1;
     document.getElementById('next').style.opacity = i === scenes.length - 1 ? .35 : 1;
     if (push) history.replaceState(null, '', '#' + scenes[i].id);
-    document.title = (i ? scenes[i].dataset.title + ' — ' : '') + 'Eryza Mae C. Imatong';
     setMenu(false);
   }
 
@@ -127,7 +126,7 @@
       <div class="facts">${p.facts.map(f => `<div><p>${f[0]}</p><p class="org">${f[1]}</p></div>`).join('')}</div>
       <div class="btns">${p.buttons.map((b, i) => b[1]
         ? `<a class="btn ${i ? 'btn-ghost' : 'btn-primary'}" href="${b[1]}" target="_blank" rel="noopener">${b[0]}</a>`
-        : `<span class="btn btn-ghost" aria-disabled="true">${b[0]} · coming soon</span>`).join('')}</div>
+        : `<button type="button" class="btn btn-ghost" disabled aria-disabled="true">Deployment in Progress</button>`).join('')}</div>
       <section><h4>Results</h4><div class="results">${p.results.map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join('')}</div></section>
       <section><h4>The problem</h4><h3>Why it mattered</h3><p class="lead">${p.problem}</p></section>
       <section><h4>What I built</h4><h3>How I approached it</h3><p class="lead">${p.built}</p></section>
@@ -172,6 +171,16 @@
 
   // CV placeholders (résumé not yet linked)
   document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+
+  // pointer-reactive warm glow on bento tiles and skill cards (mouse only, skipped for reduced motion)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.bento .tile, .skill').forEach(el => el.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+  }
 
   // start
   const start = scenes.findIndex(s => '#' + s.id === location.hash);
