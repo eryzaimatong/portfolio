@@ -150,6 +150,50 @@
     c.addEventListener('keydown', e => { if (e.key === 'Enter') activate(); });
   });
 
+  // ---------- Leadership: click-to-reveal deliverables, one organization at a time ----------
+  const orgs = {
+    cisco: {
+      org: 'Cisco NetConnect · PUP – Manila', role: 'Graphic Designer, Creatives Department', logo: 'assets/logo-netconnect.png',
+      tiles: [
+        { tag: 'Social graphics', title: 'Event recap posts', text: 'Post-event graphics that recap each activity for the community on Facebook.', chips: ['Visual design', 'Figma'] },
+        { tag: 'Page graphics', title: 'Designed to match each event', text: "Other graphics for the organization's page, built around each event's theme." }
+      ]
+    },
+    ibits: {
+      org: 'IBITS · Program and Activities Department', role: 'Logistics & Resource Operations Member', logo: 'assets/logo-ibits.png',
+      tiles: [
+        { tag: 'Program support', title: 'Logistics and resources', text: 'Coordinating what a program day needs, where it is needed, and when.', chips: ['Logistics', 'Resource management'] },
+        { tag: 'Activities', title: 'Event planning', text: 'Helping plan and run the department\'s programs and activities.', chips: ['Event planning'] }
+      ]
+    }
+  };
+  const oo = document.getElementById('orgOverlay');
+  let lastCard = null;
+  function openOrg(key, card) {
+    const o = orgs[key]; lastCard = card;
+    document.getElementById('orgBody').innerHTML = `
+      <div class="org-head"><img class="inv-logo" src="${o.logo}" alt="">
+        <div><p class="eyebrow">${o.org}</p><h2 id="orgTitle">${o.role}</h2></div></div>
+      <p class="eyebrow" style="margin:18px 0 10px">Deliverables</p>
+      <div class="org-tiles">${o.tiles.map(t => `<article class="tile glass"><p class="eyebrow">${t.tag}</p><h3>${t.title}</h3>
+        <p class="detail">${t.text}</p>${t.chips ? `<div class="chips">${t.chips.map(c => `<span>${c}</span>`).join('')}</div>` : ''}</article>`).join('')}</div>`;
+    oo.classList.add('open'); oo.setAttribute('aria-hidden', 'false');
+    document.getElementById('orgClose').focus();
+    oo.querySelectorAll('.tile').forEach(el => el.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+  }
+  document.querySelectorAll('.inv-btn').forEach(card => {
+    card.addEventListener('click', () => openOrg(card.dataset.org, card));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOrg(card.dataset.org, card); } });
+  });
+  const closeOrg = () => { oo.classList.remove('open'); oo.setAttribute('aria-hidden', 'true'); if (lastCard) lastCard.focus(); };
+  document.getElementById('orgClose').addEventListener('click', closeOrg);
+  document.getElementById('orgBack').addEventListener('click', closeOrg);
+  oo.addEventListener('click', e => { if (e.target === oo) closeOrg(); });
+
   // ---------- Certificates ----------
   const co = document.getElementById('certOverlay');
   const certs = {
@@ -166,7 +210,7 @@
   co.addEventListener('click', e => { if (e.target === co) closeOverlays(); });
 
   function closeOverlays() {
-    document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); });
+    document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); }); if (typeof lastCard !== 'undefined' && lastCard) lastCard.focus();
   }
 
   // CV placeholders (résumé not yet linked)
