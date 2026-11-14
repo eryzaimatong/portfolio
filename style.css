@@ -261,3 +261,87 @@ h3{font-weight:600;color:var(--cream)}
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition-duration:.01s!important}
 }
+/* ===== LIGHT THEME (warm cream / terracotta) ===== */
+:root{ --mocha:#2a1810; --bark:#4a2c1c; --clay:#7d4e32; --rust:#a4501f; --terracotta:#c4673a; --paper:#fff8ec; --cream:#fbf1e1; --sand:#f3e2c8; }
+
+/* header + pager follow the scene's lightness */
+.links a,.logo,.plabel,.arrow,.segments button::after{transition:color .5s,background .5s,border-color .5s}
+body.on-light .logo{color:var(--mocha)}
+body.on-light .links a{color:var(--clay)}
+body.on-light .links a:hover,body.on-light .links a.active{color:var(--terracotta)}
+body.on-light .plabel{color:var(--clay)}
+body.on-light .arrow{background:rgba(255,250,240,.85);color:var(--rust);border-color:rgba(122,72,40,.25)}
+body.on-light .segments button::after{background:rgba(122,72,40,.25)}
+body.on-light .segments button.active::after{background:var(--terracotta);box-shadow:0 0 10px rgba(196,103,58,.55)}
+body.on-light .nav .btn-primary{background:var(--terracotta);color:var(--paper);box-shadow:0 4px 0 #8a3f1d}
+body.on-light .menu-btn{background:rgba(255,250,240,.85);border-color:rgba(122,72,40,.25)}
+
+/* light scenes: backdrop */
+.scene.light::before{display:none}
+.scene.light .sky.dusk{background:linear-gradient(180deg,#fbf1e1 0%,#f7e2c2 55%,#f2c99a 100%)}
+.scene.light.dawn .sky.dusk{background:linear-gradient(180deg,#e7a15f 0%,#f2c48c 48%,#fbe4c4 100%)}
+.scene.light .glow{background:radial-gradient(circle,rgba(255,214,150,.55),transparent 65%)}
+.scene.light::after{content:"";position:absolute;left:0;right:0;bottom:0;height:clamp(70px,11vh,120px);background:url(assets/landscape.webp) center bottom/cover no-repeat;opacity:.5;pointer-events:none;z-index:2}
+
+/* light scenes: type */
+.scene.light .display{color:var(--mocha);text-shadow:none}
+.scene.light .eyebrow{color:var(--rust)}
+.scene.light .lead,.scene.light .sub,.scene.light .org,.scene.light .detail,.scene.light .pcard p:not(.meta){color:var(--clay);opacity:1}
+.scene.light .lead.strong,.scene.light h3{color:var(--mocha)}
+.scene.light .tl-card .date,.scene.light .cred .link,.scene.light .more{color:var(--rust)}
+
+/* light scenes: surfaces (soft translucent panels, section headings sit directly on the scene) */
+.scene.light .glass{background:linear-gradient(180deg,rgba(255,250,240,.55),rgba(255,240,218,.38));border:1px solid rgba(122,72,40,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 26px -16px rgba(90,45,20,.45);backdrop-filter:blur(10px)}
+.scene.light .glass.head,.scene.light .head-plain{background:none;border:0;box-shadow:none;backdrop-filter:none}
+.scene.light .chips span{border-color:rgba(122,72,40,.2);background:rgba(243,226,200,.7);color:var(--bark)}
+.scene.light .stat{border-color:rgba(122,72,40,.18);background:rgba(255,248,236,.5)}
+.scene.light .stat b{color:var(--terracotta)}
+.scene.light .stat span{color:var(--clay)}
+.scene.light .portrait{background:rgba(255,248,236,.7);border-color:rgba(196,103,58,.55);box-shadow:0 14px 30px -14px rgba(90,45,20,.5)}
+.scene.light .pcard{background:linear-gradient(180deg,rgba(255,250,240,.6),rgba(255,240,218,.42));border-color:rgba(122,72,40,.2);box-shadow:0 10px 26px -16px rgba(90,45,20,.45)}
+.scene.light .pcard.focus{border-color:var(--terracotta);box-shadow:0 16px 34px -16px rgba(196,103,58,.55)}
+.scene.light .pcard .meta{color:var(--clay)}
+.scene.light .pcard .meta b{color:var(--rust)}
+.scene.light .gh-line{color:var(--clay)}
+.scene.light .gh-line a{color:var(--rust)}
+.scene.light .cred:hover{border-color:var(--terracotta)}
+.scene.light .timeline::before{background:linear-gradient(var(--terracotta),#f0c08a)}
+.scene.light .tl-card::before{background:var(--terracotta);box-shadow:0 0 0 4px var(--cream),0 0 0 6px var(--terracotta)}
+.scene.light .badge-bg{box-shadow:inset 0 0 0 1px rgba(122,72,40,.15);background:var(--paper)}
+.scene.light .btn-primary{background:var(--terracotta);color:var(--paper);box-shadow:0 5px 0 #8a3f1d,0 14px 24px -10px rgba(90,45,20,.5)}
+.scene.light .btn-primary:hover{background:#cf7040}
+.scene.light .btn-ghost{border-color:rgba(74,44,28,.7);color:var(--bark)}
+.scene.light .btn-ghost:hover{background:var(--sand)}
+
+/* overlays follow the light theme */
+.glass-solid,.overlay .sheet{background:var(--cream);border-color:rgba(122,72,40,.2)}
+.overlay{background:rgba(42,24,16,.62)}
+.overlay h2,.overlay h3,.pd h2{color:var(--mocha)}
+.overlay .lead,.overlay .org,.overlay p{color:var(--clay)}
+.pd .facts div p:first-child,.pd h4,.back{color:var(--rust)}
+.pd .results div{border-color:rgba(122,72,40,.2);background:rgba(255,248,236,.6)}
+.pd .results b{color:var(--terracotta)}
+.close{color:var(--mocha);border-color:rgba(122,72,40,.3)}
+.ph{border-color:rgba(122,72,40,.3);color:var(--clay)}
+.overlay .btn-primary{background:var(--terracotta);color:var(--paper)}
+.overlay .btn-ghost{border-color:rgba(74,44,28,.7);color:var(--bark)}
+/* ===== ABSTRACT WARM BACKGROUND ===== */
+/* Pure-CSS ambient glow: two large feathered orbs drifting slowly (transform only, no blur filter) */
+.sky{background:linear-gradient(160deg,#1c110b 0%,#2a1810 55%,#3a1f12 100%);--o1:rgba(196,103,58,.55);--o2:rgba(240,166,90,.34);overflow:hidden}
+.sky.dusk{background:linear-gradient(160deg,#1c110b 0%,#2a1810 55%,#3a1f12 100%)}
+.sky::before,.sky::after{content:"";position:absolute;border-radius:50%;will-change:transform;pointer-events:none}
+.sky::before{width:58vmax;height:58vmax;left:-12%;top:-20%;background:radial-gradient(circle,var(--o1),transparent 68%);animation:orbA 36s ease-in-out infinite}
+.sky::after{width:46vmax;height:46vmax;right:-8%;bottom:-18%;background:radial-gradient(circle,var(--o2),transparent 68%);animation:orbB 44s ease-in-out infinite}
+@keyframes orbA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,7vh) scale(1.07)}}
+@keyframes orbB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,-6vh) scale(1.05)}}
+.scene.light .sky.dusk{background:linear-gradient(160deg,#fbf1e1 0%,#f8e5c9 55%,#f3d3a8 100%);--o1:rgba(246,201,138,.65);--o2:rgba(240,178,130,.45)}
+.scene.light.dawn .sky.dusk{background:linear-gradient(160deg,#f0b77c 0%,#f5cc9b 52%,#fbe4c4 100%);--o1:rgba(255,244,224,.75);--o2:rgba(196,103,58,.28)}
+.scene.light::after{display:none}
+.glow{display:none}
+
+/* logo (top bar only): amber on dark scenes, espresso on light scenes */
+.logo{display:flex;align-items:center;line-height:0}
+.logo img{display:block;width:44px;height:44px;object-fit:contain}
+.logo-light{display:none!important}
+body.on-light .logo-dark{display:none!important}
+body.on-light .logo-light{display:block!important}

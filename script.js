@@ -46,6 +46,7 @@
       setTimeout(() => p.classList.remove('leaving'), 700);
     }
     cur = i;
+    document.body.classList.toggle('on-light', scenes[i].classList.contains('light'));
     scenes[i].scrollTop = 0;
     scenes[i].classList.add('active');
     [...seg.children].forEach((b, k) => b.classList.toggle('active', k === i));
