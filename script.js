@@ -226,6 +226,16 @@
     }));
   }
 
+  // hero ring leans gently toward the pointer (mouse only, skipped for reduced motion)
+  const stage = document.querySelector('.cine-stage');
+  if (stage && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.getElementById('home').addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      stage.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
+      stage.style.setProperty('--py', ((e.clientY / innerHeight) - 0.5).toFixed(3));
+    });
+  }
+
   // start
   const start = scenes.findIndex(s => '#' + s.id === location.hash);
   go(start >= 0 ? start : 0, false);
