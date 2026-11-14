@@ -425,3 +425,7 @@ body.on-light .logo-light{display:block!important}
 .scroll-cue:hover{color:#ffd9a3}
 @keyframes cuePulse{0%,100%{opacity:.35;transform:translateY(0) rotate(45deg)}50%{opacity:1;transform:translateY(7px) rotate(45deg)}}
 @media (max-width:860px){.hero .content.cine{padding:var(--nav-h) 16px calc(var(--pager-h) + 56px)}.cine-role{letter-spacing:.26em;padding-left:.26em}}
+
+/* DOST logo: drop its white box so it blends into the badge */
+.badge-bg.round{border-radius:50%;overflow:hidden}
+.badge-bg img.dost{mix-blend-mode:multiply}
