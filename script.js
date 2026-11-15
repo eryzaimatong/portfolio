@@ -4,18 +4,19 @@
   const seg = document.getElementById('segments');
   const menu = document.getElementById('menu');
   const menuBtn = document.getElementById('menuBtn');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
   const mobile = () => matchMedia('(max-width:860px)').matches;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = -1, locked = false;
 
-  // progress segments
+  /* ---------- progress segments + mobile menu ---------- */
   scenes.forEach((s, i) => {
     const b = document.createElement('button');
     b.setAttribute('aria-label', 'Go to ' + s.dataset.title);
     b.addEventListener('click', () => go(i));
     seg.appendChild(b);
   });
-
-  // mobile menu
   menu.innerHTML = scenes.map((s, i) => `<a href="#${s.id}" data-go="${i}">${s.dataset.title}</a>`).join('');
   const setMenu = open => {
     menu.classList.toggle('open', open);
@@ -24,38 +25,29 @@
   };
   menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
 
-  // fireflies
-  document.querySelectorAll('.fireflies').forEach(f => {
-    for (let i = 0; i < 16; i++) {
-      const d = document.createElement('i');
-      d.style.left = Math.random() * 100 + '%';
-      d.style.top = 35 + Math.random() * 50 + '%';
-      d.style.animationDelay = -Math.random() * 6 + 's';
-      d.style.animationDuration = 5 + Math.random() * 5 + 's';
-      f.appendChild(d);
-    }
-  });
-
+  /* ---------- scene navigation ---------- */
   function go(i, push = true) {
     if (i < 0 || i >= scenes.length || i === cur) return;
     const prev = cur;
     if (prev >= 0) {
-      scenes[prev].classList.remove('active');
-      scenes[prev].classList.add('leaving');
       const p = scenes[prev];
+      p.classList.remove('active');
+      p.classList.add('leaving');
       setTimeout(() => p.classList.remove('leaving'), 700);
     }
     cur = i;
     document.body.classList.toggle('on-light', scenes[i].classList.contains('light'));
     scenes[i].scrollTop = 0;
+    const box = scenes[i].querySelector('.content');
+    if (box) box.scrollTop = 0;
     scenes[i].classList.add('active');
     [...seg.children].forEach((b, k) => b.classList.toggle('active', k === i));
     links.forEach((a, k) => a.classList.toggle('active', k === i));
     menu.querySelectorAll('a').forEach((a, k) => a.classList.toggle('active', k === i));
-    document.getElementById('prev').disabled = i === 0;
-    document.getElementById('next').disabled = i === scenes.length - 1;
-    document.getElementById('prev').style.opacity = i === 0 ? .35 : 1;
-    document.getElementById('next').style.opacity = i === scenes.length - 1 ? .35 : 1;
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === scenes.length - 1;
+    prevBtn.style.opacity = i === 0 ? .35 : 1;
+    nextBtn.style.opacity = i === scenes.length - 1 ? .35 : 1;
     if (push) history.replaceState(null, '', '#' + scenes[i].id);
     setMenu(false);
   }
@@ -64,38 +56,106 @@
     const t = e.target.closest('[data-go]');
     if (t) { e.preventDefault(); go(+t.dataset.go); }
   });
-  document.getElementById('prev').addEventListener('click', () => go(cur - 1));
-  document.getElementById('next').addEventListener('click', () => go(cur + 1));
+  prevBtn.addEventListener('click', () => go(cur - 1));
+  nextBtn.addEventListener('click', () => go(cur + 1));
 
+  /* ---------- nested vertical scrolling vs. horizontal navigation ----------
+     A scene whose content is taller than the viewport scrolls vertically first.
+     The wheel, keyboard and swipe only change scene once the scroll box has
+     reached its edge, and never as part of the same gesture that was scrolling it. */
   const overlayOpen = () => document.querySelector('.overlay.open');
+  const scrollParent = el => {
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      if (n.scrollHeight > n.clientHeight + 1 && /(auto|scroll)/.test(getComputedStyle(n).overflowY)) return n;
+    }
+    return null;
+  };
+  const atEdge = (s, dir) => dir > 0 ? s.scrollTop + s.clientHeight >= s.scrollHeight - 1 : s.scrollTop <= 0;
+  const activeBox = () => {
+    const box = scenes[cur] && scenes[cur].querySelector('.content');
+    return box && box.scrollHeight > box.clientHeight + 1 && /(auto|scroll)/.test(getComputedStyle(box).overflowY) ? box : null;
+  };
+
+  let lastWheel = 0, gestureScrolled = false;
+  addEventListener('wheel', e => {
+    if (mobile() || overlayOpen()) return;
+    const now = Date.now();
+    if (now - lastWheel > 200) gestureScrolled = false;   // a new gesture starts after a short pause
+    lastWheel = now;
+    const dir = e.deltaY > 0 ? 1 : -1;
+    const s = scrollParent(e.target);
+    if (s) {
+      if (!atEdge(s, dir)) { gestureScrolled = true; return; }   // still has content to reveal: let it scroll
+      if (gestureScrolled) return;                                // momentum from the same gesture: stay put
+    }
+    if (locked || Math.abs(e.deltaY) < 30) return;
+    locked = true; setTimeout(() => locked = false, 900);
+    go(cur + dir);
+  }, { passive: true });
 
   addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeOverlays(); setMenu(false); return; }
+    if (e.key === 'Escape') { closeOverlay(); setMenu(false); return; }
     if (overlayOpen()) return;
-    if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) { e.preventDefault(); go(cur + 1); }
-    if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    if (e.target.closest && e.target.closest('input,textarea')) return;
+    if (['ArrowRight'].includes(e.key)) { e.preventDefault(); go(cur + 1); return; }
+    if (['ArrowLeft'].includes(e.key)) { e.preventDefault(); go(cur - 1); return; }
+    const vertical = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1 }[e.key];
+    if (!vertical || mobile()) return;
+    const box = activeBox();
+    if (box && !atEdge(box, vertical)) {
+      e.preventDefault();
+      const step = e.key.startsWith('Page') ? box.clientHeight * .9 : 80;
+      box.scrollBy({ top: vertical * step, behavior: reduceMotion ? 'auto' : 'smooth' });
+      return;
+    }
+    e.preventDefault();
+    go(cur + vertical);
   });
 
-  // wheel (desktop only)
-  addEventListener('wheel', e => {
-    if (mobile() || locked || overlayOpen() || Math.abs(e.deltaY) < 30) return;
-    locked = true; setTimeout(() => locked = false, 900);
-    go(cur + (e.deltaY > 0 ? 1 : -1));
-  }, { passive: true });
-
-  // swipe (desktop touch / tablets)
-  let tx = null;
-  addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  let tx = null, ty = null;
+  addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
   addEventListener('touchend', e => {
     if (tx === null || mobile() || overlayOpen()) { tx = null; return; }
-    const dx = e.changedTouches[0].clientX - tx; tx = null;
-    if (Math.abs(dx) > 70) go(cur + (dx < 0 ? 1 : -1));
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) go(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
 
-  // ---------- Projects ----------
+  /* ---------- overlays: one accessible modal manager ---------- */
+  let opener = null;
+  const inertTargets = () => ['nav', 'stage', 'pager', 'menu'].map(id => document.getElementById(id)).filter(Boolean);
+  const focusable = root => [...root.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"]),input,select,textarea')].filter(n => n.offsetParent !== null);
+  function openOverlay(el, from, focusEl) {
+    opener = from || document.activeElement;
+    inertTargets().forEach(n => n.setAttribute('inert', ''));
+    el.classList.add('open'); el.setAttribute('aria-hidden', 'false');
+    el.querySelector('.sheet').scrollTop = 0;
+    (focusEl || focusable(el)[0] || el).focus({ preventScroll: true });
+  }
+  function closeOverlay() {
+    const open = overlayOpen();
+    if (!open) return;
+    document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); });
+    inertTargets().forEach(n => n.removeAttribute('inert'));
+    if (opener && document.contains(opener)) opener.focus({ preventScroll: true });
+    opener = null;
+  }
+  document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeOverlay(); }));
+  document.addEventListener('keydown', e => {          // keep Tab inside the open dialog
+    const open = overlayOpen();
+    if (!open || e.key !== 'Tab') return;
+    const items = focusable(open);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  ['pdBack', 'orgClose', 'orgBack', 'certClose'].forEach(id => document.getElementById(id).addEventListener('click', closeOverlay));
+
+  /* ---------- projects ---------- */
   const projects = {
     rewatch: {
       eyebrow: 'Project 01 // Recommender · Web app', title: 'Re:Watch',
+      logo: ['assets/projects/rewatch-logo.png', 'Re:Watch logo', '#101b33'],
       lead: 'Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.',
       facts: [['Role', 'Solo project'], ['Timeline', 'Jul 2026 to present'], ['Status', 'Deployed']],
       buttons: [['View on GitHub', 'https://github.com/eryzaimatong/rewatch'], ['Live demo', 'https://rewatch-stories.vercel.app']],
@@ -111,12 +171,20 @@
       ],
       limits: 'Built and deployed: everything described above. Limits: the keyword lexicon is hand-written, not learned. Not done yet: an offline evaluation of the recommendations against held-out ratings, so I make no accuracy claim.',
       stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Playwright', 'Vercel', 'Render', 'Neon', 'Claude (coding assistant)'],
-      gallery: [['assets/rewatch-home.jpg', 'Re:Watch home with a match score'], ['assets/rewatch-match.jpg', 'A match explained trait by trait'], ['assets/rewatch-profile.jpg', 'Taste DNA profile and evolution'], ['assets/rewatch-night.jpg', 'Movie Night group results']],
+      gallery: [
+        ['assets/projects/rewatch-01-home.jpg', 'Home with a match score'],
+        ['assets/projects/rewatch-02-moods.jpg', 'Mood picker'],
+        ['assets/projects/rewatch-03-match.jpg', 'A match explained trait by trait'],
+        ['assets/projects/rewatch-04-taste-dna.jpg', 'Taste DNA profile'],
+        ['assets/projects/rewatch-05-movie-night.jpg', 'Movie Night group results'],
+        ['assets/projects/rewatch-06-community.jpg', 'Community and similar taste']
+      ],
       galleryNote: 'Screens from the running app. Poster art is a generated placeholder.',
       next: 'aura'
     },
     aura: {
       eyebrow: 'Project 02 // Mobile · In development', title: 'AURA',
+      logo: ['assets/projects/aura-logo.png', 'AURA logo: Mira, the mirror ghost', '#fdf6ec'],
       lead: 'A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.',
       facts: [['Role', 'Personal project'], ['Timeline', 'Oct 2026 to present'], ['Status', 'In development, launch not cleared']],
       buttons: [['View on GitHub', 'https://github.com/eryzaimatong/aura']],
@@ -130,29 +198,16 @@
       ],
       limits: 'Built in code: the scan pipeline, wardrobe, outfits and wear log. In development: improving the face-shape model so it passes the fairness gate. Not done: the Google Play launch.',
       stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Capacitor', 'FastAPI', 'Python', 'scikit-learn', 'MediaPipe', 'Supabase', 'Figma'],
-      next: 'examguard'
-    },
-    examguard: {
-      eyebrow: 'Project 03 // Desktop · Electron', title: 'PUP ExamGuard',
-      lead: 'Secure exam mode for Google Forms, built for the Polytechnic University of the Philippines.',
-      facts: [['Role', 'Developer'], ['Platform', 'Windows (macOS works too)'], ['Status', 'Working app']],
-      buttons: [['View on GitHub', 'https://github.com/eryzaimatong/pup-examguard']],
-      problem: "A Google Form on its own can't stop a student from switching to other apps or websites during an exam. ExamGuard adds a locked exam window around it.",
-      built: 'Students take the form inside a full-screen window. While the exam is open, it closes other browsers and AI apps, blocks every site except the form, counts strikes, and submits automatically when time or the strike limit runs out. Teachers set a title, form link, duration and exit password, and share one exam key. Events are logged on the computer and, optionally, to a Google Sheet.',
-      decisions: [
-        "The proctor's exit password is stored only as a salted scrypt hash.",
-        'A teacher can export one exam file and copy it to the other lab computers.'
-      ],
-      stack: ['Electron', 'JavaScript', 'Node.js', 'Google Apps Script'],
       next: 'rewatch'
     }
   };
   const ov = document.getElementById('projectOverlay');
   const body = document.getElementById('pdBody');
-  function openProject(key) {
+  const sec = (h4, h3, inner) => `<section><h4>${h4}</h4>${h3 ? `<h3>${h3}</h3>` : ''}${inner}</section>`;
+  function renderProject(key) {
     const p = projects[key], o = projects[p.next];
-    const sec = (h4, h3, inner) => `<section><h4>${h4}</h4>${h3 ? `<h3>${h3}</h3>` : ''}${inner}</section>`;
     body.innerHTML = `<div class="pd">
+      <img class="pd-logo" src="${p.logo[0]}" alt="${p.logo[1]}" style="background:${p.logo[2]}">
       <p class="eyebrow">${p.eyebrow}</p><h2 id="pdTitle">${p.title}</h2><p class="lead">${p.lead}</p>
       <div class="facts">${p.facts.map(f => `<div><p>${f[0]}</p><p class="org">${f[1]}</p></div>`).join('')}</div>
       <div class="btns">${p.buttons.map((b, i) => `<a class="btn ${i ? 'btn-ghost' : 'btn-primary'}" href="${b[1]}" target="_blank" rel="noopener">${b[0]}</a>`).join('')}</div>
@@ -163,70 +218,58 @@
       ${p.decisions ? sec('Technical decisions', '', `<ul class="decisions">${p.decisions.map(d => `<li>${d}</li>`).join('')}</ul>`) : ''}
       ${p.limits ? sec('Status and limits', '', `<p class="lead">${p.limits}</p>`) : ''}
       ${sec('Built with', '', `<div class="chips">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>`)}
-      ${p.gallery ? sec('Gallery', '', `<div class="gal">${p.gallery.map(g => `<figure><img src="${g[0]}" alt="${g[1]}" loading="lazy"><figcaption>${g[1]}</figcaption></figure>`).join('')}</div><p class="demo-note">${p.galleryNote}</p>`) : ''}
+      ${p.gallery ? sec('Gallery', '', `<div class="gal">${p.gallery.map(g => `<figure><div class="shot"><img src="${g[0]}" alt="${g[1]}" width="1000" height="625" loading="lazy"></div><figcaption>${g[1]}</figcaption></figure>`).join('')}</div><p class="demo-note">${p.galleryNote}</p>`) : ''}
       <button class="btn btn-ghost" id="pdOther">Next project &nbsp;→&nbsp; ${o.title}</button></div>`;
-    ov.classList.add('open'); ov.setAttribute('aria-hidden', 'false');
-    ov.querySelector('.sheet').scrollTop = 0;
-    document.getElementById('pdOther').onclick = () => openProject(p.next);
+    document.getElementById('pdOther').onclick = () => { renderProject(p.next); ov.querySelector('.sheet').scrollTop = 0; document.getElementById('pdOther').focus(); };
   }
-  document.getElementById('pdBack').addEventListener('click', closeOverlays);
-  ov.addEventListener('click', e => { if (e.target === ov) closeOverlays(); });
+  function openProject(key, from) { renderProject(key); openOverlay(ov, from, document.getElementById('pdBack')); }
 
   const cards = [...document.querySelectorAll('.pcard')];
   cards.forEach(c => {
     const activate = () => {
-      if (c.classList.contains('focus') || mobile()) openProject(c.dataset.project);
-      else { cards.forEach(x => x.classList.toggle('focus', x === c)); }
+      if (c.classList.contains('focus') || mobile() || cards.length === 1) openProject(c.dataset.project, c);
+      else cards.forEach(x => x.classList.toggle('focus', x === c));
     };
     c.addEventListener('click', activate);
-    c.addEventListener('keydown', e => { if (e.key === 'Enter') activate(); });
+    c.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); activate(); } });
   });
 
-  // ---------- Leadership: click-to-reveal deliverables, one organization at a time ----------
+  /* ---------- leadership: deliverables open in a modal (only for organizations that have some) ---------- */
   const orgs = {
     cisco: {
-      org: 'Cisco NetConnect · PUP – Manila', role: 'Graphic Designer, Creatives Department', logo: 'assets/logo-netconnect.png',
+      org: 'Cisco NetConnect · PUP – Manila', role: 'Graphic Designer, Creatives Department', logo: 'assets/logo-netconnect.png', logoAlt: 'Cisco NetConnect logo',
       tiles: [
-        { tag: 'Social graphics', title: 'Event recap posts', text: 'Post-event graphics that recap each activity for the community on Facebook.', chips: ['Visual design', 'Figma'] },
+        { tag: 'Social graphics', title: 'Event recap posts', text: 'Post-event graphics that recap each activity for the community on Facebook.', chips: ['Visual design', 'Figma'],
+          link: ['View a published post on Facebook', 'https://www.facebook.com/share/p/1DscWrfCUx/'] },
         { tag: 'Page graphics', title: 'Designed to match each event', text: "Other graphics for the organization's page, built around each event's theme." }
-      ]
-    },
-    ibits: {
-      org: 'IBITS · Program and Activities Department', role: 'Logistics & Resource Operations Member', logo: 'assets/logo-ibits.png',
-      tiles: [
-        { tag: 'Program support', title: 'Logistics and resources', text: 'Coordinating what a program day needs, where it is needed, and when.', chips: ['Logistics', 'Resource management'] },
-        { tag: 'Activities', title: 'Event planning', text: 'Helping plan and run the department\'s programs and activities.', chips: ['Event planning'] }
       ]
     }
   };
   const oo = document.getElementById('orgOverlay');
-  let lastCard = null;
+  const tileGlow = el => el.addEventListener('pointermove', e => {
+    if (reduceMotion || e.pointerType !== 'mouse') return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
   function openOrg(key, card) {
-    const o = orgs[key]; lastCard = card;
+    const o = orgs[key];
     document.getElementById('orgBody').innerHTML = `
-      <div class="org-head"><img class="inv-logo" src="${o.logo}" alt="">
+      <div class="org-head"><img class="inv-logo" src="${o.logo}" alt="${o.logoAlt}">
         <div><p class="eyebrow">${o.org}</p><h2 id="orgTitle">${o.role}</h2></div></div>
       <p class="eyebrow" style="margin:18px 0 10px">Deliverables</p>
       <div class="org-tiles">${o.tiles.map(t => `<article class="tile glass"><p class="eyebrow">${t.tag}</p><h3>${t.title}</h3>
-        <p class="detail">${t.text}</p>${t.chips ? `<div class="chips">${t.chips.map(c => `<span>${c}</span>`).join('')}</div>` : ''}</article>`).join('')}</div>`;
-    oo.classList.add('open'); oo.setAttribute('aria-hidden', 'false');
-    document.getElementById('orgClose').focus();
-    oo.querySelectorAll('.tile').forEach(el => el.addEventListener('pointermove', e => {
-      if (e.pointerType !== 'mouse') return;
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    }));
+        <p class="detail">${t.text}</p>${t.chips ? `<div class="chips">${t.chips.map(c => `<span>${c}</span>`).join('')}</div>` : ''}
+        ${t.link ? `<a class="tile-link" href="${t.link[1]}" target="_blank" rel="noopener">${t.link[0]} <span aria-hidden="true">→</span></a>` : ''}</article>`).join('')}</div>`;
+    oo.querySelectorAll('.tile').forEach(tileGlow);
+    openOverlay(oo, card, document.getElementById('orgClose'));
   }
   document.querySelectorAll('.inv-btn').forEach(card => {
     card.addEventListener('click', () => openOrg(card.dataset.org, card));
     card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOrg(card.dataset.org, card); } });
   });
-  const closeOrg = () => { oo.classList.remove('open'); oo.setAttribute('aria-hidden', 'true'); if (lastCard) lastCard.focus(); };
-  document.getElementById('orgClose').addEventListener('click', closeOrg);
-  document.getElementById('orgBack').addEventListener('click', closeOrg);
-  oo.addEventListener('click', e => { if (e.target === oo) closeOrg(); });
 
-  // ---------- Certificates ----------
+  /* ---------- certificates ---------- */
   const co = document.getElementById('certOverlay');
   const certs = {
     datacamp: ['assets/cert-datacamp.png', 'DataCamp Associate Data Analyst certificate'],
@@ -236,31 +279,13 @@
   document.querySelectorAll('[data-cert]').forEach(b => b.addEventListener('click', () => {
     const [src, alt] = certs[b.dataset.cert];
     const img = document.getElementById('certImg'); img.src = src; img.alt = alt;
-    co.classList.add('open'); co.setAttribute('aria-hidden', 'false');
+    openOverlay(co, b, document.getElementById('certClose'));
   }));
-  document.getElementById('certClose').addEventListener('click', closeOverlays);
-  co.addEventListener('click', e => { if (e.target === co) closeOverlays(); });
 
-  function closeOverlays() {
-    document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); }); if (typeof lastCard !== 'undefined' && lastCard) lastCard.focus();
-  }
-
-  // CV placeholders (résumé not yet linked)
-  document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
-
-  // pointer-reactive warm glow on bento tiles and skill cards (mouse only, skipped for reduced motion)
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.bento .tile, .skill').forEach(el => el.addEventListener('pointermove', e => {
-      if (e.pointerType !== 'mouse') return;
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    }));
-  }
-
-  // hero ring leans gently toward the pointer (mouse only, skipped for reduced motion)
+  /* ---------- small interactions (mouse only, skipped for reduced motion) ---------- */
+  document.querySelectorAll('.skill').forEach(tileGlow);
   const stage = document.querySelector('.cine-stage');
-  if (stage && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (stage && !reduceMotion) {
     document.getElementById('home').addEventListener('pointermove', e => {
       if (e.pointerType !== 'mouse') return;
       stage.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
@@ -268,7 +293,7 @@
     });
   }
 
-  // start
+  /* ---------- start ---------- */
   const start = scenes.findIndex(s => '#' + s.id === location.hash);
   go(start >= 0 ? start : 0, false);
 })();
