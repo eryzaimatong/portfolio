@@ -95,47 +95,79 @@
   // ---------- Projects ----------
   const projects = {
     rewatch: {
-      eyebrow: 'Project 01 // Full-stack · Recommender', title: 'Re:Watch',
-      lead: 'A recommendation app that picks movies, shows, and anime by how you feel, using a taste profile that updates as you rate.',
-      facts: [['Role', 'Solo project'], ['Timeline', 'Aug 2026 to present'], ['Team', 'Team of 1']],
-      buttons: [['View on GitHub', 'https://github.com/eryzaimatong'], ['Live demo', null]],
-      results: [['10', "taste dimensions in each user's profile"], ['6,000', 'titles in the catalog'], ['3', 'services in the deployment (Vercel, Render, Neon)']],
-      problem: 'Picking something to watch takes longer than watching it, and most apps recommend by genre instead of mood.',
-      built: "I modeled each user's taste as ten dimensions, like comfort, slow-burn pacing, and found family. Onboarding choices and ratings update the profile live, and it drives the feed and the Similar Taste community view.",
-      stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Vercel', 'Render', 'Neon', 'Claude (coding assistant)'],
-      gallery: ['Home feed with mood shelves', 'TasteDNA radar profile', 'Your taste evolved chart'], other: 'aura'
+      eyebrow: 'Project 01 // Recommender · Web app', title: 'Re:Watch',
+      lead: 'Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.',
+      facts: [['Role', 'Solo project'], ['Timeline', 'Jul 2026 to present'], ['Status', 'Deployed']],
+      buttons: [['View on GitHub', 'https://github.com/eryzaimatong/rewatch'], ['Live demo', 'https://rewatch-stories.vercel.app']],
+      note: 'The free-tier backend sleeps when idle, so the first load can take a couple of minutes.',
+      results: [['10', 'taste traits in every profile'], ['3', 'hosted services: Vercel, Render and Neon'], ['200', 'randomized trials in the test that checks every score equals the sum of its reasons']],
+      problem: 'Recommenders usually rank by genre and popularity, so two titles with the same tag can feel nothing alike. Re:Watch is for people who scroll longer than they watch, and for groups choosing something together.',
+      built: "Each title and each person is a ten-trait vector (family, nostalgia, pacing, humor, comfort and others). A title's vector is derived from TMDB genres and a keyword lexicon I wrote by hand. A person's profile is rebuilt by replaying their rating history, and a match score is the sum of per-trait contributions, so the reasons always add up to the number shown. Movie Night lets friends answer five questions on their own phones and ranks titles so agreement beats one strong veto.",
+      decisions: [
+        'Replay, not mutation: rebuilding the profile from the rating log makes re-rating and lexicon changes safe, and produces the taste-evolution timeline for free.',
+        'Fixed scoring constants: a title shows the same percentage everywhere and does not drift when other titles are added.',
+        'Contributions can go negative, so "tensions" are real, and rounding keeps the printed parts summing to the whole.',
+        'Backend: Spring Boot, stateless JWT, Flyway migrations. Checks: JUnit, Playwright and axe-core accessibility audits, run in CI.'
+      ],
+      limits: 'Built and deployed: everything described above. Limits: the keyword lexicon is hand-written, not learned. Not done yet: an offline evaluation of the recommendations against held-out ratings, so I make no accuracy claim.',
+      stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Playwright', 'Vercel', 'Render', 'Neon', 'Claude (coding assistant)'],
+      gallery: [['assets/rewatch-home.jpg', 'Re:Watch home with a match score'], ['assets/rewatch-match.jpg', 'A match explained trait by trait'], ['assets/rewatch-profile.jpg', 'Taste DNA profile and evolution'], ['assets/rewatch-night.jpg', 'Movie Night group results']],
+      galleryNote: 'Screens from the running app. Poster art is a generated placeholder.',
+      next: 'aura'
     },
     aura: {
-      eyebrow: 'Project 02 // Mobile app · AI styling · In progress', title: 'AURA',
-      lead: 'A mobile app that gives style and appearance guidance, like face shape, makeup, and wardrobe suggestions, based on your own features.',
-      facts: [['Role', 'Personal project'], ['Timeline', 'Sep 2026 to present'], ['Team', 'Team of 1']],
-      buttons: [['View on GitHub', 'https://github.com/eryzaimatong']],
-      results: [['4', 'core features planned (face shape, makeup, wardrobe, glow-up)']],
-      problem: 'Online style advice is generic and rarely starts from your own features.',
-      built: "I started with the design in Figma, then began building a React and Tailwind app wrapped for Android with Capacitor, with a FastAPI backend and Supabase for data. I'm adding the analysis features one at a time.",
-      stack: ['React', 'Vite', 'Tailwind CSS', 'Capacitor', 'FastAPI', 'Supabase', 'Figma'],
-      gallery: ['Home screen', 'Analysis result', 'Wardrobe suggestions'], other: 'rewatch'
+      eyebrow: 'Project 02 // Mobile · In development', title: 'AURA',
+      lead: 'A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.',
+      facts: [['Role', 'Personal project'], ['Timeline', 'Oct 2026 to present'], ['Status', 'In development, launch not cleared']],
+      buttons: [['View on GitHub', 'https://github.com/eryzaimatong/aura']],
+      results: [['57.3%', 'held-out accuracy of the face-shape model (839 images, 5 classes)'], ['21.6 pts', 'accuracy gap across skin-tone bands, against my 5-point limit'], ['4,146', 'usable images out of 5,000 measured']],
+      problem: 'Online style advice is generic, and many apps send your photo to a server. AURA works from your own features and keeps the selfie on the device.',
+      built: 'MediaPipe runs on the phone and reduces the selfie to a few numbers: five face ratios, colour values, a skin-tone band and a lighting score. Only those numbers reach a FastAPI backend, which stores them in Supabase with row-level security. A scikit-learn random forest estimates face shape, and the code includes a CLIP-based garment tagger for the wardrobe. The React app is wrapped for Android with Capacitor.',
+      decisions: [
+        'Privacy by design: there is no image column, the API rejects extra fields, and consent is logged before the camera opens.',
+        'Fairness gate: the model is blocked from launch until accuracy is within 5 points across skin-tone bands. It currently fails, and I report that.',
+        'Honest outputs: confidence is always shown, and low colour confidence leads to a short quiz instead of a guess.'
+      ],
+      limits: 'Built in code: the scan pipeline, wardrobe, outfits and wear log. In development: improving the face-shape model so it passes the fairness gate. Not done: the Google Play launch.',
+      stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Capacitor', 'FastAPI', 'Python', 'scikit-learn', 'MediaPipe', 'Supabase', 'Figma'],
+      next: 'examguard'
+    },
+    examguard: {
+      eyebrow: 'Project 03 // Desktop · Electron', title: 'PUP ExamGuard',
+      lead: 'Secure exam mode for Google Forms, built for the Polytechnic University of the Philippines.',
+      facts: [['Role', 'Developer'], ['Platform', 'Windows (macOS works too)'], ['Status', 'Working app']],
+      buttons: [['View on GitHub', 'https://github.com/eryzaimatong/pup-examguard']],
+      problem: "A Google Form on its own can't stop a student from switching to other apps or websites during an exam. ExamGuard adds a locked exam window around it.",
+      built: 'Students take the form inside a full-screen window. While the exam is open, it closes other browsers and AI apps, blocks every site except the form, counts strikes, and submits automatically when time or the strike limit runs out. Teachers set a title, form link, duration and exit password, and share one exam key. Events are logged on the computer and, optionally, to a Google Sheet.',
+      decisions: [
+        "The proctor's exit password is stored only as a salted scrypt hash.",
+        'A teacher can export one exam file and copy it to the other lab computers.'
+      ],
+      stack: ['Electron', 'JavaScript', 'Node.js', 'Google Apps Script'],
+      next: 'rewatch'
     }
   };
   const ov = document.getElementById('projectOverlay');
   const body = document.getElementById('pdBody');
   function openProject(key) {
-    const p = projects[key], o = projects[p.other];
+    const p = projects[key], o = projects[p.next];
+    const sec = (h4, h3, inner) => `<section><h4>${h4}</h4>${h3 ? `<h3>${h3}</h3>` : ''}${inner}</section>`;
     body.innerHTML = `<div class="pd">
       <p class="eyebrow">${p.eyebrow}</p><h2 id="pdTitle">${p.title}</h2><p class="lead">${p.lead}</p>
       <div class="facts">${p.facts.map(f => `<div><p>${f[0]}</p><p class="org">${f[1]}</p></div>`).join('')}</div>
-      <div class="btns">${p.buttons.map((b, i) => b[1]
-        ? `<a class="btn ${i ? 'btn-ghost' : 'btn-primary'}" href="${b[1]}" target="_blank" rel="noopener">${b[0]}</a>`
-        : `<button type="button" class="btn btn-ghost" disabled aria-disabled="true">Deployment in Progress</button>`).join('')}</div>
-      <section><h4>Results</h4><div class="results">${p.results.map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join('')}</div></section>
-      <section><h4>The problem</h4><h3>Why it mattered</h3><p class="lead">${p.problem}</p></section>
-      <section><h4>What I built</h4><h3>How I approached it</h3><p class="lead">${p.built}</p></section>
-      <section><h4>Built with</h4><div class="chips">${p.stack.map(s => `<span>${s}</span>`).join('')}</div></section>
-      <section><h4>Gallery</h4><div class="results">${p.gallery.map(g => `<div class="ph">${g}</div>`).join('')}</div></section>
-      <button class="btn btn-ghost" id="pdOther">Other project &nbsp;→&nbsp; ${o.title}</button></div>`;
+      <div class="btns">${p.buttons.map((b, i) => `<a class="btn ${i ? 'btn-ghost' : 'btn-primary'}" href="${b[1]}" target="_blank" rel="noopener">${b[0]}</a>`).join('')}</div>
+      ${p.note ? `<p class="demo-note">${p.note}</p>` : ''}
+      ${p.results ? sec('Results', '', `<div class="results">${p.results.map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join('')}</div>`) : ''}
+      ${sec('The problem', 'Why it exists', `<p class="lead">${p.problem}</p>`)}
+      ${sec('What I built', 'How it works', `<p class="lead">${p.built}</p>`)}
+      ${p.decisions ? sec('Technical decisions', '', `<ul class="decisions">${p.decisions.map(d => `<li>${d}</li>`).join('')}</ul>`) : ''}
+      ${p.limits ? sec('Status and limits', '', `<p class="lead">${p.limits}</p>`) : ''}
+      ${sec('Built with', '', `<div class="chips">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>`)}
+      ${p.gallery ? sec('Gallery', '', `<div class="gal">${p.gallery.map(g => `<figure><img src="${g[0]}" alt="${g[1]}" loading="lazy"><figcaption>${g[1]}</figcaption></figure>`).join('')}</div><p class="demo-note">${p.galleryNote}</p>`) : ''}
+      <button class="btn btn-ghost" id="pdOther">Next project &nbsp;→&nbsp; ${o.title}</button></div>`;
     ov.classList.add('open'); ov.setAttribute('aria-hidden', 'false');
     ov.querySelector('.sheet').scrollTop = 0;
-    document.getElementById('pdOther').onclick = () => openProject(p.other);
+    document.getElementById('pdOther').onclick = () => openProject(p.next);
   }
   document.getElementById('pdBack').addEventListener('click', closeOverlays);
   ov.addEventListener('click', e => { if (e.target === ov) closeOverlays(); });

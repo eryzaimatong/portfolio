@@ -429,3 +429,13 @@ body.on-light .logo-light{display:block!important}
 /* DOST logo: drop its white box so it blends into the badge */
 .badge-bg.round{border-radius:50%;overflow:hidden}
 .badge-bg img.dost{mix-blend-mode:multiply}
+/* ===== CONTENT SUPPORT ===== */
+.pd .demo-note{font-size:13px;color:var(--clay,#7d4e32);margin:-14px 0 24px}
+.pd .decisions{padding-left:1.15em;line-height:1.65;color:var(--clay,#7d4e32)}
+.pd .decisions li{margin-bottom:8px}
+.pd .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:10px 0 10px}
+.pd .gal figure{margin:0}
+.pd .gal img{width:100%;display:block;border-radius:12px;border:1px solid rgba(122,72,40,.2)}
+.pd .gal figcaption{font-size:12px;margin-top:6px;color:var(--clay,#7d4e32)}
+@media (min-width:861px){.cards{gap:28px}}
+@media (max-width:1250px) and (min-width:861px){.pcard{width:300px}}
