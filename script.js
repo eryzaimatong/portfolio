@@ -170,7 +170,7 @@
         'Backend: Spring Boot, stateless JWT, Flyway migrations. Checks: JUnit, Playwright and axe-core accessibility audits, run in CI.'
       ],
       limits: 'Built and deployed: everything described above. Limits: the keyword lexicon is hand-written, not learned. Not done yet: an offline evaluation of the recommendations against held-out ratings, so I make no accuracy claim.',
-      stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Playwright', 'Vercel', 'Render', 'Neon', 'Claude (coding assistant)'],
+      stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Playwright', 'Vercel', 'Render', 'Neon'],
       gallery: [
         ['assets/projects/rewatch-01-home.jpg', 'Home with a match score'],
         ['assets/projects/rewatch-02-moods.jpg', 'Mood picker'],
@@ -198,6 +198,15 @@
       ],
       limits: 'Built in code: the scan pipeline, wardrobe, outfits and wear log. In development: improving the face-shape model so it passes the fairness gate. Not done: the Google Play launch.',
       stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Capacitor', 'FastAPI', 'Python', 'scikit-learn', 'MediaPipe', 'Supabase', 'Figma'],
+      gallery: [
+        ['assets/projects/aura-01-welcome.png', 'Welcome'],
+        ['assets/projects/aura-02-card.png', 'Your Aura Card'],
+        ['assets/projects/aura-03-for-you.png', 'Makeup picks'],
+        ['assets/projects/aura-04-closet.png', 'The Closet'],
+        ['assets/projects/aura-05-privacy.png', 'Data and privacy']
+      ],
+      galleryClass: 'phone', galleryDims: [390, 844],
+      galleryNote: 'Design mock-ups of the screens from the AURA repository. The app is still in development.',
       next: 'rewatch'
     }
   };
@@ -218,7 +227,7 @@
       ${p.decisions ? sec('Technical decisions', '', `<ul class="decisions">${p.decisions.map(d => `<li>${d}</li>`).join('')}</ul>`) : ''}
       ${p.limits ? sec('Status and limits', '', `<p class="lead">${p.limits}</p>`) : ''}
       ${sec('Built with', '', `<div class="chips">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>`)}
-      ${p.gallery ? sec('Gallery', '', `<div class="gal">${p.gallery.map(g => `<figure><div class="shot"><img src="${g[0]}" alt="${g[1]}" width="1000" height="625" loading="lazy"></div><figcaption>${g[1]}</figcaption></figure>`).join('')}</div><p class="demo-note">${p.galleryNote}</p>`) : ''}
+      ${p.gallery ? sec('Gallery', '', `<div class="gal ${p.galleryClass || ''}">${p.gallery.map(g => `<figure><div class="shot"><img src="${g[0]}" alt="${g[1]}" width="${(p.galleryDims || [1000, 625])[0]}" height="${(p.galleryDims || [1000, 625])[1]}" decoding="async"></div><figcaption>${g[1]}</figcaption></figure>`).join('')}</div><p class="demo-note">${p.galleryNote}</p>`) : ''}
       <button class="btn btn-ghost" id="pdOther">Next project &nbsp;→&nbsp; ${o.title}</button></div>`;
     document.getElementById('pdOther').onclick = () => { renderProject(p.next); ov.querySelector('.sheet').scrollTop = 0; document.getElementById('pdOther').focus(); };
   }
