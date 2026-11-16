@@ -5,6 +5,7 @@ import { gsap, registerGsap, slamText, isReduced } from "@/lib/motion";
 import { useMotion } from "@/lib/motion-context";
 import { MagneticButton } from "./MagneticButton";
 import { getLenis } from "@/lib/velocity";
+import { SectionStrip } from "./SectionStrip";
 
 /* Closing credits: the contact details roll up, the email is the biggest thing on screen, then a quiet sign-off. */
 export function Contact() {
@@ -28,6 +29,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="contact" ref={root} aria-labelledby="contactTitle">
+      <SectionStrip word="Contact" />
       <div className="credits-line" aria-hidden="true" />
       <p className="mono label">Contact</p>
       <h2 id="contactTitle" className="h2 big slam" data-slam>{contact.heading}</h2>

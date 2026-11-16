@@ -7,6 +7,7 @@ import { pushVelocity } from "@/lib/velocity";
 import { useMotion } from "@/lib/motion-context";
 import { useGo } from "@/lib/useGo";
 import { MagneticButton } from "./MagneticButton";
+import { SectionStrip } from "./SectionStrip";
 
 /* The Project Wall: a 3D perspective carousel. Each card is one real screen ("scene") from a project, in order.
    curve "wall": cards grow and angle toward the screen edges, like a concave wall. "tunnel" inverts the depth. */
@@ -138,6 +139,7 @@ export function ProjectWall() {
   const proj = sc.project;
   return (
     <section id="projects" className="wall-section" aria-labelledby="projTitle">
+      <SectionStrip word="Projects" />
       <div className="wall-head">
         <p className="mono label">Projects</p>
         <h2 id="projTitle" className="h2 slam">Selected Work</h2>
@@ -170,6 +172,11 @@ export function ProjectWall() {
         <h3 className="wall-title">{proj.title}</h3>
         <p className="wall-cap">{sc.caption}</p>
         <p className="wall-tagline">{proj.tagline}</p>
+        {proj.metrics && (
+          <dl className="wall-stats" aria-label={`${proj.title} at a glance`}>
+            {proj.metrics.map((m) => (<div key={m.label}><dd>{m.value}</dd><dt>{m.label}</dt></div>))}
+          </dl>
+        )}
         <ul className="chips" aria-label="Stack">{proj.stack.map((t) => <li key={t}>{t}</li>)}</ul>
         <div className="wall-cta">
           <MagneticButton as="a" href={`/projects/${proj.slug}`} className="pill" onClick={(e: React.MouseEvent) => { e.preventDefault(); open(proj.slug, cards.current[active]); }}>Open the case file</MagneticButton>

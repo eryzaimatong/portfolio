@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Unbounded, Manrope, JetBrains_Mono } from "next/font/google";
+import { Big_Shoulders, Figtree, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { Shell } from "@/components/Shell";
 import { profile } from "@/data/profile";
 
-const display = Unbounded({ subsets: ["latin"], weight: ["600", "700", "800", "900"], variable: "--font-display", display: "swap" });
-const body = Manrope({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-body", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
+/* Fonts live here only: change these three lines to try another pairing. Display = condensed title-card type, body = friendly and easy to read. */
+const display = Big_Shoulders({ subsets: ["latin"], weight: ["600", "700", "800", "900"], variable: "--font-display", display: "swap" });
+const body = Figtree({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-body", display: "swap" });
+const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 const title = "Eryza Mae Imatong | Data Science, Analytics & Developer";
 export const metadata: Metadata = {

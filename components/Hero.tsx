@@ -33,11 +33,28 @@ export function Hero() {
       const mv = (e: PointerEvent) => { const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5; fns.forEach((f) => { f.x(-nx * 40 * f.d); f.y(-ny * 28 * f.d); }); };
       addEventListener("pointermove", mv); off = () => removeEventListener("pointermove", mv);
     }
+    // letters swell and lean toward the cursor once the intro has landed
+    let offLetters = () => {};
+    if (!reduced && matchMedia("(pointer: fine)").matches) {
+      let live = false; const t = setTimeout(() => { live = true; }, (start + 1.4) * 1000);
+      const react = (e: PointerEvent) => {
+        if (!live) return;
+        splits.forEach((s) => (s as any)?.chars?.forEach((c: HTMLElement) => {
+          const r = c.getBoundingClientRect(); const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+          const k = Math.max(0, 1 - Math.hypot(dx, dy) / 260);
+          gsap.to(c, { scaleX: 1 + k * 0.32, skewX: (dx / 260) * -8 * k, duration: 0.35, ease: "power3.out", overwrite: "auto" });
+        }));
+      };
+      el.addEventListener("pointermove", react);
+      offLetters = () => { clearTimeout(t); el.removeEventListener("pointermove", react); };
+    }
     if (!reduced) {
+      // shutter: the hero closes in to a rounded frame as the wall arrives
+      gsap.fromTo(el, { clipPath: "inset(0% 0% 0% 0% round 0px)" }, { clipPath: "inset(3% 3% 0% 3% round 36px)", ease: "none", scrollTrigger: { trigger: el, start: "bottom 90%", end: "bottom 30%", scrub: true } });
       gsap.to(".hero-kanji", { yPercent: 18, ease: "none", scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true } });
       gsap.to(".hero-content", { yPercent: -8, opacity: 0.35, ease: "none", scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true } });
     }
-    return () => { off(); splits.forEach((s) => s?.revert?.()); };
+    return () => { off(); offLetters(); splits.forEach((s) => s?.revert?.()); };
   }, [reduced]);
 
   return (

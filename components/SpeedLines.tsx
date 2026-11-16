@@ -28,7 +28,7 @@ export function SpeedLines() {
       ctx.lineWidth = 1.2;
       for (const l of lines) {
         const inner = R * (0.55 + 0.25 * (1 - l.r)), len = R * (0.12 + 0.3 * k) * l.s;
-        ctx.strokeStyle = `rgba(224,30,55,${0.1 + 0.4 * k * l.s})`;
+        ctx.strokeStyle = `rgba(224,30,55,${0.04 + 0.2 * k * l.s})`;
         ctx.beginPath();
         ctx.moveTo(cx + Math.cos(l.a) * inner, cy + Math.sin(l.a) * inner);
         ctx.lineTo(cx + Math.cos(l.a) * (inner + len), cy + Math.sin(l.a) * (inner + len));

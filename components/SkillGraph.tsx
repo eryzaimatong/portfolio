@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import { slamText, registerGsap } from "@/lib/motion";
 import { useMotion } from "@/lib/motion-context";
 import { useGo } from "@/lib/useGo";
+import { SectionStrip } from "./SectionStrip";
 
 type Kind = "group" | "skill" | "project";
 type GNode = SimulationNodeDatum & { id: string; kind: Kind; label: string; used?: boolean; group?: string; projects?: string[]; r: number };
@@ -82,6 +83,7 @@ export function SkillGraph() {
 
   return (
     <section id="skills" className="skills" aria-labelledby="skillsTitle">
+      <SectionStrip word="Skills" />
       <header className="sec-head">
         <p className="mono label">Skills</p>
         <h2 id="skillsTitle" className="h2 slam">Tech Stack</h2>

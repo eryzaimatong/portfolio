@@ -49,7 +49,7 @@ export function slamText(el: Element, opts: { delay?: number; trigger?: Element 
 export function aberrate(el: Element) {
   if (isReduced() || el.querySelector(".outline") || (el as HTMLElement).classList.contains("outline")) return;   // text-shadow would fill outlined type
   const h = el as HTMLElement;
-  h.style.textShadow = "3px 0 rgba(224,30,55,.9), -3px 0 rgba(60,220,255,.55)";
+  h.style.textShadow = "2px 0 rgba(224,30,55,.6), -2px 0 rgba(60,220,255,.3)";
   gsap.to(h, { duration: 0.18, delay: 0.1, onComplete: () => { h.style.textShadow = ""; } });
 }
 
