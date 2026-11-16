@@ -341,6 +341,50 @@
     heroEl.addEventListener('pointerleave', () => { heroBox.style.setProperty('--px', 0); heroBox.style.setProperty('--py', 0); });
   }
 
+  /* ---------- the copper circuit: four nodes and the chip, each a shortcut to a scene ---------- */
+  const circ = document.getElementById('circuit');
+  if (circ) {
+    const INFO = {
+      core:   { k: 'Eryza Mae Imatong', t: 'BSIT student at PUP Manila, specializing in Data Science. DOST-SEI merit scholar.', a: 'About me', go: 1, h: '#about' },
+      data:   { k: 'Data', t: 'Python, SQL, R, Excel and Power BI: the toolkit behind my analysis work.', a: 'See the tech stack', go: 3, h: '#skills' },
+      build:  { k: 'Build', t: 'Re:Watch and AURA: two projects, each built around a real problem.', a: 'See the projects', go: 2, h: '#projects' },
+      team:   { k: 'Team', t: 'Cisco NetConnect, IBITS and Google Developer Groups on Campus PUP.', a: 'See leadership', go: 5, h: '#leadership' },
+      signal: { k: 'Signal', t: 'Open to data science, analytics and technical internships.', a: 'Get in touch', go: 6, h: '#contact' }
+    };
+    const nodes = [...circ.querySelectorAll('.nd')];
+    const body = circ.querySelector('.ro-body'), rk = body.querySelector('.ro-k'), rt = body.querySelector('.ro-t'), ra = body.querySelector('.ro-a');
+    const parts = n => circ.querySelectorAll('.tr-' + n + ',.tl-' + n + ',.vi-' + n);
+    const light = (n, cls, on) => parts(n).forEach(el => el.classList.toggle(cls, on));
+    let active = '';
+    const setActive = n => {
+      if (active) light(active, 'on', false);
+      active = n;
+      circ.dataset.active = n;
+      nodes.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.n === n)));
+      if (!n) { body.hidden = true; return; }
+      const d = INFO[n];
+      rk.textContent = d.k; rt.textContent = d.t; ra.firstElementChild.textContent = d.a;
+      ra.setAttribute('href', d.h); ra.dataset.go = d.go;
+      body.hidden = false; body.style.animation = 'none'; void body.offsetWidth; body.style.animation = '';
+      light(n, 'on', true);
+      circ.classList.remove('zap'); void circ.offsetWidth; circ.classList.add('zap');
+    };
+    nodes.forEach(b => {
+      const n = b.dataset.n;
+      b.addEventListener('click', () => setActive(active === n ? '' : n));
+      const hov = on => { circ.dataset.hover = on ? n : ''; if (n !== 'core') light(n, 'hov', on); };
+      b.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hov(true); });
+      b.addEventListener('pointerleave', () => hov(false));
+      b.addEventListener('focus', () => hov(true));
+      b.addEventListener('blur', () => hov(false));
+    });
+    ra.addEventListener('click', () => setTimeout(() => setActive(''), 400));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && active && circ.contains(document.activeElement)) { const b = circ.querySelector('.nd[data-n="' + active + '"]'); setActive(''); if (b) b.focus(); }
+    });
+    document.addEventListener('click', e => { if (active && !e.target.closest('#circuit')) setActive(''); });
+  }
+
   /* project previews: fetch the two hover screenshots once the page is idle so the first hover is instant */
   const warmShots = () => document.querySelectorAll('.pcard .shot').forEach(i => { i.loading = 'eager'; });
   addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(warmShots, { timeout: 2500 }) : setTimeout(warmShots, 1500)));
