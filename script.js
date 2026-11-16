@@ -54,6 +54,7 @@
     requestAnimationFrame(updateMore);
     if (i === 0 && prev >= 0) heroPlay();   // replay the power-on each time the hero scene is re-entered
     setTimeout(updateMore, 900);   // re-check once the slide and entrance animations have settled
+    document.dispatchEvent(new CustomEvent('scenechange', { detail: { i, id: scenes[i].id, prev } }));
   }
 
   /* availability chip: a disclosure that opens a small contextual panel.
