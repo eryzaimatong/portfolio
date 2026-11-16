@@ -542,3 +542,10 @@ body.on-light .logo-light{display:block!important}
 .cine-name .ln>span{text-shadow:none}
 .cine-name{filter:drop-shadow(0 0 24px rgba(240,166,90,.34)) drop-shadow(0 2px 0 rgba(42,24,16,.45))}
 @media (max-height:760px){.scroll-cue{display:none}}
+
+/* reduced motion: show the hero title and rule in their final state instead of waiting for an animation */
+@media (prefers-reduced-motion:reduce){
+  .cine-name .ln>span{transform:none}
+  .cine-role::before{width:clamp(28px,4vw,56px)}
+  .scene .content,.scene .sky{transform:none!important}
+}
