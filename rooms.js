@@ -40,7 +40,7 @@
   }
   function setCurrent(id) {
     if (id === current) return; current = id;
-    body.className = body.className.replace(/\bmood-\S+/g, '').trim() + ' mood-' + id;
+    body.dataset.tone = ({ home: 'dark', about: 'paper', projects: 'copper', skills: 'dark', experience: 'paper2', leadership: 'ochre', contact: 'copper' })[id] || 'dark';
     navLinks.forEach(a => { const on = a.getAttribute('href') === '#' + id; a.classList.toggle('active', on); on ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'); if (on) moveInd(a); });
     if (spyReady && history.replaceState && location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
   }

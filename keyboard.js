@@ -70,10 +70,4 @@
     });
   }
 
-  /* ---- footer: the lamp can be steadied (it stops following the pointer and drifting) ---- */
-  const lampKey = $('#lampKey');
-  if (lampKey && window.Lamp) {
-    const lg = $('.legend', lampKey);
-    lampKey.addEventListener('click', () => { const still = window.Lamp.toggle(); lampKey.setAttribute('aria-pressed', String(still)); lg.textContent = still ? 'lamp: steady' : 'lamp: follows you'; });
-  }
 })();
