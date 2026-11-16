@@ -50,7 +50,19 @@
     nextBtn.style.opacity = i === scenes.length - 1 ? .35 : 1;
     if (push) history.replaceState(null, '', '#' + scenes[i].id);
     setMenu(false);
+    requestAnimationFrame(updateMore);
   }
+
+  /* fade the bottom edge of a scrolling scene while more content remains */
+  function updateMore() {
+    scenes.forEach((s, k) => {
+      const b = s.querySelector('.content');
+      const more = k === cur && b && b.scrollHeight > b.clientHeight + 4 && b.scrollTop + b.clientHeight < b.scrollHeight - 4;
+      s.classList.toggle('has-more-down', !!more);
+    });
+  }
+  scenes.forEach(s => { const b = s.querySelector('.content'); if (b) b.addEventListener('scroll', updateMore, { passive: true }); });
+  addEventListener('resize', updateMore);
 
   document.addEventListener('click', e => {
     const t = e.target.closest('[data-go]');

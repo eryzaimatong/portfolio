@@ -453,3 +453,15 @@ body.on-light .logo-light{display:block!important}
 .skills .skill{padding:20px 24px}
 .skills .skill .orb{width:40px;height:40px;margin-bottom:8px}
 .skills .skill h3{font-size:20px}
+/* ===== AUDIT FIXES ===== */
+/* hero: one plain sentence and two next steps under the cinematic title */
+.cine-line{position:relative;z-index:2;margin:clamp(14px,2.2vh,24px) auto 0;max-width:34em;font-size:clamp(14px,1.25vw,17px);line-height:1.6;color:#e9d3b4;animation:cineDrift 1.6s cubic-bezier(.2,.7,.2,1) 1.1s both}
+.cine-actions{position:relative;z-index:2;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:clamp(16px,2.6vh,28px);animation:cineDrift 1.6s cubic-bezier(.2,.7,.2,1) 1.4s both}
+.cine-actions .btn{height:46px;padding:0 24px;font-size:14px}
+@media (max-height:640px){.cine-line{display:none}}
+
+/* skills: evidence line under each group */
+.skill-note{margin-top:8px;font-size:12.5px;line-height:1.5;color:var(--clay,#7d4e32)}
+
+/* a scene that scrolls says so: soft fade at whichever edge still has content */
+.scene.has-more-down .content{-webkit-mask-image:linear-gradient(#000 calc(100% - 44px),transparent);mask-image:linear-gradient(#000 calc(100% - 44px),transparent)}

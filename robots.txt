@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://eryza-mae-imatong.vercel.app/sitemap.xml
