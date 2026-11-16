@@ -328,6 +328,10 @@
     });
   }
 
+  /* project previews: fetch the two hover screenshots once the page is idle so the first hover is instant */
+  const warmShots = () => document.querySelectorAll('.pcard .shot').forEach(i => { i.loading = 'eager'; });
+  addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(warmShots, { timeout: 2500 }) : setTimeout(warmShots, 1500)));
+
   /* ---------- start ---------- */
   const start = scenes.findIndex(s => '#' + s.id === location.hash);
   go(start >= 0 ? start : 0, false);
