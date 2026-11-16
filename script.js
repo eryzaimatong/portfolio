@@ -52,14 +52,19 @@
     if (push) history.replaceState(null, '', '#' + scenes[i].id);
     setMenu(false);
     requestAnimationFrame(updateMore);
+    if (i === 0 && prev >= 0) heroPlay();   // replay the power-on each time the hero scene is re-entered
     setTimeout(updateMore, 900);   // re-check once the slide and entrance animations have settled
   }
+
+  /* hero: restart the entrance sequence by toggling the .play class */
+  const heroEl = document.getElementById('home');
+  function heroPlay() { heroEl.classList.remove('play'); void heroEl.offsetWidth; heroEl.classList.add('play'); }
 
   /* fade the bottom edge of a scrolling scene while more content remains */
   function updateMore() {
     scenes.forEach((s, k) => {
       const b = s.querySelector('.content');
-      const more = k === cur && b && b.scrollHeight > b.clientHeight + 4 && b.scrollTop + b.clientHeight < b.scrollHeight - 4;
+      const more = k === cur && s.id !== 'home' && b && b.scrollHeight > b.clientHeight + 4 && b.scrollTop + b.clientHeight < b.scrollHeight - 4;
       s.classList.toggle('has-more-down', !!more);
     });
   }
@@ -308,6 +313,21 @@
 
   /* ---------- small interactions (mouse only, skipped for reduced motion) ---------- */
   document.querySelectorAll('.skill, .pcard').forEach(tileGlow);
+  /* hero depth: the mark, its glow and the hairlines drift a few pixels against the pointer (mouse only; touch has none) */
+  const heroBox = document.querySelector('.hero .content.cine');
+  if (heroBox && !reduceMotion) {
+    let raf = 0;
+    heroEl.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        heroBox.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
+        heroBox.style.setProperty('--py', ((e.clientY / innerHeight) - 0.5).toFixed(3));
+      });
+    });
+    heroEl.addEventListener('pointerleave', () => { heroBox.style.setProperty('--px', 0); heroBox.style.setProperty('--py', 0); });
+  }
+
   /* project previews: fetch the two hover screenshots once the page is idle so the first hover is instant */
   const warmShots = () => document.querySelectorAll('.pcard .shot').forEach(i => { i.loading = 'eager'; });
   addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(warmShots, { timeout: 2500 }) : setTimeout(warmShots, 1500)));
