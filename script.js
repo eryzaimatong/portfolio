@@ -56,12 +56,17 @@
     setTimeout(updateMore, 900);   // re-check once the slide and entrance animations have settled
   }
 
-  /* status chip: a disclosure button; click, tap, Enter or Space toggles it, Escape closes it */
+  /* availability chip: a disclosure that opens a small contextual panel.
+     Click / tap / Enter / Space toggles it; Escape, a click elsewhere, or moving focus away closes it. */
   const statusBtn = document.querySelector('.status');
-  if (statusBtn) {
-    const setStatus = open => statusBtn.setAttribute('aria-expanded', open);
-    statusBtn.addEventListener('click', () => setStatus(statusBtn.getAttribute('aria-expanded') !== 'true'));
-    statusBtn.addEventListener('keydown', e => { if (e.key === 'Escape') setStatus(false); });
+  const statusPop = document.getElementById('statusPop');
+  if (statusBtn && statusPop) {
+    const isOpen = () => statusBtn.getAttribute('aria-expanded') === 'true';
+    const setOpen = open => statusBtn.setAttribute('aria-expanded', open);
+    statusBtn.addEventListener('click', () => setOpen(!isOpen()));
+    document.addEventListener('click', e => { if (isOpen() && !e.target.closest('.avail')) setOpen(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) { setOpen(false); statusBtn.focus(); } });
+    statusPop.addEventListener('focusout', e => { if (isOpen() && !e.relatedTarget?.closest('.avail')) setOpen(false); });
   }
 
   /* hero: restart the entrance sequence by toggling the .play class */
