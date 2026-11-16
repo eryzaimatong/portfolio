@@ -18,6 +18,8 @@
     el.addEventListener('keyup', e => { if (e.key === 'Enter' || e.key === ' ') up(); });
     el.addEventListener('blur', up);
   }
+  // size each keycap from its legend length so long names never spill over neighbours
+  $$('.key').forEach(k => { const l = k.querySelector('.legend'); if (l) k.style.setProperty('--n', String(l.textContent.trim().length)); });
   $$('.key').forEach(bindKey);
 
   /* ---- the tech keys: pressing one lights it and reads it out ---- */
@@ -29,6 +31,14 @@
       k.textContent = key.dataset.t;
       t.textContent = cat + '. ' + (proj ? 'Used in ' + proj + '.' : used ? 'Used in my projects.' : 'On my stack.');
     };
+    // category keys: a category lights its rows and dims the rest (every key stays available)
+    const ctl = $$('.key-ctl', board);
+    ctl.forEach(c => c.addEventListener('click', () => {
+      ctl.forEach(x => { const on = x === c; x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
+      board.dataset.cat = c.dataset.cat;
+      const nm = c.dataset.cat === 'all' ? null : c.textContent.trim();
+      if (nm) { $('.lcd-k', lcd).textContent = nm; $('.lcd-t', lcd).textContent = 'Showing this category. Press any key for details.'; }
+    }));
     // one tab stop for the whole keyboard; the arrow keys move between keys (Up and Down move between rows)
     keys.forEach((x, i) => { x.tabIndex = i === 0 ? 0 : -1; });
     board.addEventListener('keydown', e => {

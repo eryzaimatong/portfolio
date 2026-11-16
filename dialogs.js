@@ -98,6 +98,7 @@
       next: 'rewatch'
     }
   };
+  window.ProjectData = projects;
   const ov = document.getElementById('projectOverlay');
   const body = document.getElementById('pdBody');
   const sec = (h4, h3, inner) => `<section><h4>${h4}</h4>${h3 ? `<h3>${h3}</h3>` : ''}${inner}</section>`;

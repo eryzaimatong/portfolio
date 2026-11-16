@@ -24,249 +24,265 @@
 <meta name="twitter:description" content="BSIT (Data Science) student at PUP Manila. Recommendation systems, machine learning and software, with projects on GitHub.">
 <meta name="twitter:image" content="https://eryza-mae-imatong.vercel.app/assets/og-image.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Eryza Mae Imatong","url":"https://eryza-mae-imatong.vercel.app/","image":"https://eryza-mae-imatong.vercel.app/assets/eryza.png","jobTitle":"BS Information Technology student (Data Science)","alumniOf":{"@type":"CollegeOrUniversity","name":"Polytechnic University of the Philippines"},"address":{"@type":"PostalAddress","addressLocality":"Manila","addressCountry":"PH"},"sameAs":["https://github.com/eryzaimatong","https://www.linkedin.com/in/eryza-mae-imatong/"]}</script>
+<script>document.documentElement.className+=" js"</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="dialogs.css">
-<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="neoframe.css">
 </head>
-<body data-tone="dark">
+<body class="neo">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
-  <a class="logo" href="#home" aria-label="Home"><img class="logo-dark" src="assets/logo-amber.png" alt="EI monogram" width="44" height="44"></a>
+  <a class="mark" href="#home" aria-label="NEO//FRAME, back to the start"><img src="assets/logo-amber.png" alt="" width="34" height="34"><span>NEO<i>//</i>FRAME</span></a>
   <nav class="links" id="links" aria-label="Primary">
     <span class="ind" id="ind" aria-hidden="true"></span>
-    <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
-    <a href="#leadership">Leadership</a>
+    <a href="#skills">Tech Stack</a>
     <a href="#contact">Contact</a>
   </nav>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="links"><span></span><span></span><span></span></button>
+  <button class="idx-btn" id="idxBtn" type="button" aria-expanded="false" aria-controls="cityIndex"><span class="idx-ic" aria-hidden="true"></span><span class="idx-tx">Index</span></button>
 </header>
-<div class="gauge" id="gauge" aria-hidden="true"><i></i></div>
+
+<nav class="cityindex" id="cityIndex" aria-label="City index" hidden>
+  <ol>
+    <li><a href="#home"><span>01</span>Home</a></li>
+    <li><a href="#about"><span>02</span>About</a></li>
+    <li><a href="#projects"><span>03</span>Projects</a></li>
+    <li><a href="#experience"><span>04</span>Experience</a></li>
+    <li><a href="#skills"><span>05</span>Tech Stack</a></li>
+    <li><a href="#contact"><span>06</span>Contact</a></li>
+  </ol>
+</nav>
+<p class="sect-ind" id="sectInd" aria-hidden="true"><b id="siNum">01</b><i></i><span id="siName">Home</span></p>
 
 <main id="main">
 
-  <!-- HOME: the name, set large; every letter answers the pointer -->
-  <section class="room room-home tone-dark" id="home" aria-label="Home">
-    <div class="hero-stage">
-      <p class="hero-first" data-split>Eryza Mae</p>
-      <h1 class="hero-name " aria-label="Eryza Mae Imatong"><span aria-hidden="true" data-split>Imatong</span></h1>
-      <p class="hero-role" data-fx="rise" data-fx-delay=".9">Data Science, Analytics &amp; Developer</p>
-      <div class="hero-meta" data-fx="rise" data-fx-delay="1.05">
-        <div class="avail">
-          <button class="status" type="button" aria-expanded="false" aria-controls="statusPop"><i class="dot" aria-hidden="true"></i><span>Open to internships</span><b class="chev" aria-hidden="true">+</b></button>
-          <div class="status-pop" id="statusPop" role="region" aria-label="Availability">
-            <p class="pop-k">Availability</p>
-            <p>Looking for data science, analytics and technical internships. Based in Manila, Philippines.</p>
-            <a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a>
+  <!-- 01 HOME: the city awakens -->
+  <section class="scene hero" id="home" aria-label="Home">
+    <div class="city" aria-hidden="true">
+      <div class="lyr far"></div><div class="lyr mid"></div><div class="lyr near"></div>
+      <canvas class="rain"></canvas><div class="fog"></div><div class="sweep"></div>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="mono kicker">Data Science, Analytics &amp; Developer</p>
+        <h1 class="name" aria-label="Eryza Mae Imatong"><span class="ln" aria-hidden="true"><span class="w">Eryza</span> <span class="w">Mae</span></span><span class="ln big" aria-hidden="true"><span class="w">Imatong</span></span></h1>
+        <p class="intro">BSIT student at PUP Manila, specializing in Data Science. Looking for data science, analytics and technical internships. Based in Manila, Philippines.</p>
+        <div class="hero-meta">
+          <div class="avail">
+            <button class="status" type="button" aria-expanded="false" aria-controls="statusPop"><i class="dot" aria-hidden="true"></i><span>Open to internships</span><b class="chev" aria-hidden="true">+</b></button>
+            <div class="status-pop" id="statusPop" role="region" aria-label="Availability">
+              <p class="pop-k">Availability</p>
+              <p>Looking for data science, analytics and technical internships. Based in Manila, Philippines.</p>
+              <a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a>
+            </div>
           </div>
+          <p class="sociallinks"><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a></p>
         </div>
-        <p class="sociallinks"><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a></p>
       </div>
-      <p class="hero-hint" aria-hidden="true">Press any letter of my name.</p>
-      <a class="scroll-cue" href="#about"><span>Scroll</span><i aria-hidden="true"></i></a>
+      <div class="char-wrap"><img class="char" src="assets/neo/char-main.svg" alt="Illustrated portrait of Eryza Mae Imatong: an original character with long black hair, a black and white blazer and red details" width="600" height="760"></div>
+    </div>
+    <a class="scroll-cue" href="#about"><span class="mono">Scroll</span><i aria-hidden="true"></i></a>
+    <div class="dim" aria-hidden="true"></div>
+    <div class="blackout" aria-hidden="true"></div>
+  </section>
+
+  <!-- 02 ABOUT: character profile -->
+  <section class="scene about" id="about" aria-labelledby="aboutTitle">
+    <div class="about-grid">
+      <figure class="portrait-card" id="portraitCard">
+        <div class="pf"><img class="pa" src="assets/neo/char-portrait.svg" alt="Illustrated portrait of Eryza Mae Imatong" width="408" height="456" loading="lazy"><img class="pb" src="assets/neo/char-alt.svg" alt="" width="408" height="456" loading="lazy"></div>
+        <figcaption class="mono"><img src="assets/eryza.png" alt="Portrait of Eryza Mae Imatong" width="56" height="56" loading="lazy"><span>Eryza Mae Imatong<br>Character profile</span></figcaption>
+      </figure>
+      <div class="profile">
+        <p class="mono label">About</p>
+        <h2 class="h-big" id="aboutTitle">Hello, I am Eryza</h2>
+        <p class="lead-line">BSIT student at PUP Manila, specializing in Data Science, and a DOST-SEI merit scholar.</p>
+        <div class="bio">
+          <p class="grp"><span>I'm most interested in data science and analytics: working out what a dataset can honestly say, and how sure we can be about it.</span> <span>I also build software, so I can turn analysis into tools people use.</span></p>
+          <p class="grp"><span>In Re:Watch I built an explainable taste model; in AURA I trained a face-shape classifier and held it back from launch when it failed my own fairness check.</span> <span>I'm looking for data science, analytics and technical internships.</span></p>
+        </div>
+        <dl class="fields" id="fields">
+          <div tabindex="0"><dt class="mono">Program</dt><dd>BS Information Technology, Data Science</dd></div>
+          <div tabindex="0"><dt class="mono">University</dt><dd>Polytechnic University of the Philippines, Manila</dd></div>
+          <div tabindex="0"><dt class="mono">Scholarship</dt><dd>DOST-SEI merit scholar</dd></div>
+          <div tabindex="0"><dt class="mono">Expected graduation</dt><dd>2028</dd></div>
+          <div tabindex="0"><dt class="mono">Featured projects</dt><dd>2</dd></div>
+          <div tabindex="0"><dt class="mono">Credentials</dt><dd>3</dd></div>
+        </dl>
+        <a class="btn" href="#contact">Contact me</a>
+      </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="room room-about tone-paper" id="about" aria-labelledby="aboutTitle">
-    <figure class="plate portrait" id="portrait" data-tilt>
-      <div class="pimg" data-fx="wipe" data-fx-dir="down"><img src="assets/eryza.png" alt="Portrait of Eryza Mae Imatong" loading="lazy"></div>
-      <i class="rivet r1"></i><i class="rivet r2"></i><i class="rivet r3"></i><i class="rivet r4"></i>
-    </figure>
-    <div class="about-copy">
-      <p class="label">About</p>
-      <h2 class="big " id="aboutTitle" data-fx="strike">Hello,<br>I am Eryza</h2>
-      <p class="lead-line">BSIT student at PUP Manila, specializing in Data Science, and a DOST-SEI merit scholar.</p>
-      <p class="body-line">I'm most interested in data science and analytics: working out what a dataset can honestly say, and how sure we can be about it. I also build software, so I can turn analysis into tools people use. In Re:Watch I built an explainable taste model; in AURA I trained a face-shape classifier and held it back from launch when it failed my own fairness check. I'm looking for data science, analytics and technical internships.</p>
-      <dl class="stamps">
-        <div><dt>2</dt><dd>Featured projects</dd></div>
-        <div><dt>3</dt><dd>Credentials</dd></div>
-        <div><dt>2028</dt><dd>Expected graduation</dd></div>
-      </dl>
-      <a class="btn-lamp" href="#contact">Contact me</a>
-    </div>
-  </section>
+  <div class="xfer xf-panels" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-  <!-- PROJECTS: an index and a viewer -->
-  <section class="room room-projects tone-copper" id="projects" aria-labelledby="projTitle">
-    <div class="sec-head">
-      <p class="label">Projects</p>
-      <h2 class="big " id="projTitle" data-fx="strike">Selected Work</h2>
+  <!-- 03 PROJECTS: archive of operations -->
+  <section class="scene projects" id="projects" aria-labelledby="projTitle">
+    <div class="head">
+      <p class="mono label">Projects</p>
+      <h2 class="h-big" id="projTitle">Selected Work</h2>
       <p class="sub">Two public projects, each built around a real problem.</p>
     </div>
-    <div class="viewer" id="viewer">
-      <div class="v-list" role="tablist" aria-label="Projects" aria-orientation="vertical">
-        <button class="v-item on" role="tab" id="tab-rewatch" aria-selected="true" aria-controls="panel-rewatch" data-p="rewatch" type="button"><span class="v-n">01</span><span class="v-t ">Re:Watch</span><span class="v-m">Recommender · Web app</span></button>
-        <button class="v-item" role="tab" id="tab-aura" aria-selected="false" aria-controls="panel-aura" data-p="aura" tabindex="-1" type="button"><span class="v-n">02</span><span class="v-t ">AURA</span><span class="v-m">Mobile · In development</span></button>
-      </div>
-      <div class="v-stage">
-        <article class="v-panel on" id="panel-rewatch" role="tabpanel" aria-labelledby="tab-rewatch" data-p="rewatch">
-          <div class="v-frame land" data-open="rewatch">
-            <div class="shots" data-count="6">
-              <img class="top" src="assets/projects/rewatch-01-home.jpg" alt="Re:Watch: Home with a match score" width="1000" height="625" decoding="async">
-              <img src="assets/projects/rewatch-02-moods.jpg" alt="Re:Watch: Mood picker" width="1000" height="625" loading="lazy" decoding="async">
-              <img src="assets/projects/rewatch-03-match.jpg" alt="Re:Watch: A match explained trait by trait" width="1000" height="625" loading="lazy" decoding="async">
-              <img src="assets/projects/rewatch-04-taste-dna.jpg" alt="Re:Watch: Taste DNA profile" width="1000" height="625" loading="lazy" decoding="async">
-              <img src="assets/projects/rewatch-05-movie-night.jpg" alt="Re:Watch: Movie Night group results" width="1000" height="625" loading="lazy" decoding="async">
-              <img src="assets/projects/rewatch-06-community.jpg" alt="Re:Watch: Community and similar taste" width="1000" height="625" loading="lazy" decoding="async">
-            </div>
-          </div>
-          <p class="v-cap" aria-live="polite">Home with a match score</p>
-          <div class="v-dots" role="group" aria-label="Re:Watch screens"><button type="button" class="on" aria-label="Home with a match score" aria-current="true"></button><button type="button" aria-label="Mood picker"></button><button type="button" aria-label="A match explained trait by trait"></button><button type="button" aria-label="Taste DNA profile"></button><button type="button" aria-label="Movie Night group results"></button><button type="button" aria-label="Community and similar taste"></button></div>
-          <p class="meta"><b>01</b> &nbsp;//&nbsp; Recommender · Web app</p>
-          <h3 class="v-title ">Re:Watch</h3>
-          <p class="v-desc">Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.</p>
-          <button class="btn-lamp" type="button" data-open-project="rewatch" aria-haspopup="dialog">View project <span aria-hidden="true">→</span></button>
-        </article>
-        <article class="v-panel" id="panel-aura" role="tabpanel" aria-labelledby="tab-aura" data-p="aura" hidden>
-          <div class="v-frame phone" data-open="aura">
-            <div class="shots" data-count="5">
-              <img class="top" src="assets/projects/aura-01-welcome.png" alt="AURA: Welcome" width="390" height="844" loading="lazy" decoding="async">
-              <img src="assets/projects/aura-02-card.png" alt="AURA: Your Aura Card" width="390" height="844" loading="lazy" decoding="async">
-              <img src="assets/projects/aura-03-for-you.png" alt="AURA: Makeup picks" width="390" height="844" loading="lazy" decoding="async">
-              <img src="assets/projects/aura-04-closet.png" alt="AURA: The Closet" width="390" height="844" loading="lazy" decoding="async">
-              <img src="assets/projects/aura-05-privacy.png" alt="AURA: Data and privacy" width="390" height="844" loading="lazy" decoding="async">
-            </div>
-          </div>
-          <p class="v-cap" aria-live="polite">Welcome</p>
-          <div class="v-dots" role="group" aria-label="AURA screens"><button type="button" class="on" aria-label="Welcome" aria-current="true"></button><button type="button" aria-label="Your Aura Card"></button><button type="button" aria-label="Makeup picks"></button><button type="button" aria-label="The Closet"></button><button type="button" aria-label="Data and privacy"></button></div>
-          <p class="meta"><b>02</b> &nbsp;//&nbsp; Mobile · In development</p>
-          <h3 class="v-title ">AURA</h3>
-          <p class="v-desc">A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.</p>
-          <button class="btn-lamp" type="button" data-open-project="aura" aria-haspopup="dialog">View project <span aria-hidden="true">→</span></button>
-        </article>
-      </div>
-    </div>
+    <div class="archive" id="archive"></div>
     <p class="gh-line">All projects on GitHub &nbsp;→&nbsp; <a href="https://github.com/eryzaimatong" target="_blank" rel="noopener">github.com/eryzaimatong</a></p>
   </section>
 
-  <!-- SKILLS: a mechanical keyboard -->
-  <section class="room room-skills tone-dark" id="skills" aria-labelledby="skillsTitle">
-    <div class="sec-head">
-      <p class="label">Skills</p>
-      <h2 class="big " id="skillsTitle" data-fx="strike">Tech Stack</h2>
+  <div class="xfer xf-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <!-- 04 EXPERIENCE: career timeline -->
+  <section class="scene experience" id="experience" aria-labelledby="expTitle">
+    <div class="head">
+      <p class="mono label">Experience</p>
+      <h2 class="h-big" id="expTitle">Where I Have Been</h2>
+      <p class="sub">School, a scholarship, and a few programs that shaped how I work.</p>
+    </div>
+    <div class="tl" id="tl">
+      <div class="rail" aria-hidden="true"><i class="fill"></i></div>
+      <ol class="ms-list">
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">2024 to 2028 (expected)</p>
+          <h3>BS Information Technology, Data Science</h3>
+          <p class="org">Polytechnic University of the Philippines, Manila</p>
+          <p class="detail">Specializing in Data Science.</p>
+          <img class="ms-badge round" src="assets/seal-pup.png" alt="PUP seal" loading="lazy">
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">2024 to present</p>
+          <h3>Merit Scholar</h3>
+          <p class="org">DOST-SEI (Department of Science and Technology)</p>
+          <p class="detail">Merit scholarship from the DOST Science Education Institute, 2024 cohort, supporting my BS degree.</p>
+          <span class="ms-badge round on-light"><img class="dost" src="assets/logo-dost-clean.png" alt="DOST logo" loading="lazy"></span>
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">Sep to Dec 2026 · in progress</p>
+          <h3><a href="https://weblab.t.u-tokyo.ac.jp/en/lecture/gci" target="_blank" rel="noopener">Global Consumer Intelligence (GCI) program</a></h3>
+          <p class="org">University of Tokyo, Matsuo-Iwasawa Lab (JICA-supported)</p>
+          <p class="detail">Online program: attend sessions, complete homework, join competitions and build a final project.</p>
+          <span class="ms-badge wide on-light"><img src="assets/logo-gci.png" alt="Matsuo-Iwasawa Lab, University of Tokyo" loading="lazy"></span>
+        </li>
+      </ol>
+
+      <div class="grp-head"><p class="mono label">Leadership</p><h3 class="h-mid">Beyond the Code</h3><p class="sub">Teams and communities I design for, build with, or help lead.</p></div>
+      <ol class="ms-list">
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">Cisco NetConnect &nbsp;·&nbsp; PUP – Manila</p>
+          <h3>Graphic Designer, Creatives Department</h3>
+          <p class="detail">Design event recap posts and other graphics for the organization's Facebook page.</p>
+          <div class="chips"><span>Visual design</span><span>Figma</span></div>
+          <button class="btn small" type="button" data-org="cisco" aria-haspopup="dialog">View deliverables <span aria-hidden="true">→</span></button>
+          <img class="ms-badge round" src="assets/logo-netconnect.png" alt="Cisco NetConnect logo" width="64" height="64" loading="lazy">
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">IBITS &nbsp;·&nbsp; Institute of Bachelors in Information Technology Studies</p>
+          <h3>Logistics &amp; Resource Operations Member</h3>
+          <p class="detail">Member of the Program and Activities Department, working on logistics and resource operations.</p>
+          <div class="chips"><span>Logistics</span><span>Event planning</span><span>Resource management</span></div>
+          <a class="btn small" href="https://www.facebook.com/iBITS.Official" target="_blank" rel="noopener">IBITS on Facebook <span aria-hidden="true">→</span></a>
+          <img class="ms-badge round" src="assets/logo-ibits.png" alt="IBITS logo" width="64" height="64" loading="lazy">
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">Google Developer Groups on Campus &nbsp;·&nbsp; PUP &nbsp;·&nbsp; 2026–27</p>
+          <h3>Strategy and Insights Associate (Strategic Department)</h3>
+          <p class="detail">Turning research and data into meaningful insights to guide organizational decisions, strategic planning, and performance evaluation.</p>
+          <div class="chips"><span>Data Analysis</span><span>Strategic Planning</span><span>Research</span></div>
+          <img class="ms-badge round" src="assets/logo-gdg-pup.png" alt="Google Developer Groups on Campus, Polytechnic University of the Philippines logo" width="64" height="64" loading="lazy">
+        </li>
+      </ol>
+
+      <div class="grp-head"><p class="mono label">Certification &amp; training</p><h3 class="h-mid">Credentials</h3></div>
+      <ol class="ms-list">
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">DataCamp certification · Aug 2026</p>
+          <h3>Associate Data Analyst</h3>
+          <button class="btn small" type="button" data-cert="datacamp" aria-haspopup="dialog">View certificate &nbsp;→</button>
+          <span class="ms-badge wide on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span>
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">Cisco Networking Academy course · Aug 2026</p>
+          <h3>Data Analytics Essentials</h3>
+          <button class="btn small" type="button" data-cert="cisco" aria-haspopup="dialog">View certificate &nbsp;→</button>
+          <span class="ms-badge wide on-light"><img src="assets/logo-cna.png" alt="Cisco Networking Academy" loading="lazy"></span>
+        </li>
+        <li class="ms">
+          <span class="node" aria-hidden="true"></span>
+          <p class="mono date">DataCamp career track, 39 hours · Aug 2026</p>
+          <h3>Associate Data Analyst in SQL</h3>
+          <button class="btn small" type="button" data-cert="sql" aria-haspopup="dialog">View certificate &nbsp;→</button>
+          <span class="ms-badge wide on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="xfer xf-grid" aria-hidden="true"><svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M200 0V200M400 0V200M600 0V200M800 0V200M1000 0V200M0 50H1200M0 100H1200M0 150H1200"/></svg></div>
+
+  <!-- 05 TECH STACK: the system interface -->
+  <section class="scene skills" id="skills" aria-labelledby="skillsTitle">
+    <div class="head">
+      <p class="mono label">Skills</p>
+      <h2 class="h-big" id="skillsTitle">Tech Stack</h2>
       <p class="sub">What I work with across data and software, plus the tools I use to build and collaborate.</p>
     </div>
     <div class="board" id="board">
+      <div class="kctl" role="toolbar" aria-label="Stack categories">
+        <button class="key key-ctl on" type="button" data-cat="all" aria-pressed="true" style="--n:9"><span class="base"></span><span class="cap"><span class="legend">All keys</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="1" aria-pressed="false" style="--n:11"><span class="base"></span><span class="cap"><span class="legend">Programming</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="2" aria-pressed="false" style="--n:8"><span class="base"></span><span class="cap"><span class="legend">Data &amp; ML</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="3" aria-pressed="false" style="--n:8"><span class="base"></span><span class="cap"><span class="legend">Frontend</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="4" aria-pressed="false" style="--n:11"><span class="base"></span><span class="cap"><span class="legend">Backend &amp; DBs</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="5" aria-pressed="false" style="--n:9"><span class="base"></span><span class="cap"><span class="legend">Dev tools</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="6" aria-pressed="false" style="--n:8"><span class="base"></span><span class="cap"><span class="legend">AI tools</span></span></button>
+        <button class="key key-ctl" type="button" data-cat="7" aria-pressed="false" style="--n:13"><span class="base"></span><span class="cap"><span class="legend">Collaboration</span></span></button>
+      </div>
       <div class="lcd" id="lcd" role="status" aria-live="polite"><span class="lcd-k">Press a key</span><span class="lcd-t">Every technology on my stack is a key. Click, tap, or type.</span></div>
       <div class="chassis">
-      <section class="krow k1"><h3 class="kmod m-copper"><span aria-hidden="true">01</span> Programming</h3><ul class="keys"><li><button class="key m-copper used" type="button" style="--n:6" data-lit data-t="Python" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">Python</span></span></button></li><li><button class="key m-copper used" type="button" style="--n:4" data-lit data-t="Java" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">Java</span></span></button></li><li><button class="key m-copper used" type="button" style="--n:3" data-lit data-t="SQL" data-p=""><span class="base"></span><span class="cap"><span class="legend">SQL</span></span></button></li><li><button class="key m-copper" type="button" style="--n:1" data-lit data-t="R" data-p=""><span class="base"></span><span class="cap"><span class="legend">R</span></span></button></li><li><button class="key m-copper" type="button" style="--n:5" data-lit data-t="COBOL" data-p=""><span class="base"></span><span class="cap"><span class="legend">COBOL</span></span></button></li></ul></section>
-      <section class="krow k2"><h3 class="kmod m-brass"><span aria-hidden="true">02</span> Data science and analytics</h3><ul class="keys"><li><button class="key m-brass" type="button" style="--n:6" data-lit data-t="Pandas" data-p=""><span class="base"></span><span class="cap"><span class="legend">Pandas</span></span></button></li><li><button class="key m-brass used" type="button" style="--n:5" data-lit data-t="NumPy" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">NumPy</span></span></button></li><li><button class="key m-brass used" type="button" style="--n:12" data-lit data-t="scikit-learn" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">scikit-learn</span></span></button></li><li><button class="key m-brass" type="button" style="--n:5" data-lit data-t="Excel" data-p=""><span class="base"></span><span class="cap"><span class="legend">Excel</span></span></button></li><li><button class="key m-brass" type="button" style="--n:8" data-lit data-t="Power BI" data-p=""><span class="base"></span><span class="cap"><span class="legend">Power BI</span></span></button></li><li><button class="key m-brass" type="button" style="--n:13" data-lit data-t="Data cleaning" data-p=""><span class="base"></span><span class="cap"><span class="legend">Data cleaning</span></span></button></li><li><button class="key m-brass" type="button" style="--n:25" data-lit data-t="Exploratory data analysis" data-p=""><span class="base"></span><span class="cap"><span class="legend">Exploratory data analysis</span></span></button></li><li><button class="key m-brass" type="button" style="--n:18" data-lit data-t="Data visualization" data-p=""><span class="base"></span><span class="cap"><span class="legend">Data visualization</span></span></button></li><li><button class="key m-brass" type="button" style="--n:16" data-lit data-t="Machine learning" data-p=""><span class="base"></span><span class="cap"><span class="legend">Machine learning</span></span></button></li><li><button class="key m-brass" type="button" style="--n:20" data-lit data-t="Statistical analysis" data-p=""><span class="base"></span><span class="cap"><span class="legend">Statistical analysis</span></span></button></li></ul></section>
-      <section class="krow k3"><h3 class="kmod m-champagne"><span aria-hidden="true">03</span> Frontend</h3><ul class="keys"><li><button class="key m-champagne used" type="button" style="--n:4" data-lit data-t="HTML" data-p=""><span class="base"></span><span class="cap"><span class="legend">HTML</span></span></button></li><li><button class="key m-champagne used" type="button" style="--n:3" data-lit data-t="CSS" data-p=""><span class="base"></span><span class="cap"><span class="legend">CSS</span></span></button></li><li><button class="key m-champagne used" type="button" style="--n:10" data-lit data-t="JavaScript" data-p=""><span class="base"></span><span class="cap"><span class="legend">JavaScript</span></span></button></li><li><button class="key m-champagne used" type="button" style="--n:5" data-lit data-t="React" data-p="Re:Watch and AURA"><span class="base"></span><span class="cap"><span class="legend">React</span></span></button></li></ul></section>
-      <section class="krow k4"><h3 class="kmod m-bronze"><span aria-hidden="true">04</span> Backend and databases</h3><ul class="keys"><li><button class="key m-bronze used" type="button" style="--n:11" data-lit data-t="Spring Boot" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">Spring Boot</span></span></button></li><li><button class="key m-bronze used" type="button" style="--n:7" data-lit data-t="FastAPI" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">FastAPI</span></span></button></li><li><button class="key m-bronze used" type="button" style="--n:9" data-lit data-t="REST APIs" data-p=""><span class="base"></span><span class="cap"><span class="legend">REST APIs</span></span></button></li><li><button class="key m-bronze used" type="button" style="--n:10" data-lit data-t="PostgreSQL" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">PostgreSQL</span></span></button></li><li><button class="key m-bronze" type="button" style="--n:5" data-lit data-t="MySQL" data-p=""><span class="base"></span><span class="cap"><span class="legend">MySQL</span></span></button></li><li><button class="key m-bronze" type="button" style="--n:15" data-lit data-t="Database design" data-p=""><span class="base"></span><span class="cap"><span class="legend">Database design</span></span></button></li><li><button class="key m-bronze" type="button" style="--n:30" data-lit data-t="Relational database management" data-p=""><span class="base"></span><span class="cap"><span class="legend">Relational database management</span></span></button></li></ul></section>
-      <section class="krow k5"><h3 class="kmod m-orange"><span aria-hidden="true">05</span> Developer tools</h3><ul class="keys"><li><button class="key m-orange" type="button" style="--n:7" data-lit data-t="VS Code" data-p=""><span class="base"></span><span class="cap"><span class="legend">VS Code</span></span></button></li><li><button class="key m-orange used" type="button" style="--n:3" data-lit data-t="Git" data-p=""><span class="base"></span><span class="cap"><span class="legend">Git</span></span></button></li><li><button class="key m-orange used" type="button" style="--n:6" data-lit data-t="GitHub" data-p=""><span class="base"></span><span class="cap"><span class="legend">GitHub</span></span></button></li><li><button class="key m-orange used" type="button" style="--n:5" data-lit data-t="Figma" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">Figma</span></span></button></li><li><button class="key m-orange" type="button" style="--n:19" data-lit data-t="Cisco Packet Tracer" data-p=""><span class="base"></span><span class="cap"><span class="legend">Cisco Packet Tracer</span></span></button></li><li><button class="key m-orange" type="button" style="--n:7" data-lit data-t="Workato" data-p=""><span class="base"></span><span class="cap"><span class="legend">Workato</span></span></button></li></ul></section>
-      <section class="krow k6"><h3 class="kmod m-choc"><span aria-hidden="true">06</span> AI tools I use</h3><ul class="keys"><li><button class="key m-choc" type="button" style="--n:6" data-lit data-t="Claude" data-p=""><span class="base"></span><span class="cap"><span class="legend">Claude</span></span></button></li><li><button class="key m-choc" type="button" style="--n:7" data-lit data-t="ChatGPT" data-p=""><span class="base"></span><span class="cap"><span class="legend">ChatGPT</span></span></button></li><li><button class="key m-choc" type="button" style="--n:11" data-lit data-t="Claude Code" data-p=""><span class="base"></span><span class="cap"><span class="legend">Claude Code</span></span></button></li><li><button class="key m-choc" type="button" style="--n:23" data-lit data-t="AI-assisted development" data-p=""><span class="base"></span><span class="cap"><span class="legend">AI-assisted development</span></span></button></li><li><button class="key m-choc" type="button" style="--n:18" data-lit data-t="Prompt engineering" data-p=""><span class="base"></span><span class="cap"><span class="legend">Prompt engineering</span></span></button></li></ul></section>
-      <section class="krow k7"><h3 class="kmod m-brown"><span aria-hidden="true">07</span> Collaboration</h3><ul class="keys"><li><button class="key m-brown" type="button" style="--n:5" data-lit data-t="Slack" data-p=""><span class="base"></span><span class="cap"><span class="legend">Slack</span></span></button></li><li><button class="key m-brown" type="button" style="--n:6" data-lit data-t="Notion" data-p=""><span class="base"></span><span class="cap"><span class="legend">Notion</span></span></button></li><li><button class="key m-brown" type="button" style="--n:7" data-lit data-t="Discord" data-p=""><span class="base"></span><span class="cap"><span class="legend">Discord</span></span></button></li><li><button class="key m-brown" type="button" style="--n:15" data-lit data-t="Microsoft Teams" data-p=""><span class="base"></span><span class="cap"><span class="legend">Microsoft Teams</span></span></button></li></ul></section>
+      <section class="krow k1"><h3 class="kmod"><span aria-hidden="true">01</span> Programming</h3><ul class="keys"><li><button class="key used" type="button" style="--w:1.25" data-lit data-t="Python" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">Python</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="Java" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">Java</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="SQL" data-p=""><span class="base"></span><span class="cap"><span class="legend">SQL</span></span></button></li><li><button class="key" type="button" style="--w:1.0" data-lit data-t="R" data-p=""><span class="base"></span><span class="cap"><span class="legend">R</span></span></button></li><li><button class="key" type="button" style="--w:1.0" data-lit data-t="COBOL" data-p=""><span class="base"></span><span class="cap"><span class="legend">COBOL</span></span></button></li></ul></section>
+      <section class="krow k2"><h3 class="kmod"><span aria-hidden="true">02</span> Data science and analytics</h3><ul class="keys"><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Pandas" data-p=""><span class="base"></span><span class="cap"><span class="legend">Pandas</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="NumPy" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">NumPy</span></span></button></li><li><button class="key used" type="button" style="--w:1.75" data-lit data-t="scikit-learn" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">scikit-learn</span></span></button></li><li><button class="key" type="button" style="--w:1.0" data-lit data-t="Excel" data-p=""><span class="base"></span><span class="cap"><span class="legend">Excel</span></span></button></li><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Power BI" data-p=""><span class="base"></span><span class="cap"><span class="legend">Power BI</span></span></button></li><li><button class="key" type="button" style="--w:1.75" data-lit data-t="Data cleaning" data-p=""><span class="base"></span><span class="cap"><span class="legend">Data cleaning</span></span></button></li><li><button class="key" type="button" style="--w:3.0" data-lit data-t="Exploratory data analysis" data-p=""><span class="base"></span><span class="cap"><span class="legend">Exploratory data analysis</span></span></button></li><li><button class="key" type="button" style="--w:2.25" data-lit data-t="Data visualization" data-p=""><span class="base"></span><span class="cap"><span class="legend">Data visualization</span></span></button></li><li><button class="key" type="button" style="--w:2.0" data-lit data-t="Machine learning" data-p=""><span class="base"></span><span class="cap"><span class="legend">Machine learning</span></span></button></li><li><button class="key" type="button" style="--w:2.5" data-lit data-t="Statistical analysis" data-p=""><span class="base"></span><span class="cap"><span class="legend">Statistical analysis</span></span></button></li></ul></section>
+      <section class="krow k3"><h3 class="kmod"><span aria-hidden="true">03</span> Frontend</h3><ul class="keys"><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="HTML" data-p=""><span class="base"></span><span class="cap"><span class="legend">HTML</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="CSS" data-p=""><span class="base"></span><span class="cap"><span class="legend">CSS</span></span></button></li><li><button class="key used" type="button" style="--w:1.5" data-lit data-t="JavaScript" data-p=""><span class="base"></span><span class="cap"><span class="legend">JavaScript</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="React" data-p="Re:Watch and AURA"><span class="base"></span><span class="cap"><span class="legend">React</span></span></button></li></ul></section>
+      <section class="krow k4"><h3 class="kmod"><span aria-hidden="true">04</span> Backend and databases</h3><ul class="keys"><li><button class="key used" type="button" style="--w:1.75" data-lit data-t="Spring Boot" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">Spring Boot</span></span></button></li><li><button class="key used" type="button" style="--w:1.25" data-lit data-t="FastAPI" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">FastAPI</span></span></button></li><li><button class="key used" type="button" style="--w:1.5" data-lit data-t="REST APIs" data-p=""><span class="base"></span><span class="cap"><span class="legend">REST APIs</span></span></button></li><li><button class="key used" type="button" style="--w:1.5" data-lit data-t="PostgreSQL" data-p="Re:Watch"><span class="base"></span><span class="cap"><span class="legend">PostgreSQL</span></span></button></li><li><button class="key" type="button" style="--w:1.0" data-lit data-t="MySQL" data-p=""><span class="base"></span><span class="cap"><span class="legend">MySQL</span></span></button></li><li><button class="key" type="button" style="--w:2.0" data-lit data-t="Database design" data-p=""><span class="base"></span><span class="cap"><span class="legend">Database design</span></span></button></li><li><button class="key" type="button" style="--w:3.5" data-lit data-t="Relational database management" data-p=""><span class="base"></span><span class="cap"><span class="legend">Relational database management</span></span></button></li></ul></section>
+      <section class="krow k5"><h3 class="kmod"><span aria-hidden="true">05</span> Developer tools</h3><ul class="keys"><li><button class="key" type="button" style="--w:1.25" data-lit data-t="VS Code" data-p=""><span class="base"></span><span class="cap"><span class="legend">VS Code</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="Git" data-p=""><span class="base"></span><span class="cap"><span class="legend">Git</span></span></button></li><li><button class="key used" type="button" style="--w:1.25" data-lit data-t="GitHub" data-p=""><span class="base"></span><span class="cap"><span class="legend">GitHub</span></span></button></li><li><button class="key used" type="button" style="--w:1.0" data-lit data-t="Figma" data-p="AURA"><span class="base"></span><span class="cap"><span class="legend">Figma</span></span></button></li><li><button class="key" type="button" style="--w:2.25" data-lit data-t="Cisco Packet Tracer" data-p=""><span class="base"></span><span class="cap"><span class="legend">Cisco Packet Tracer</span></span></button></li><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Workato" data-p=""><span class="base"></span><span class="cap"><span class="legend">Workato</span></span></button></li></ul></section>
+      <section class="krow k6"><h3 class="kmod"><span aria-hidden="true">06</span> AI tools I use</h3><ul class="keys"><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Claude" data-p=""><span class="base"></span><span class="cap"><span class="legend">Claude</span></span></button></li><li><button class="key" type="button" style="--w:1.25" data-lit data-t="ChatGPT" data-p=""><span class="base"></span><span class="cap"><span class="legend">ChatGPT</span></span></button></li><li><button class="key" type="button" style="--w:1.75" data-lit data-t="Claude Code" data-p=""><span class="base"></span><span class="cap"><span class="legend">Claude Code</span></span></button></li><li><button class="key" type="button" style="--w:2.75" data-lit data-t="AI-assisted development" data-p=""><span class="base"></span><span class="cap"><span class="legend">AI-assisted development</span></span></button></li><li><button class="key" type="button" style="--w:2.25" data-lit data-t="Prompt engineering" data-p=""><span class="base"></span><span class="cap"><span class="legend">Prompt engineering</span></span></button></li></ul></section>
+      <section class="krow k7"><h3 class="kmod"><span aria-hidden="true">07</span> Collaboration</h3><ul class="keys"><li><button class="key" type="button" style="--w:1.0" data-lit data-t="Slack" data-p=""><span class="base"></span><span class="cap"><span class="legend">Slack</span></span></button></li><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Notion" data-p=""><span class="base"></span><span class="cap"><span class="legend">Notion</span></span></button></li><li><button class="key" type="button" style="--w:1.25" data-lit data-t="Discord" data-p=""><span class="base"></span><span class="cap"><span class="legend">Discord</span></span></button></li><li><button class="key" type="button" style="--w:2.0" data-lit data-t="Microsoft Teams" data-p=""><span class="base"></span><span class="cap"><span class="legend">Microsoft Teams</span></span></button></li></ul></section>
       </div>
       <p class="stk-note"><i class="led" aria-hidden="true"></i> A lit key is used in my projects. Re:Watch uses Java, Spring Boot, PostgreSQL and React; AURA uses Python, scikit-learn, NumPy and FastAPI.</p>
     </div>
   </section>
 
-  <!-- EXPERIENCE: plates struck one by one -->
-  <section class="room room-experience tone-paper2" id="experience" aria-labelledby="expTitle">
-    <div class="sec-head">
-      <p class="label">Experience</p>
-      <h2 class="big " id="expTitle" data-fx="strike">Where I Have Been</h2>
-      <p class="sub">School, a scholarship, and a few programs that shaped how I work.</p>
-    </div>
-    <ol class="plates">
-      <li class="strike plate-1" data-fx="strike" data-tilt>
-        <p class="yr ">2024</p>
-        <div class="pl-body">
-          <img class="pl-badge round" src="assets/seal-pup.png" alt="PUP seal" loading="lazy">
-          <p class="date">2024 to 2028 (expected)</p>
-          <h3>BS Information Technology, Data Science</h3>
-          <p class="org">Polytechnic University of the Philippines, Manila</p>
-          <p class="detail">Specializing in Data Science.</p>
+  <!-- 06 CONTACT: connection established -->
+  <section class="scene contact" id="contact" aria-labelledby="contactTitle">
+    <div class="city dusk" aria-hidden="true"><div class="lyr far"></div><div class="lyr mid"></div><div class="lyr near"></div><div class="fog"></div></div>
+    <div class="contact-grid">
+      <div class="contact-copy">
+        <p class="mono label">Contact</p>
+        <h2 class="h-huge" id="contactTitle">Let&rsquo;s talk</h2>
+        <p class="contact-lead">I'm looking for data science, analytics and technical internships. If you're hiring, or want to talk about Re:Watch or AURA, email me. Based in Manila, Philippines.</p>
+        <div class="contact-keys">
+          <a class="key key-enter" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app" style="--n:25"><span class="base"></span><span class="cap"><span class="legend"><small>email ↗</small>imatongeryzamae@gmail.com</span></span></a>
+          <a class="key" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab" style="--n:8"><span class="base"></span><span class="cap"><span class="legend">github ↗</span></span></a>
+          <a class="key" id="linkedin" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab" style="--n:10"><span class="base"></span><span class="cap"><span class="legend">linkedin ↗</span></span></a>
+          <button class="key" type="button" id="copyMail" style="--n:12"><span class="base"></span><span class="cap"><span class="legend" id="copyLegend">copy address</span></span></button>
         </div>
-      </li>
-      <li class="strike plate-2" data-fx="strike" data-tilt>
-        <p class="yr ">2024</p>
-        <div class="pl-body">
-          <span class="pl-badge round on-light"><img class="dost" src="assets/logo-dost-clean.png" alt="DOST logo" loading="lazy"></span>
-          <p class="date">2024 to present</p>
-          <h3>Merit Scholar</h3>
-          <p class="org">DOST-SEI (Department of Science and Technology)</p>
-          <p class="detail">Merit scholarship from the DOST Science Education Institute, 2024 cohort, supporting my BS degree.</p>
-        </div>
-      </li>
-      <li class="strike plate-3" data-fx="strike" data-tilt>
-        <p class="yr ">2026</p>
-        <div class="pl-body">
-          <span class="pl-badge wide on-light"><img src="assets/logo-gci.png" alt="Matsuo-Iwasawa Lab, University of Tokyo" loading="lazy"></span>
-          <p class="date">Sep to Dec 2026 · in progress</p>
-          <h3><a href="https://weblab.t.u-tokyo.ac.jp/en/lecture/gci" target="_blank" rel="noopener">Global Consumer Intelligence (GCI) program</a></h3>
-          <p class="org">University of Tokyo, Matsuo-Iwasawa Lab (JICA-supported)</p>
-          <p class="detail">Online program: attend sessions, complete homework, join competitions and build a final project.</p>
-        </div>
-      </li>
-    </ol>
-    <div class="creds-head">
-      <p class="label">Certification &amp; training</p>
-      <h3 class="mid " data-fx="strike">Credentials</h3>
-    </div>
-    <div class="tags">
-      <button class="tag" type="button" data-cert="datacamp" data-fx="strike" data-fx-delay=".05"><span class="tag-hole" aria-hidden="true"></span><h4>Associate Data Analyst</h4><p class="org">DataCamp certification · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span></button>
-      <button class="tag" type="button" data-cert="cisco" data-fx="strike" data-fx-delay=".18"><span class="tag-hole" aria-hidden="true"></span><h4>Data Analytics Essentials</h4><p class="org">Cisco Networking Academy course · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-cna.png" alt="Cisco Networking Academy" loading="lazy"></span></button>
-      <button class="tag" type="button" data-cert="sql" data-fx="strike" data-fx-delay=".31"><span class="tag-hole" aria-hidden="true"></span><h4>Associate Data Analyst in SQL</h4><p class="org">DataCamp career track, 39 hours · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span></button>
-    </div>
-  </section>
-
-  <!-- LEADERSHIP: three seals -->
-  <section class="room room-leadership tone-ochre" id="leadership" aria-labelledby="leadTitle">
-    <div class="sec-head">
-      <p class="label">Leadership</p>
-      <h2 class="big " id="leadTitle" data-fx="strike">Beyond the Code</h2>
-      <p class="sub">Teams and communities I design for, build with, or help lead.</p>
-    </div>
-    <div class="seals">
-      <article class="seal-card s1" data-fx="strike">
-        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimA" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimA" startOffset="0">CISCO NETCONNECT · PUP MANILA · CISCO NETCONNECT · PUP MANILA ·</textPath></text></svg><img src="assets/logo-netconnect.png" alt="Cisco NetConnect logo" width="86" height="86" loading="lazy"></div>
-        <p class="org-line">Cisco NetConnect &nbsp;·&nbsp; PUP – Manila</p>
-        <h3>Graphic Designer, Creatives Department</h3>
-        <p class="detail">Design event recap posts and other graphics for the organization's Facebook page.</p>
-        <div class="chips"><span>Visual design</span><span>Figma</span></div>
-        <button class="btn-lamp small" type="button" data-org="cisco" aria-haspopup="dialog">View deliverables <span aria-hidden="true">→</span></button>
-      </article>
-      <article class="seal-card s2" data-fx="strike" data-fx-delay=".15">
-        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimB" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimB" startOffset="0">IBITS · INSTITUTE OF BACHELORS IN INFORMATION TECHNOLOGY STUDIES ·</textPath></text></svg><img src="assets/logo-ibits.png" alt="IBITS logo" width="86" height="86" loading="lazy"></div>
-        <p class="org-line">IBITS &nbsp;·&nbsp; Institute of Bachelors in Information Technology Studies</p>
-        <h3>Logistics &amp; Resource Operations Member</h3>
-        <p class="detail">Member of the Program and Activities Department, working on logistics and resource operations.</p>
-        <div class="chips"><span>Logistics</span><span>Event planning</span><span>Resource management</span></div>
-        <a class="btn-lamp small" href="https://www.facebook.com/iBITS.Official" target="_blank" rel="noopener">IBITS on Facebook <span aria-hidden="true">→</span></a>
-      </article>
-      <article class="seal-card s3" data-fx="strike" data-fx-delay=".3">
-        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimC" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimC" startOffset="0">GOOGLE DEVELOPER GROUPS ON CAMPUS · PUP · 2026–27 ·</textPath></text></svg><img src="assets/logo-gdg-pup.png" alt="Google Developer Groups on Campus, Polytechnic University of the Philippines logo" width="86" height="86" loading="lazy"></div>
-        <p class="org-line">Google Developer Groups on Campus &nbsp;·&nbsp; PUP <span>2026–27</span></p>
-        <h3>Strategy and Insights Associate (Strategic Department)</h3>
-        <p class="detail">Turning research and data into meaningful insights to guide organizational decisions, strategic planning, and performance evaluation.</p>
-        <div class="chips"><span>Data Analysis</span><span>Strategic Planning</span><span>Research</span></div>
-      </article>
-    </div>
-  </section>
-
-  <!-- CONTACT: the way in is a Return key -->
-  <section class="room room-contact tone-copper" id="contact" aria-labelledby="contactTitle">
-    <p class="label">Contact</p>
-    <h2 class="huge " id="contactTitle" data-fx="strike">Let&rsquo;s talk</h2>
-    <p class="contact-lead">I'm looking for data science, analytics and technical internships. If you're hiring, or want to talk about Re:Watch or AURA, email me. Based in Manila, Philippines.</p>
-    <div class="contact-keys">
-      <a class="key key-enter m-champagne" style="--n:25" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app" data-lit data-link><span class="base"></span><span class="cap"><span class="legend"><small>email ↗</small>imatongeryzamae@gmail.com</span></span></a>
-      <a class="key m-brass" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab" data-lit data-link style="--n:8"><span class="base"></span><span class="cap"><span class="legend">github ↗</span></span></a>
-      <a class="key m-choc" id="linkedin" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab" data-lit data-link style="--n:10"><span class="base"></span><span class="cap"><span class="legend">linkedin ↗</span></span></a>
-      <button class="key m-orange" type="button" id="copyMail" data-lit style="--n:12"><span class="base"></span><span class="cap"><span class="legend" id="copyLegend">copy address</span></span></button>
+        <svg class="trace" viewBox="0 0 600 40" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><path d="M0 20H420L444 6H600"/></svg>
+      </div>
+      <div class="char-wrap quiet"><img class="char" src="assets/neo/char-quiet.svg" alt="Illustrated portrait of Eryza Mae Imatong in a calm pose" width="600" height="760" loading="lazy"></div>
     </div>
   </section>
 </main>
 
-<footer class="foot" id="footer"><p>Eryza Mae Imatong &nbsp;·&nbsp; Manila, Philippines</p><a class="key key-mini m-choc" href="#home" id="topKey" data-lit style="--n:13"><span class="base"></span><span class="cap"><span class="legend">back to top ↑</span></span></a></footer>
+<footer class="foot" id="footer"><p class="mono">Eryza Mae Imatong &nbsp;·&nbsp; Manila, Philippines</p><a class="key key-mini" href="#home" id="topKey" style="--n:13"><span class="base"></span><span class="cap"><span class="legend">back to top ↑</span></span></a></footer>
 
 <!-- Project detail overlay -->
 <div class="overlay" id="projectOverlay" aria-hidden="true">
@@ -293,11 +309,13 @@
   </div>
 </div>
 
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/motion.js"></script>
 <script src="fx.js"></script>
 <script src="dialogs.js"></script>
 <script src="projects-viz.js"></script>
-<script src="rooms.js"></script>
 <script src="keyboard.js"></script>
+<script src="neo.js"></script>
 </body>
 </html>

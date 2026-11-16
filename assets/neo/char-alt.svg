@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="96 24 408 456" role="img" aria-label="Illustrated portrait of Eryza Mae Imatong">
+<defs>
+  <linearGradient id="jk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#171923"/><stop offset="1" stop-color="#07080b"/></linearGradient>
+  <linearGradient id="jk2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3f4d"/><stop offset="1" stop-color="#1c1f29"/></linearGradient>
+  <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dcc8"/><stop offset="1" stop-color="#ebc9b2"/></linearGradient>
+  <linearGradient id="hr" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b0c11"/><stop offset=".55" stop-color="#171925"/><stop offset="1" stop-color="#0b0c11"/></linearGradient>
+</defs>
+<g transform="rotate(0 300 520)">
+  <!-- back hair -->
+  <path d="M300 40 C168 40 92 140 92 300 C92 430 72 540 36 720 L564 720 C528 540 508 430 508 300 C508 140 432 40 300 40Z" fill="url(#hr)"/>
+  <path d="M508 300 C508 430 528 540 564 720" fill="none" stroke="#E51B36" stroke-width="2.4" opacity=".85"/>
+  <path d="M470 120 C500 170 508 230 508 300" fill="none" stroke="#E51B36" stroke-width="2" opacity=".55"/>
+  <!-- neck -->
+  <path d="M258 404 L258 486 C258 514 342 514 342 486 L342 404Z" fill="url(#sk)"/>
+  <path d="M258 410 Q300 452 342 410 L342 452 Q300 486 258 452Z" fill="#d6ae96" opacity=".7"/>
+  <!-- shirt: high collar -->
+  <path d="M222 488 C222 452 378 452 378 488 L398 760 L202 760Z" fill="#f1f1f4"/>
+  <path d="M222 488 C222 470 378 470 378 488" fill="none" stroke="#c9ccd4" stroke-width="3"/>
+  <path d="M232 520 Q300 534 368 520 M228 556 Q300 570 372 556" fill="none" stroke="#d2d5dc" stroke-width="2.2" opacity=".8"/>
+  <path d="M236 494 Q300 508 364 494" fill="none" stroke="#E51B36" stroke-width="3"/>
+  <!-- jacket (two tones, a nod to the original photo) -->
+  <path d="M0 760 L22 626 C40 560 120 520 224 494 L276 760Z" fill="url(#jk)"/>
+  <path d="M600 760 L578 626 C560 560 480 520 376 494 L324 760Z" fill="url(#jk2)"/>
+  <path d="M224 494 L262 640 L236 760" fill="none" stroke="#E51B36" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M376 494 L338 640 L364 760" fill="none" stroke="#E51B36" stroke-width="3" stroke-linejoin="round" opacity=".9"/>
+  <path d="M224 494 L196 560 L238 580Z" fill="#05060a"/><path d="M376 494 L404 560 L362 580Z" fill="#14161d"/>
+  <path d="M30 680 C60 600 120 556 190 540" fill="none" stroke="#2c303d" stroke-width="2" opacity=".7"/>
+  <path d="M570 680 C540 600 480 556 410 540" fill="none" stroke="#4b5163" stroke-width="2" opacity=".7"/>
+  <circle cx="414" cy="596" r="5" fill="#E51B36"/>
+  <path d="M520 600 L500 700" stroke="#E51B36" stroke-width="2.2" opacity=".7"/>
+  <!-- face -->
+  <path d="M300 168 C224 168 198 236 204 302 C210 376 250 422 300 432 C350 422 390 376 396 302 C402 236 376 168 300 168Z" fill="url(#sk)"/>
+  <path d="M396 302 C390 376 350 422 300 432 C330 400 352 352 352 300 C352 250 336 204 316 172 C376 176 402 240 396 302Z" fill="#d6ae96" opacity=".4"/>
+  <circle cx="206" cy="322" r="6" fill="#e7e9ef"/><circle cx="394" cy="322" r="6" fill="#e7e9ef"/><circle cx="394" cy="322" r="2.2" fill="#E51B36"/>
+  <ellipse cx="238" cy="344" rx="22" ry="11" fill="#ef9a8f" opacity=".26"/><ellipse cx="362" cy="344" rx="22" ry="11" fill="#ef9a8f" opacity=".26"/>
+  <!-- brows, eyes, nose, mouth -->
+  <path d="M236 250 Q262 238 288 248" fill="none" stroke="#15161c" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M312 248 Q338 238 364 250" fill="none" stroke="#15161c" stroke-width="4.2" stroke-linecap="round"/>
+  <g transform="translate(262 284) scale(1.2) translate(-262 -284)"><path d="M236 288 Q262 262 288 288" fill="none" stroke="#0a0a0e" stroke-width="6" stroke-linecap="round"/></g><g transform="translate(338 284) scale(1.2) translate(-338 -284)"><path d="M312 288 Q338 262 364 288" fill="none" stroke="#0a0a0e" stroke-width="6" stroke-linecap="round"/></g>
+  <path d="M300 326 Q295 342 304 344" fill="none" stroke="#c4947d" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M272 372 Q300 392 328 372" fill="none" stroke="#b5483f" stroke-width="4.5" stroke-linecap="round"/><path d="M284 380 Q300 388 316 380" fill="#d9776c" opacity=".55"/>
+  <!-- front hair: a centre part, long face-framing locks -->
+  <path d="M300 128 C236 126 184 168 174 262 C168 322 176 384 158 480 C176 482 198 450 206 404 C214 354 202 296 216 254 C230 208 264 178 300 168Z" fill="#0b0c11"/>
+  <path d="M300 128 C364 126 416 168 426 262 C432 322 424 384 442 480 C424 482 402 450 394 404 C386 354 398 296 384 254 C370 208 336 178 300 168Z" fill="#0b0c11"/>
+  <path d="M300 128 L300 170" stroke="#262a38" stroke-width="2"/>
+  <path d="M236 178 C214 206 204 250 208 300 M262 168 C238 190 222 224 220 262 M364 178 C386 206 396 250 392 300 M338 168 C362 190 378 224 380 262" fill="none" stroke="#3b4052" stroke-width="2" opacity=".75" stroke-linecap="round"/>
+  <path d="M426 262 C432 322 424 384 442 480" fill="none" stroke="#E51B36" stroke-width="2.4" opacity=".9"/>
+  <path d="M182 300 C176 360 184 420 168 478" fill="none" stroke="#3b4052" stroke-width="2" opacity=".6"/>
+</g></svg>
