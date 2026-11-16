@@ -360,20 +360,6 @@ body.on-light .logo-light{display:block!important}
 .cine-role{margin-top:clamp(14px,2.4vh,26px);font-family:var(--sans);font-weight:500;font-size:clamp(11px,1.2vw,16px);letter-spacing:.42em;text-transform:uppercase;color:#f0c88c;padding-left:.42em;animation:cineDrift 1.6s cubic-bezier(.2,.7,.2,1) .8s both}
 @keyframes cineDrift{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 
-/* data ring + glass lens, behind the title */
-.ring{position:absolute;z-index:1;width:min(84vmin,760px);aspect-ratio:1;left:50%;top:50%;transform:translate(calc(-50% + var(--px)*16px),calc(-50% + var(--py)*12px));transition:transform .9s cubic-bezier(.2,.7,.2,1);animation:ringIn 2.2s ease .1s both}
-@keyframes ringIn{from{opacity:0;scale:.92}to{opacity:1;scale:1}}
-.ring i,.ring span{position:absolute;border-radius:50%;pointer-events:none}
-.ring-halo{inset:-14%;background:radial-gradient(circle,rgba(240,166,90,.34),rgba(196,103,58,.14) 45%,transparent 70%);animation:haloPulse 9s ease-in-out infinite}
-.ring-a{inset:0;background:conic-gradient(from 0deg,rgba(240,166,90,0) 0 18%,rgba(240,166,90,.15) 30%,#f6c98a 52%,rgba(240,166,90,.15) 74%,rgba(240,166,90,0) 86%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));filter:drop-shadow(0 0 10px rgba(240,166,90,.7));animation:spin 46s linear infinite}
-.ring-b{inset:7%;border:1px dashed rgba(246,201,138,.32);animation:spin 70s linear infinite reverse}
-.ring-b::before,.ring-b::after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#ffd9a3;box-shadow:0 0 14px 3px rgba(255,200,130,.8)}
-.ring-b::before{top:-5px;left:50%;margin-left:-5px}
-.ring-b::after{bottom:14%;right:5%;width:6px;height:6px}
-.lens{inset:16%;background:radial-gradient(circle at 35% 30%,rgba(255,236,206,.14),rgba(196,103,58,.07) 55%,rgba(42,24,16,.12));border:1px solid rgba(255,220,170,.22);backdrop-filter:blur(12px) saturate(1.25);-webkit-backdrop-filter:blur(12px) saturate(1.25);box-shadow:inset 0 0 60px rgba(255,200,130,.12),0 0 80px rgba(240,166,90,.12)}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes haloPulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.07);opacity:1}}
-
 /* scroll cue */
 .scroll-cue{position:absolute;left:50%;bottom:calc(var(--pager-h) + 14px);translate:-50% 0;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:6;color:#f0c88c;animation:cineDrift 1.4s ease 1.8s both}
 .scroll-cue span{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;padding-left:.3em}
@@ -477,28 +463,45 @@ body.on-light .logo-light{display:block!important}
 .scene.leaving .sky{transform:translateX(calc(var(--dir,1)*1.8vw))}
 .scene.active .sky{transform:none}
 
-/* ---- hero: left-anchored editorial composition; the ring sits behind, partly off the right edge ---- */
-.hero .content.cine{align-items:flex-start;text-align:left;justify-content:center;padding-left:clamp(24px,9vw,150px);padding-right:24px;--px:0;--py:0}
-.cine-stage{display:block;width:min(92vw,880px);place-items:unset}
-.cine-name{font-size:clamp(44px,min(7.2vw,13.5vh),108px);letter-spacing:.035em;animation:none;text-shadow:none}
-.cine-name .ln{display:block;overflow:hidden;padding:.04em 0 .1em}
-.cine-name .ln>span{display:block;transform:translateY(112%);animation:lnUp 1.15s cubic-bezier(.2,.8,.2,1) .35s forwards;text-shadow:0 0 40px rgba(240,166,90,.4),0 2px 0 rgba(42,24,16,.5)}
-.cine-name .ln2{margin-left:clamp(20px,5.2vw,88px)}
-.cine-name .ln2>span{animation-delay:.55s}
+/* ---- hero: the surname is the focal point; one visual, a rising distribution of glass columns ---- */
+.hero .content.cine{align-items:flex-start;justify-content:center;text-align:left;padding-left:clamp(24px,9vw,150px);padding-right:24px}
+.cine-stage{display:flex;flex-direction:column;align-items:flex-start;position:relative;z-index:2;width:min(92vw,900px);pointer-events:none}
+.cine-stage a{pointer-events:auto}
+.cine-name{font-size:clamp(54px,min(11.2vw,20vh),176px);line-height:.9;letter-spacing:.015em;animation:none}
+.cine-name .ln{display:block;overflow:hidden;padding:.02em 0 .08em}
+.cine-name .ln>span{display:block;transform:translateY(112%);animation:lnUp 1.15s cubic-bezier(.2,.8,.2,1) .5s forwards}
+/* the given names sit small, tracked and indented under the first stroke of the surname */
+.cine-name .ln-first{margin-left:.36em;padding-bottom:.14em}
+.cine-name .ln-first>span{font-size:.24em;letter-spacing:.46em;font-weight:500;color:#f0c88c;animation-delay:.25s}
 @keyframes lnUp{to{transform:none}}
-.cine-role{display:flex;align-items:center;gap:14px;margin-top:clamp(14px,2.6vh,28px);padding-left:0;letter-spacing:.2em;font-size:clamp(11px,1.05vw,14px);animation-delay:1s}
-.cine-role::before{content:"";flex:none;height:1px;width:0;background:#f0c88c;animation:ruleIn 1s cubic-bezier(.2,.7,.2,1) 1s forwards}
+.cine-role{display:flex;align-items:center;gap:14px;margin-top:clamp(14px,2.6vh,28px);padding-left:0;letter-spacing:.2em;font-size:clamp(11px,1.05vw,14px);animation-delay:1.05s}
+.cine-role::before{content:"";flex:none;height:1px;width:0;background:#f0c88c;animation:ruleIn 1s cubic-bezier(.2,.7,.2,1) 1.05s forwards}
 @keyframes ruleIn{to{width:clamp(28px,4vw,56px)}}
 .cine-line{margin:clamp(12px,2vh,20px) 0 0;max-width:31em;color:#e9d3b4}
 .cine-actions{justify-content:flex-start}
 .scroll-cue{left:clamp(24px,9vw,150px);translate:none;align-items:flex-start}
-.ring{left:auto;right:-10vmin;top:50%;transform:translate(calc(var(--px,0)*18px),calc(-50% + var(--py,0)*14px))}
-.ring .lens{background:radial-gradient(circle at var(--lx,35%) var(--ly,30%),rgba(255,236,206,.26),rgba(196,103,58,.07) 55%,rgba(42,24,16,.12))}
+
+/* the distribution: eleven translucent columns whose heights trace a skewed histogram.
+   They rise once, in sequence, then breathe by a few percent. Tops fade out by mask, so no edge is ever drawn. */
+.dist{position:absolute;z-index:1;right:clamp(24px,7.5vw,130px);bottom:calc(var(--pager-h) + clamp(36px,8vh,84px));width:min(38vw,540px);height:min(58vh,580px);display:flex;align-items:flex-end;gap:clamp(5px,.8vw,12px);pointer-events:none}
+.dist::before{content:"";position:absolute;left:-6%;right:-6%;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(246,201,138,.5) 18%,rgba(246,201,138,.5) 82%,transparent)}
+.dist::after{content:"";position:absolute;z-index:-1;left:-14%;right:-14%;bottom:-20%;height:48%;background:radial-gradient(ellipse closest-side,rgba(240,166,90,.2),transparent);pointer-events:none}
+.dist i{position:relative;flex:1;height:calc(var(--h)*100%);pointer-events:auto;transform-origin:50% 100%;
+  background:linear-gradient(to top,rgba(196,103,58,.5),rgba(240,166,90,.3) 45%,rgba(255,226,180,.1) 85%,transparent);
+  -webkit-mask-image:linear-gradient(to top,#000 60%,transparent);mask-image:linear-gradient(to top,#000 60%,transparent);
+  box-shadow:inset 1px 0 0 rgba(255,226,180,.34),inset -1px 0 0 rgba(255,226,180,.1);
+  animation:distRise 1.5s cubic-bezier(.2,.8,.2,1) calc(.45s + var(--i)*.07s) both,distBreathe 11s ease-in-out calc(2.4s + var(--i)*.4s) infinite;
+  transition:filter .35s}
+.dist i::before{content:"";position:absolute;top:0;bottom:0;left:16%;width:20%;background:linear-gradient(to top,transparent,rgba(255,240,215,.2) 55%,transparent)}
+.dist i:hover{filter:brightness(1.6) saturate(1.1)}
+@keyframes distRise{from{scale:1 0;opacity:0}to{scale:1 1;opacity:1}}
+@keyframes distBreathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.035)}}
 @media (max-width:860px){
-  .hero .content.cine{padding-left:20px;padding-right:20px}
-  .cine-role{letter-spacing:.14em;gap:10px}
-  .ring{right:-34vmin;top:34%;width:96vmin;opacity:.75}
-  .scroll-cue{left:20px}
+  .hero .content.cine{padding:var(--nav-h) 20px calc(var(--pager-h) + 24vh)}
+  .cine-name{font-size:min(14.2vw,96px)}
+  .cine-role{letter-spacing:.14em;gap:10px;flex-wrap:wrap}
+  .scroll-cue{display:none}
+  .dist{left:20px;right:20px;width:auto;height:24vh;bottom:calc(var(--pager-h) + 12px);opacity:.72}
 }
 
 /* ---- project cards: a real screenshot is revealed on hover/focus (and on the focused card on touch) ---- */
@@ -549,3 +552,8 @@ body.on-light .logo-light{display:block!important}
   .cine-role::before{width:clamp(28px,4vw,56px)}
   .scene .content,.scene .sky{transform:none!important}
 }
+
+/* ---- AURA: the logo is shown whole, at a fixed square proportion, and steps left (never scales) to leave the phone its own space ---- */
+.pcard[data-project="aura"] .art .logo{position:absolute;inset:auto;left:50%;top:50%;width:auto;height:80%;aspect-ratio:1;object-fit:contain;transform:none;translate:-50% -50%;transition:translate .8s cubic-bezier(.2,.7,.2,1)}
+.pcard[data-project="aura"]:hover .art .logo,.pcard[data-project="aura"]:focus-visible .art .logo{transform:none;translate:-96% -50%}
+@media (hover:none){.pcard[data-project="aura"].focus .art .logo{transform:none;translate:-96% -50%}}

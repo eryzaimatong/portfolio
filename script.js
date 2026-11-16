@@ -308,26 +308,6 @@
 
   /* ---------- small interactions (mouse only, skipped for reduced motion) ---------- */
   document.querySelectorAll('.skill, .pcard').forEach(tileGlow);
-  /* hero: the ring drifts a few pixels with the pointer and the glass lens catches the light where the pointer is */
-  const heroBox = document.querySelector('.hero .content.cine');
-  if (heroBox && !reduceMotion) {
-    const lens = heroBox.querySelector('.lens');
-    let raf = 0;
-    document.getElementById('home').addEventListener('pointermove', e => {
-      if (e.pointerType !== 'mouse') return;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        heroBox.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
-        heroBox.style.setProperty('--py', ((e.clientY / innerHeight) - 0.5).toFixed(3));
-        const r = lens.getBoundingClientRect();
-        const x = Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100));
-        const y = Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100));
-        lens.style.setProperty('--lx', x.toFixed(1) + '%');
-        lens.style.setProperty('--ly', y.toFixed(1) + '%');
-      });
-    });
-  }
-
   /* project previews: fetch the two hover screenshots once the page is idle so the first hover is instant */
   const warmShots = () => document.querySelectorAll('.pcard .shot').forEach(i => { i.loading = 'eager'; });
   addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(warmShots, { timeout: 2500 }) : setTimeout(warmShots, 1500)));
