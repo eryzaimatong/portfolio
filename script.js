@@ -29,6 +29,7 @@
   function go(i, push = true) {
     if (i < 0 || i >= scenes.length || i === cur) return;
     const prev = cur;
+    document.documentElement.style.setProperty('--dir', prev >= 0 && i < prev ? -1 : 1);   // drives the direction of the scene slide
     if (prev >= 0) {
       const p = scenes[prev];
       p.classList.remove('active');
@@ -51,6 +52,7 @@
     if (push) history.replaceState(null, '', '#' + scenes[i].id);
     setMenu(false);
     requestAnimationFrame(updateMore);
+    setTimeout(updateMore, 900);   // re-check once the slide and entrance animations have settled
   }
 
   /* fade the bottom edge of a scrolling scene while more content remains */
@@ -63,6 +65,7 @@
   }
   scenes.forEach(s => { const b = s.querySelector('.content'); if (b) b.addEventListener('scroll', updateMore, { passive: true }); });
   addEventListener('resize', updateMore);
+  addEventListener('load', () => setTimeout(updateMore, 300));
 
   document.addEventListener('click', e => {
     const t = e.target.closest('[data-go]');
@@ -304,13 +307,24 @@
   }));
 
   /* ---------- small interactions (mouse only, skipped for reduced motion) ---------- */
-  document.querySelectorAll('.skill').forEach(tileGlow);
-  const stage = document.querySelector('.cine-stage');
-  if (stage && !reduceMotion) {
+  document.querySelectorAll('.skill, .pcard').forEach(tileGlow);
+  /* hero: the ring drifts a few pixels with the pointer and the glass lens catches the light where the pointer is */
+  const heroBox = document.querySelector('.hero .content.cine');
+  if (heroBox && !reduceMotion) {
+    const lens = heroBox.querySelector('.lens');
+    let raf = 0;
     document.getElementById('home').addEventListener('pointermove', e => {
       if (e.pointerType !== 'mouse') return;
-      stage.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
-      stage.style.setProperty('--py', ((e.clientY / innerHeight) - 0.5).toFixed(3));
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        heroBox.style.setProperty('--px', ((e.clientX / innerWidth) - 0.5).toFixed(3));
+        heroBox.style.setProperty('--py', ((e.clientY / innerHeight) - 0.5).toFixed(3));
+        const r = lens.getBoundingClientRect();
+        const x = Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100));
+        const y = Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100));
+        lens.style.setProperty('--lx', x.toFixed(1) + '%');
+        lens.style.setProperty('--ly', y.toFixed(1) + '%');
+      });
     });
   }
 

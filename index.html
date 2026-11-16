@@ -53,15 +53,15 @@
   <section class="scene hero" id="home" data-title="Home">
     <div class="sky"></div>
     <div class="content cine">
+      <div class="ring" aria-hidden="true">
+        <span class="ring-halo"></span>
+        <i class="ring-a"></i>
+        <i class="ring-b"></i>
+        <span class="lens"></span>
+      </div>
       <div class="cine-stage">
-        <div class="ring" aria-hidden="true">
-          <span class="ring-halo"></span>
-          <i class="ring-a"></i>
-          <i class="ring-b"></i>
-          <span class="lens"></span>
-        </div>
-        <h1 class="cine-name">Eryza Mae C.<br>Imatong</h1>
-        <p class="cine-role">Data Science + Analytics · Developer</p>
+        <h1 class="cine-name" aria-label="Eryza Mae C. Imatong"><span class="ln" aria-hidden="true"><span>Eryza Mae C.</span></span><span class="ln ln2" aria-hidden="true"><span>Imatong</span></span></h1>
+        <p class="cine-role">Data Science · Data Analytics · Full-Stack Development</p>
         <p class="cine-line">Third-year BSIT student at PUP Manila, looking for data science, analytics and technical internships.</p>
         <div class="cine-actions"><a class="btn btn-primary" href="#projects" data-go="2">See my projects</a><a class="btn btn-ghost" href="#contact" data-go="6">Contact me</a></div>
       </div>
@@ -105,14 +105,14 @@
       </div>
       <div class="cards rise d1" id="projectCards">
         <article class="pcard focus" data-project="rewatch" tabindex="0" role="button" aria-haspopup="dialog">
-          <div class="art" style="--art-bg:#101b33"><img src="assets/projects/rewatch-logo.png" alt="Re:Watch logo" width="960" height="320" loading="lazy"></div>
+          <div class="art" style="--art-bg:#101b33"><img class="logo" src="assets/projects/rewatch-logo.png" alt="Re:Watch logo" width="960" height="320" loading="lazy"><img class="shot" src="assets/projects/rewatch-01-home.jpg" alt="" width="1000" height="625" loading="lazy" decoding="async"></div>
           <p class="meta"><b>01</b> &nbsp;//&nbsp; Recommender · Web app</p>
           <h3>Re:Watch</h3>
           <p>Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.</p>
           <span class="more">View project &nbsp;→</span>
         </article>
         <article class="pcard" data-project="aura" tabindex="0" role="button" aria-haspopup="dialog">
-          <div class="art" style="--art-bg:#fdf6ec"><img src="assets/projects/aura-logo.png" alt="AURA logo: Mira, the mirror ghost" width="640" height="640" loading="lazy"></div>
+          <div class="art" style="--art-bg:#fdf6ec"><img class="logo" src="assets/projects/aura-logo.png" alt="AURA logo: Mira, the mirror ghost" width="640" height="640" loading="lazy"><img class="shot" src="assets/projects/aura-01-welcome.png" alt="" width="390" height="844" loading="lazy" decoding="async"></div>
           <p class="meta"><b>02</b> &nbsp;//&nbsp; Mobile · In development</p>
           <h3>AURA</h3>
           <p>A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.</p>
@@ -133,16 +133,15 @@
         <p class="sub">The languages, frameworks and tools I use across data work and software.</p>
       </div>
       <div class="grid3 rise d1">
-        <div class="glass skill"><span class="orb"></span><h3>Programming Languages</h3>
-          <div class="chips"><span>Python</span><span>Java</span><span>TypeScript</span><span>R</span></div><p class="skill-note">Python and TypeScript in AURA, Java in Re:Watch.</p></div>
-        <div class="glass skill"><span class="orb"></span><h3>Databases</h3>
-          <div class="chips"><span>SQL</span><span>PostgreSQL</span><span>MySQL</span></div><p class="skill-note">PostgreSQL in Re:Watch (Flyway migrations) and AURA (Supabase).</p></div>
-        <div class="glass skill"><span class="orb"></span><h3>Development Frameworks</h3>
-          <div class="chips"><span>React</span><span>Spring Boot</span><span>FastAPI</span></div><p class="skill-note">React in both projects, Spring Boot in Re:Watch, FastAPI in AURA.</p></div>
-        <div class="glass skill"><span class="orb"></span><h3>Data, ML and Design Tools</h3>
-          <div class="chips"><span>scikit-learn</span><span>MediaPipe</span><span>Power BI</span><span>Figma</span></div><p class="skill-note">scikit-learn and MediaPipe in AURA.</p></div>
-        <div class="glass skill"><span class="orb"></span><h3>Development and Networking Tools</h3>
-          <div class="chips"><span>Git</span><span>GitHub</span><span>Cisco Packet Tracer</span></div></div>
+        <div class="glass skill"><span class="orb"></span><h3>Programming and Data</h3>
+          <div class="chips"><span>Python</span><span>Java</span><span>SQL</span><span>PostgreSQL</span><span>MySQL</span><span>R</span><span>Excel</span><span>Power BI</span></div>
+          <p class="skill-note">In my projects: Python and scikit-learn in AURA, Java and PostgreSQL in Re:Watch.</p></div>
+        <div class="glass skill"><span class="orb"></span><h3>Development</h3>
+          <div class="chips"><span>React</span><span>Spring Boot</span><span>Git</span><span>GitHub</span></div>
+          <p class="skill-note">In my projects: React in both, Spring Boot in Re:Watch, FastAPI and TypeScript in AURA.</p></div>
+        <div class="glass skill"><span class="orb"></span><h3>Design and Technical Tools</h3>
+          <div class="chips"><span>Figma</span><span>Cisco Packet Tracer</span></div>
+          <p class="skill-note">Figma for AURA and the Cisco NetConnect graphics.</p></div>
       </div>
     </div>
   </section>
