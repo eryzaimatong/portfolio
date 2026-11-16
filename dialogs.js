@@ -10,17 +10,22 @@
   function openOverlay(el, from, focusEl) {
     opener = from || document.activeElement;
     inertTargets().forEach(n => n.setAttribute('inert', ''));
-    el.classList.add('open'); el.setAttribute('aria-hidden', 'false');
+    el.setAttribute('aria-hidden', 'false');
     el.querySelector('.sheet').scrollTop = 0;
+    if (window.FX) FX.openDialog(el, from, null); else el.classList.add('open');
     (focusEl || focusable(el)[0] || el).focus({ preventScroll: true });
   }
+  let closing = false;
   function closeOverlay() {
     const open = overlayOpen();
-    if (!open) return;
-    document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); });
-    inertTargets().forEach(n => n.removeAttribute('inert'));
-    if (opener && document.contains(opener)) opener.focus({ preventScroll: true });
-    opener = null;
+    if (!open || closing) return;
+    const finish = () => {
+      document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); });
+      inertTargets().forEach(n => n.removeAttribute('inert'));
+      if (opener && document.contains(opener)) opener.focus({ preventScroll: true });
+      opener = null; closing = false;
+    };
+    if (window.FX && FX.on) { closing = true; FX.closeDialog(open, finish); } else finish();
   }
   document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeOverlay(); }));
   document.addEventListener('keydown', e => {          // keep Tab inside the open dialog

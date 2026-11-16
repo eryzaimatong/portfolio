@@ -12,7 +12,7 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   let W = innerWidth, H = innerHeight;
   const lamp = { x: W * .5, y: H * .34, tx: W * .5, ty: H * .34 };
-  let lastInput = -1e9, last = performance.now(), ignite = reduce ? 1 : 0, dirty = true, raf = 0;
+  let still = false, lastInput = -1e9, last = performance.now(), ignite = reduce ? 1 : 0, dirty = true, raf = 0;
   const vis = new Set();
   const els = [...document.querySelectorAll('[data-relief],[data-lit]')];
   const io = new IntersectionObserver(es => es.forEach(e => { e.isIntersecting ? vis.add(e.target) : vis.delete(e.target); }), { rootMargin: '10% 0px' });
@@ -22,11 +22,11 @@
   addEventListener('resize', () => { W = innerWidth; H = innerHeight; dirty = true; }, { passive: true });
   addEventListener('scroll', () => { dirty = true; kick(); }, { passive: true });
   addEventListener('pointermove', e => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch' || still) return;
     lamp.tx = e.clientX; lamp.ty = e.clientY; lastInput = performance.now(); kick();
   }, { passive: true });
   // touch: the lamp goes where the finger goes, and stays there a moment
-  const touch = e => { const t = e.touches[0]; if (!t) return; lamp.tx = t.clientX; lamp.ty = t.clientY; lastInput = performance.now(); kick(); };
+  const touch = e => { const t = e.touches[0]; if (!t || still) return; lamp.tx = t.clientX; lamp.ty = t.clientY; lastInput = performance.now(); kick(); };
   addEventListener('touchstart', touch, { passive: true });
   addEventListener('touchmove', touch, { passive: true });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
@@ -39,7 +39,8 @@
     raf = 0;
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     if (ignite < 1) ignite = Math.min(1, ignite + dt / 1.9);
-    if (!reduce && now - lastInput > 3200) { const p = idleTarget(now); lamp.tx = p[0]; lamp.ty = p[1]; }
+    if (still) { lamp.tx = W * .5; lamp.ty = H * .34; }
+    else if (!reduce && now - lastInput > 3200) { const p = idleTarget(now); lamp.tx = p[0]; lamp.ty = p[1]; }
     const k = reduce ? 1 : 1 - Math.pow(.0009, dt);
     const nx = lamp.x + (lamp.tx - lamp.x) * k, ny = lamp.y + (lamp.ty - lamp.y) * k;
     const moved = Math.abs(nx - lamp.x) + Math.abs(ny - lamp.y) > .05;
@@ -60,7 +61,7 @@
     if (!reduce || moved || ignite < 1 || dirty) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(frame); } }
-  window.Lamp = { get x() { return lamp.x; }, get y() { return lamp.y; }, kick };
+  window.Lamp = { get x() { return lamp.x; }, get y() { return lamp.y; }, kick, toggle() { still = !still; if (still) { lamp.tx = W * .5; lamp.ty = H * .34; } else lastInput = performance.now(); dirty = true; kick(); return still; } };
   // the first frame
   lamp.x = lamp.tx; lamp.y = lamp.ty; kick();
 })();
