@@ -191,7 +191,7 @@
   function snapFrame() { Object.assign(frame, tFrame); frame.ax = tFrame.cx || 0; }
   function frameFor() {
     if (view === 'cloud' || view === 'scatter') return { sx: W * .54, sy: H * .52, cy: 0, cx: 0 };
-    if (view === 'chip') return { sx: Math.min(W * .24, H * .36), sy: Math.min(W * .24, H * .36), cy: 0, cx: small() ? 0 : W * .25 };
+    if (view === 'chip') { const S = small() ? Math.min(W * .3, H * .22) : Math.min(W * .24, H * .36); return { sx: S, sy: S, cy: small() ? H * .16 : 0, cx: small() ? 0 : W * .25 }; }
     const bw = small() ? W * .44 : Math.min(W * .4, H * .72), bh = small() ? H * .36 : H * .36; return { sx: bw, sy: bh, cy: small() ? 20 : 12 };
   }
 
@@ -215,7 +215,9 @@
   function label(txt, x, y, cls, sub) {
     let e = labPool[labUsed]; if (!e) { e = document.createElement('div'); e.className = 'sl'; labelsEl.appendChild(e); labPool.push(e); }
     labUsed++; if (e._t !== txt + (sub || '') + cls) { e._t = txt + (sub || '') + cls; e.className = 'sl ' + cls; e.innerHTML = '<b></b>' + (sub ? '<i></i>' : ''); e.firstChild.textContent = txt; if (sub) e.lastChild.textContent = sub; }
-    e.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)'; e.style.display = 'block';
+    e.style.display = 'block'; if (!e._w || e._k !== e._t) { e._w = e.offsetWidth; e._k = e._t; }
+    x = clamp(x, 6, Math.max(6, W - e._w - 6)); y = clamp(y, 56, H - 80);
+    e.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
   }
   function step(dt, now) {
     // transition progress
@@ -263,7 +265,7 @@
       if (focusI >= 0 && p.item && exploring) a *= (p.i === focusI || nbr.has(p.i)) ? 1.15 : .35;
       if (p.i === focusI) a = Math.max(a, .95);
       const blur = clamp(Math.abs(z - .1) * (deep ? .75 : .15), 0, 1);
-      const size = (p.r * (p.item ? (exploring ? 1.9 : 1.5) : 1.15)) * persp * (1 + (p.i === focusI ? .55 : 0)) * DPR * (small() ? .95 : 1) * (1 + blur * (p.item ? .35 : .9));
+      const size = (p.r * (p.item ? (exploring ? 1.9 : 1.5) : 1.15)) * persp * (1 + (p.i === focusI ? .55 : 0)) * DPR * (small() ? (p.item ? .95 : 1.35) : 1) * (1 + blur * (p.item ? .35 : .9));
       const o = k * 8; pData[o] = p.sx * DPR; pData[o + 1] = p.sy * DPR; pData[o + 2] = p.col[0] / 255; pData[o + 3] = p.col[1] / 255; pData[o + 4] = p.col[2] / 255; pData[o + 5] = clamp(a, 0, 1) * (1 - blur * .32); pData[o + 6] = Math.max(1.6, size * 1.75); pData[o + 7] = blur;
     }
     // edges

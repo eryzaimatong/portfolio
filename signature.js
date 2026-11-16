@@ -78,7 +78,7 @@
   new ResizeObserver(fit).observe(scene);
   const setH = (v, fire) => { h = Math.round(v); rng.value = h; out.textContent = h; if (fire !== false) window.dispatchEvent(new CustomEvent('eiharmonics', { detail: h })); if (!raf) draw(performance.now() / 1000); };
   rng.addEventListener('input', () => { sweep = null; setH(+rng.value); });
-  function map() { const S = Math.min(W * .24, H * .36), cx = small() ? W / 2 : W * .75, cy = H / 2 + (small() ? 20 : 12); return { k: S * .62, cx, cy }; }
+  function map() { const S = small() ? Math.min(W * .3, H * .22) : Math.min(W * .24, H * .36), cx = small() ? W / 2 : W * .75, cy = small() ? H * .66 : H / 2; return { k: S * .62, cx, cy }; }
   function draw(now) {
     ctx.clearRect(0, 0, W, H); if (!W) return;
     const m = map(), dark = !scene.classList.contains('light');
