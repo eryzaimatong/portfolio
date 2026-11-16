@@ -30,6 +30,7 @@
     for (let k = 0; def !== 0 && k < rem.length * 3; k++, def += def > 0 ? -1 : 1) fl[rem[k % rem.length][1]] += def > 0 ? 1 : -1;
     return { score: Math.round(sc * 10) / 10, parts: fl.map(x => x / 10) };
   }
+  window.RewatchModel = { rewatchScore, TRAITS, TITLE, PRESETS };
   const fmt = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1);
   function mountMixer(host) {
     host.innerHTML = '<div class="mix"><div class="mix-head"><div class="mix-score"><b id="mxScore">50.0</b><span>match</span></div><p class="mix-eq" id="mxEq" aria-live="polite"></p></div>' +

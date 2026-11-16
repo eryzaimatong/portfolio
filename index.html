@@ -27,266 +27,228 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dialogs.css">
+<link rel="stylesheet" href="chiaro.css">
 </head>
-<body>
+<body class="mood-home">
+<a class="skip" href="#main">Skip to content</a>
+<div id="wall" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a class="logo" href="#home" data-go="0" aria-label="Home"><img class="logo-dark" src="assets/logo-amber.png" alt="EI microchip monogram" width="44" height="44"><img class="logo-light" src="assets/logo-espresso.png" alt="" width="44" height="44"></a>
-  <nav class="links" aria-label="Primary">
-    <a href="#home" data-go="0">Home</a>
-    <a href="#about" data-go="1">About</a>
-    <a href="#projects" data-go="2">Projects</a>
-    <a href="#skills" data-go="3">Skills</a>
-    <a href="#experience" data-go="4">Experience</a>
-    <a href="#leadership" data-go="5">Leadership</a>
-    <a href="#contact" data-go="6">Contact</a>
+  <a class="logo" href="#home" aria-label="Home"><img class="logo-dark" src="assets/logo-amber.png" alt="EI monogram" width="44" height="44"></a>
+  <nav class="links" id="links" aria-label="Primary">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#contact">Contact</a>
   </nav>
-  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="links"><span></span><span></span><span></span></button>
 </header>
+<div class="gauge" id="gauge" aria-hidden="true"><i></i></div>
 
-<div class="menu" id="menu" aria-hidden="true"></div>
+<main id="main">
 
-<main id="stage">
-
-  <!-- 01 HERO -->
-  <section class="scene hero play" id="home" data-title="Home">
-    <div class="sky"></div>
-    <div class="content cine">
-      <!-- The copper circuit: the EI chip at the centre, four traces to four nodes. Traces are SVG; the nodes are real buttons laid over it by percentage so labels stay readable at any size. -->
-      <div class="mark circuit" id="circuit" role="group" aria-label="Interactive circuit. Select a node to learn more." data-active="" data-hover="">
-        <div class="cine-glow" aria-hidden="true"></div>
-        <svg class="ei" viewBox="0 0 400 400" focusable="false" aria-hidden="true">
-          <defs><linearGradient id="dimg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="190" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="dim" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><rect width="400" height="400" fill="url(#dimg)"/></mask></defs>
-          <g mask="url(#dim)">
-            <g class="deco" fill="none" stroke-linejoin="round">
-              <path d="M170 124 V92 L146 68 H112"/><path d="M200 124 V44"/><path d="M124 170 H78 L56 148"/><path d="M124 200 H36"/><path d="M124 230 H84 L58 256 H30"/>
-              <path d="M170 276 V338 L150 358"/><path d="M230 276 V316 L248 334 V372"/><path d="M276 200 H312"/>
-              <circle cx="112" cy="68" r="2.6"/><circle cx="200" cy="44" r="2.6"/><circle cx="56" cy="148" r="2.6"/><circle cx="36" cy="200" r="2.6"/><circle cx="30" cy="256" r="2.6"/><circle cx="150" cy="358" r="2.6"/><circle cx="248" cy="372" r="2.6"/><circle cx="312" cy="200" r="2.6"/>
-            </g>
-            <g class="chipg" transform="translate(107 107) scale(.62)">
-              <g fill="none" stroke="#E8A25B" stroke-width="9.375" stroke-linecap="square" stroke-linejoin="miter">
-                <path class="k k-outline" pathLength="1" style="--t0:0s;--dur:.55s" transform="translate(50.63 50.63)" d="M 99.375 0 L 174.375 0 L 198.75 24.375 L 198.75 174.375 L 174.375 198.75 L 24.375 198.75 L 0 174.375 L 0 24.375 L 24.375 0 Z"/>
-                <path class="k" style="--t0:.85s;--dur:.55s" transform="translate(28.13 28.13)" d="M 73.125 0 L 73.125 22.5 M 121.875 0 L 121.875 22.5 M 170.625 0 L 170.625 22.5 M 73.125 221.25 L 73.125 243.75 M 121.875 221.25 L 121.875 243.75 M 170.625 221.25 L 170.625 243.75 M 0 73.125 L 22.5 73.125 M 0 121.875 L 22.5 121.875 M 0 170.625 L 22.5 170.625 M 221.25 73.125 L 243.75 73.125 M 221.25 121.875 L 243.75 121.875 M 221.25 170.625 L 243.75 170.625"/>
-              </g>
-              <g fill="#E8A25B">
-                <path class="k" style="--t0:.3s;--dur:.48s" transform="translate(88.13 95.63)" d="M 0 0 L 75 0 L 75 15 L 16.875 15 L 16.875 46.875 L 60 46.875 L 60 61.875 L 16.875 61.875 L 16.875 93.75 L 75 93.75 L 75 108.75 L 0 108.75 L 0 0 Z"/>
-                <path class="k" style="--t0:.48s;--dur:.48s" transform="translate(187.5 95.63)" d="M 0 0 L 37.5 0 L 37.5 13.125 L 26.25 13.125 L 26.25 95.625 L 37.5 95.625 L 37.5 108.75 L 0 108.75 L 0 95.625 L 11.25 95.625 L 11.25 13.125 L 0 13.125 L 0 0 Z"/>
-                <circle class="k" style="--t0:.78s;--dur:.22s" cx="163.125" cy="103.125" r="9.375"/>
-                <circle class="k" style="--t0:.92s;--dur:.22s" cx="148.125" cy="150" r="9.375"/>
-                <circle class="k" style="--t0:1.06s;--dur:.22s" cx="163.125" cy="196.875" r="9.375"/>
-              </g>
-            </g>
-          </g>
-          <g class="routes" fill="none" stroke-linejoin="round">
-            <path class="tr tr-data" d="M230 124 V96 L262 64 H312"/><path class="tl tl-data" pathLength="1" d="M230 124 V96 L262 64 H312"/><circle class="vi vi-data" cx="262" cy="64" r="2.6"/>
-            <path class="tr tr-build" d="M276 170 H338 L362 146"/><path class="tl tl-build" pathLength="1" d="M276 170 H338 L362 146"/><circle class="vi vi-build" cx="338" cy="170" r="2.6"/>
-            <path class="tr tr-team" d="M276 230 H322 L350 258 V312"/><path class="tl tl-team" pathLength="1" d="M276 230 H322 L350 258 V312"/><circle class="vi vi-team" cx="350" cy="258" r="2.6"/>
-            <path class="tr tr-signal" d="M200 276 V316 L184 332 V366"/><path class="tl tl-signal" pathLength="1" d="M200 276 V316 L184 332 V366"/><circle class="vi vi-signal" cx="184" cy="332" r="2.6"/>
-          </g>
-        </svg>
-        <button class="nd core" type="button" data-n="core" aria-pressed="false" aria-label="Core: about me"></button>
-        <button class="nd" type="button" data-n="data" aria-pressed="false" aria-label="Data: my toolkit" style="left:78%;top:16%" data-lb="up"><i class="dt" aria-hidden="true"></i><span class="lb">DATA</span></button>
-        <button class="nd" type="button" data-n="build" aria-pressed="false" aria-label="Build: my projects" style="left:90.5%;top:36.5%" data-lb="up"><i class="dt" aria-hidden="true"></i><span class="lb">BUILD</span></button>
-        <button class="nd" type="button" data-n="team" aria-pressed="false" aria-label="Team: leadership" style="left:87.5%;top:78%" data-lb="down"><i class="dt" aria-hidden="true"></i><span class="lb">TEAM</span></button>
-        <button class="nd" type="button" data-n="signal" aria-pressed="false" aria-label="Signal: availability and contact" style="left:46%;top:91.5%" data-lb="right"><i class="dt" aria-hidden="true"></i><span class="lb">SIGNAL</span></button>
-        <div class="readout" id="readout" role="status" aria-live="polite">
-          <p class="ro-hint">Select a node on the chip.</p>
-          <div class="ro-body" hidden><p class="ro-k"></p><p class="ro-t"></p><a class="xlink ro-a" href="#"><span></span> <span class="ar" aria-hidden="true">→</span></a></div>
-        </div>
-      </div>
-      <div class="cine-stage">
-        <h1 class="cine-name" aria-label="Eryza Mae Imatong"><span class="ln ln-first" aria-hidden="true"><span>Eryza Mae</span></span><span class="ln ln-last" aria-hidden="true"><span>Imatong</span></span></h1>
-        <div class="cine-panel">
-          <div class="avail">
-            <button class="status" type="button" aria-expanded="false" aria-controls="statusPop"><i class="dot" aria-hidden="true"></i><span>Open to internships</span><b class="chev" aria-hidden="true">+</b></button>
-            <div class="status-pop" id="statusPop" role="region" aria-label="Availability">
-              <p class="pop-k">Availability</p>
-              <p>Looking for data science, analytics and technical internships. Based in Manila, Philippines.</p>
-              <a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a>
-            </div>
+  <!-- HOME: a name engraved in copper, lit by a lamp you carry -->
+  <section class="room room-home" id="home" aria-label="Home">
+    <div class="hero-stage">
+      <p class="hero-first relief" data-relief>Eryza Mae</p>
+      <h1 class="hero-name relief" data-relief aria-label="Eryza Mae Imatong"><span aria-hidden="true">Imatong</span></h1>
+      <div class="hero-meta">
+        <div class="avail">
+          <button class="status" type="button" aria-expanded="false" aria-controls="statusPop"><i class="dot" aria-hidden="true"></i><span>Open to internships</span><b class="chev" aria-hidden="true">+</b></button>
+          <div class="status-pop" id="statusPop" role="region" aria-label="Availability">
+            <p class="pop-k">Availability</p>
+            <p>Looking for data science, analytics and technical internships. Based in Manila, Philippines.</p>
+            <a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a>
           </div>
-          <p class="sociallinks"><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a></p>
         </div>
+        <p class="sociallinks"><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a></p>
       </div>
+      <a class="scroll-cue" href="#about"><span>Scroll</span><i aria-hidden="true"></i></a>
     </div>
   </section>
 
-  <!-- 02 ABOUT -->
-  <section class="scene about light dawn" id="about" data-title="About">
-    <div class="sky dusk"></div><div class="glow"></div>
-    <div class="content split">
-      <figure class="portrait rise">
-        <img src="assets/eryza.png" alt="Portrait of Eryza Mae Imatong">
-        <i class="gem tl"></i><i class="gem tr"></i><i class="gem bl"></i><i class="gem br"></i>
-      </figure>
-      <div class="glass rise d1">
-        <p class="eyebrow">About &nbsp;//&nbsp; 02</p>
-        <h2 class="display md">Hello, I am Eryza</h2>
-        <p class="lead strong">BSIT student at PUP Manila, specializing in Data Science, and a DOST-SEI merit scholar.</p>
-        <p class="lead">I'm most interested in data science and analytics: working out what a dataset can honestly say, and how sure we can be about it. I also build software, so I can turn analysis into tools people use. In Re:Watch I built an explainable taste model; in AURA I trained a face-shape classifier and held it back from launch when it failed my own fairness check. I'm looking for data science, analytics and technical internships.</p>
-        <div class="stats">
-          <div class="stat"><b>2</b><span>Featured projects</span></div>
-          <div class="stat"><b>3</b><span>Credentials</span></div>
-          <div class="stat"><b>2028</b><span>Expected graduation</span></div>
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="#contact" data-go="6">Contact me</a>
-        </div>
-      </div>
+  <!-- ABOUT: an editorial spread, read by lamplight -->
+  <section class="room room-about" id="about" aria-labelledby="aboutTitle">
+    <figure class="plate portrait">
+      <img src="assets/eryza.png" alt="Portrait of Eryza Mae Imatong" loading="lazy">
+      <i class="rivet r1"></i><i class="rivet r2"></i><i class="rivet r3"></i><i class="rivet r4"></i>
+    </figure>
+    <div class="about-copy">
+      <p class="label">About</p>
+      <h2 class="big relief" data-relief id="aboutTitle">Hello,<br>I am Eryza</h2>
+      <p class="lead-line lit" data-lit>BSIT student at PUP Manila, specializing in Data Science, and a DOST-SEI merit scholar.</p>
+      <p class="body-line lit" data-lit>I'm most interested in data science and analytics: working out what a dataset can honestly say, and how sure we can be about it. I also build software, so I can turn analysis into tools people use. In Re:Watch I built an explainable taste model; in AURA I trained a face-shape classifier and held it back from launch when it failed my own fairness check. I'm looking for data science, analytics and technical internships.</p>
+      <dl class="stamps">
+        <div><dt class="relief" data-relief>2</dt><dd>Featured projects</dd></div>
+        <div><dt class="relief" data-relief>3</dt><dd>Credentials</dd></div>
+        <div><dt class="relief" data-relief>2028</dt><dd>Expected graduation</dd></div>
+      </dl>
+      <a class="btn-lamp" href="#contact">Contact me</a>
     </div>
   </section>
 
-  <!-- 03 PROJECTS -->
-  <section class="scene projects light" id="projects" data-title="Projects">
-    <div class="sky dusk"></div><div class="glow"></div>
-    <div class="content col">
-      <div class="glass head rise">
-        <p class="eyebrow">Projects &nbsp;//&nbsp; 03</p>
-        <h2 class="display md">Selected Work</h2>
-        <p class="sub">Two public projects, each built around a real problem.</p>
+  <!-- PROJECTS: two rooms, each lit differently -->
+  <section class="room room-projects" id="projects" aria-labelledby="projTitle">
+    <div class="sec-head">
+      <p class="label">Projects</p>
+      <h2 class="big relief" data-relief id="projTitle">Selected Work</h2>
+      <p class="sub">Two public projects, each built around a real problem.</p>
+    </div>
+
+    <article class="case case-rw" id="rewatch">
+      <div class="case-text">
+        <p class="meta"><b>01</b> &nbsp;//&nbsp; Recommender · Web app</p>
+        <h3 class="case-title relief" data-relief>Re:Watch</h3>
+        <p>Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.</p>
+        <button class="btn-lamp" type="button" data-open-project="rewatch" aria-haspopup="dialog">View project <span aria-hidden="true">→</span></button>
       </div>
-      <div class="cards rise d1" id="projectCards">
-        <article class="pcard focus" data-project="rewatch" tabindex="0" role="button" aria-haspopup="dialog">
-          <div class="art" style="--art-bg:#101b33"><img class="logo" src="assets/projects/rewatch-logo.png" alt="Re:Watch logo" width="960" height="320" loading="lazy"><img class="shot" src="assets/projects/rewatch-01-home.jpg" alt="" width="1000" height="625" loading="lazy" decoding="async"></div>
-          <p class="meta"><b>01</b> &nbsp;//&nbsp; Recommender · Web app</p>
-          <h3>Re:Watch</h3>
-          <p>Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.</p>
-          <span class="more">View project &nbsp;→</span>
-        </article>
-        <article class="pcard" data-project="aura" tabindex="0" role="button" aria-haspopup="dialog">
-          <div class="art" style="--art-bg:#fdf6ec"><img class="logo" src="assets/projects/aura-logo-card.png" alt="AURA logo: Mira, the mirror ghost" width="420" height="420" loading="lazy"><img class="shot" src="assets/projects/aura-01-welcome.png" alt="" width="390" height="844" loading="lazy" decoding="async"></div>
-          <p class="meta"><b>02</b> &nbsp;//&nbsp; Mobile · In development</p>
-          <h3>AURA</h3>
-          <p>A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.</p>
-          <span class="more">View project &nbsp;→</span>
-        </article>
+      <div class="instrument" id="rwInstrument" role="group" aria-label="Re:Watch taste dials: ten traits whose settings change one sample title's match score">
+        <div class="ins-score"><b id="rwScore">50.0</b><span>match, sample title</span></div>
+        <div class="dials" id="rwDials"></div>
+        <p class="ins-note" id="rwNote">Drag a dial, or focus it and use the arrow keys. This runs the project's real scoring arithmetic on a made-up title.</p>
       </div>
-      <p class="gh-line">All projects on GitHub &nbsp;→&nbsp; <a href="https://github.com/eryzaimatong" target="_blank" rel="noopener">github.com/eryzaimatong</a></p>
+    </article>
+
+    <article class="case case-au" id="aura">
+      <div class="aura-stage" id="auraStage" aria-hidden="true">
+        <div class="au-phone"><i class="au-photo"></i><span class="au-tag">selfie</span></div>
+        <div class="au-wire"><span>only numbers leave the phone</span></div>
+        <div class="au-nums"><u>five face ratios</u><u>colour values</u><u>skin-tone band</u><u>lighting score</u></div>
+        <div class="au-gate"><span>fairness gate</span><b>closed</b><em>gap 21.6 &gt; limit 5</em></div>
+      </div>
+      <div class="case-text">
+        <p class="meta"><b>02</b> &nbsp;//&nbsp; Mobile · In development</p>
+        <h3 class="case-title relief" data-relief>AURA</h3>
+        <p>A mobile app (in development) that reads a selfie on your phone to estimate face shape and colour season, then suggests makeup and outfits from your own wardrobe.</p>
+        <button class="btn-lamp" type="button" data-open-project="aura" aria-haspopup="dialog">View project <span aria-hidden="true">→</span></button>
+      </div>
+    </article>
+    <p class="gh-line">All projects on GitHub &nbsp;→&nbsp; <a href="https://github.com/eryzaimatong" target="_blank" rel="noopener">github.com/eryzaimatong</a></p>
+  </section>
+
+  <!-- SKILLS: a physical sandbox, then the plain list -->
+  <section class="room room-skills" id="skills" aria-labelledby="skillsTitle">
+    <div class="sec-head">
+      <p class="label">Skills</p>
+      <h2 class="big relief" data-relief id="skillsTitle">Tech Stack</h2>
+      <p class="sub">What I work with across data and software, plus the tools I use to build and collaborate.</p>
+    </div>
+    <div class="sandbox" id="sandbox">
+      <canvas id="sandboxCv" aria-label="Seven cast tokens named Python, R, SQL, Power BI, React, Figma and Java. Drag and throw them. The full list is below." role="img"></canvas>
+      <p class="sb-hint" id="sbHint"><span>Pick one up. Throw it.</span></p>
+    </div>
+    <div class="stack">
+      <section class="stk"><h3 class="stk-label"><span aria-hidden="true">01</span> Programming</h3><ul class="stk-items"><li class="used">Python</li><li class="used">Java</li><li class="used">SQL</li><li>R</li><li>COBOL</li></ul></section>
+      <section class="stk"><h3 class="stk-label"><span aria-hidden="true">02</span> Data science and analytics</h3><ul class="stk-items"><li>Pandas</li><li class="used">NumPy</li><li class="used">scikit-learn</li><li>Excel</li><li>Power BI</li><li>Data cleaning</li><li>Exploratory data analysis</li><li>Data visualization</li><li>Machine learning</li><li>Statistical analysis</li></ul></section>
+      <section class="stk"><h3 class="stk-label"><span aria-hidden="true">03</span> Frontend</h3><ul class="stk-items"><li class="used">HTML</li><li class="used">CSS</li><li class="used">JavaScript</li><li class="used">React</li></ul></section>
+      <section class="stk"><h3 class="stk-label"><span aria-hidden="true">04</span> Backend and databases</h3><ul class="stk-items"><li class="used">Spring Boot</li><li class="used">FastAPI</li><li class="used">REST APIs</li><li class="used">PostgreSQL</li><li>MySQL</li><li>Database design</li><li>Relational database management</li></ul></section>
+      <section class="stk"><h3 class="stk-label"><span aria-hidden="true">05</span> Developer tools</h3><ul class="stk-items"><li>VS Code</li><li class="used">Git</li><li class="used">GitHub</li><li class="used">Figma</li><li>Cisco Packet Tracer</li><li>Workato</li></ul></section>
+      <section class="stk stk-soft"><h3 class="stk-label"><span aria-hidden="true">06</span> AI tools I use</h3><ul class="stk-items"><li>Claude</li><li>ChatGPT</li><li>Claude Code</li><li>AI-assisted development</li><li>Prompt engineering</li></ul></section>
+      <section class="stk stk-soft"><h3 class="stk-label"><span aria-hidden="true">07</span> Collaboration</h3><ul class="stk-items"><li>Slack</li><li>Notion</li><li>Discord</li><li>Microsoft Teams</li></ul></section>
+      <p class="stk-note">Underlined: used in my projects. Re:Watch uses Java, Spring Boot, PostgreSQL and React; AURA uses Python, scikit-learn, NumPy and FastAPI.</p>
     </div>
   </section>
 
-  <!-- 04 SKILLS -->
-  <section class="scene skills light" id="skills" data-title="Skills">
-    <div class="sky dusk"></div><div class="glow"></div>
-    <div class="content col center">
-      <div class="head-plain rise">
-        <p class="eyebrow">Skills &nbsp;//&nbsp; 04</p>
-        <h2 class="display md">Tech Stack</h2>
-        <p class="sub">What I work with across data and software, plus the tools I use to build and collaborate.</p>
-      </div>
-      <div class="stack rise d1">
-        <section class="stk"><h3 class="stk-label"><span aria-hidden="true">01</span> Programming</h3><ul class="stk-items"><li class="used">Python</li><li class="used">Java</li><li class="used">SQL</li><li>R</li><li>COBOL</li></ul></section>
-        <section class="stk"><h3 class="stk-label"><span aria-hidden="true">02</span> Data science and analytics</h3><ul class="stk-items"><li>Pandas</li><li class="used">NumPy</li><li class="used">scikit-learn</li><li>Excel</li><li>Power BI</li><li>Data cleaning</li><li>Exploratory data analysis</li><li>Data visualization</li><li>Machine learning</li><li>Statistical analysis</li></ul></section>
-        <section class="stk"><h3 class="stk-label"><span aria-hidden="true">03</span> Frontend</h3><ul class="stk-items"><li class="used">HTML</li><li class="used">CSS</li><li class="used">JavaScript</li><li class="used">React</li></ul></section>
-        <section class="stk"><h3 class="stk-label"><span aria-hidden="true">04</span> Backend and databases</h3><ul class="stk-items"><li class="used">Spring Boot</li><li class="used">FastAPI</li><li class="used">REST APIs</li><li class="used">PostgreSQL</li><li>MySQL</li><li>Database design</li><li>Relational database management</li></ul></section>
-        <section class="stk"><h3 class="stk-label"><span aria-hidden="true">05</span> Developer tools</h3><ul class="stk-items"><li>VS Code</li><li class="used">Git</li><li class="used">GitHub</li><li class="used">Figma</li><li>Cisco Packet Tracer</li><li>Workato</li></ul></section>
-        <section class="stk stk-soft"><h3 class="stk-label"><span aria-hidden="true">06</span> AI tools I use</h3><ul class="stk-items"><li>Claude</li><li>ChatGPT</li><li>Claude Code</li><li>AI-assisted development</li><li>Prompt engineering</li></ul></section>
-        <section class="stk stk-soft"><h3 class="stk-label"><span aria-hidden="true">07</span> Collaboration</h3><ul class="stk-items"><li>Slack</li><li>Notion</li><li>Discord</li><li>Microsoft Teams</li></ul></section>
-        <p class="stk-note">Underlined: used in my projects. Re:Watch uses Java, Spring Boot, PostgreSQL and React; AURA uses Python, scikit-learn, NumPy and FastAPI.</p>
-      </div>
+  <!-- EXPERIENCE: plates struck one by one -->
+  <section class="room room-experience" id="experience" aria-labelledby="expTitle">
+    <div class="sec-head">
+      <p class="label">Experience</p>
+      <h2 class="big relief" data-relief id="expTitle">Where I Have Been</h2>
+      <p class="sub">School, a scholarship, and a few programs that shaped how I work.</p>
     </div>
-  </section>
-
-  <!-- 05 EXPERIENCE -->
-  <section class="scene experience light" id="experience" data-title="Experience">
-    <div class="sky dusk"></div><div class="glow"></div>
-    <div class="content two">
-      <div class="left">
-        <div class="glass head rise">
-          <p class="eyebrow">Experience &nbsp;//&nbsp; 05</p>
-          <h2 class="display md">Where I Have Been</h2>
-          <p class="sub">School, a scholarship, and a few programs that shaped how I work.</p>
+    <ol class="plates">
+      <li class="strike plate-1">
+        <p class="yr relief" data-relief>2024</p>
+        <div class="pl-body">
+          <img class="pl-badge round" src="assets/seal-pup.png" alt="PUP seal" loading="lazy">
+          <p class="date">2024 to 2028 (expected)</p>
+          <h3>BS Information Technology, Data Science</h3>
+          <p class="org">Polytechnic University of the Philippines, Manila</p>
+          <p class="detail">Specializing in Data Science.</p>
         </div>
-        <ol class="timeline rise d1">
-          <li class="glass tl-card">
-            <img class="org-badge round" src="assets/seal-pup.png" alt="PUP seal">
-            <p class="date">2024 to 2028 (expected)</p>
-            <h3>BS Information Technology, Data Science</h3>
-            <p class="org">Polytechnic University of the Philippines, Manila</p>
-            <p class="detail">Specializing in Data Science.</p>
-          </li>
-          <li class="glass tl-card">
-            <span class="badge-bg round"><img class="dost" src="assets/logo-dost-clean.png" alt="DOST logo"></span>
-            <p class="date">2024 to present</p>
-            <h3>Merit Scholar</h3>
-            <p class="org">DOST-SEI (Department of Science and Technology)</p>
-            <p class="detail">Merit scholarship from the DOST Science Education Institute, 2024 cohort, supporting my BS degree.</p>
-          </li>
-          <li class="glass tl-card">
-            <span class="badge-bg wide"><img src="assets/logo-gci.png" alt="Matsuo-Iwasawa Lab, University of Tokyo"></span>
-            <p class="date">Sep to Dec 2026 · in progress</p>
-            <h3><a href="https://weblab.t.u-tokyo.ac.jp/en/lecture/gci" target="_blank" rel="noopener">Global Consumer Intelligence (GCI) program</a></h3>
-            <p class="org">University of Tokyo, Matsuo-Iwasawa Lab (JICA-supported)</p>
-            <p class="detail">Online program: attend sessions, complete homework, join competitions and build a final project.</p>
-          </li>
-        </ol>
-      </div>
-      <div class="right">
-        <div class="glass head rise">
-          <p class="eyebrow">Certification &amp; training</p>
-          <h2 class="display md">Credentials</h2>
+      </li>
+      <li class="strike plate-2">
+        <p class="yr relief" data-relief>2024</p>
+        <div class="pl-body">
+          <span class="pl-badge round on-light"><img class="dost" src="assets/logo-dost-clean.png" alt="DOST logo" loading="lazy"></span>
+          <p class="date">2024 to present</p>
+          <h3>Merit Scholar</h3>
+          <p class="org">DOST-SEI (Department of Science and Technology)</p>
+          <p class="detail">Merit scholarship from the DOST Science Education Institute, 2024 cohort, supporting my BS degree.</p>
         </div>
-        <div class="creds rise d1">
-          <button class="glass cred" data-cert="datacamp"><span class="orb"></span><div><h3>Associate Data Analyst</h3><p class="org">DataCamp certification · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-datacamp.png" alt="DataCamp"></span></button>
-          <button class="glass cred" data-cert="cisco"><span class="orb"></span><div><h3>Data Analytics Essentials</h3><p class="org">Cisco Networking Academy course · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-cna.png" alt="Cisco Networking Academy"></span></button>
-          <button class="glass cred" data-cert="sql"><span class="orb"></span><div><h3>Associate Data Analyst in SQL</h3><p class="org">DataCamp career track, 39 hours · Aug 2026</p><p class="link">View certificate &nbsp;→</p></div><span class="badge-bg wide"><img src="assets/logo-datacamp.png" alt="DataCamp"></span></button>
+      </li>
+      <li class="strike plate-3">
+        <p class="yr relief" data-relief>2026</p>
+        <div class="pl-body">
+          <span class="pl-badge wide on-light"><img src="assets/logo-gci.png" alt="Matsuo-Iwasawa Lab, University of Tokyo" loading="lazy"></span>
+          <p class="date">Sep to Dec 2026 · in progress</p>
+          <h3><a href="https://weblab.t.u-tokyo.ac.jp/en/lecture/gci" target="_blank" rel="noopener">Global Consumer Intelligence (GCI) program</a></h3>
+          <p class="org">University of Tokyo, Matsuo-Iwasawa Lab (JICA-supported)</p>
+          <p class="detail">Online program: attend sessions, complete homework, join competitions and build a final project.</p>
         </div>
-      </div>
+      </li>
+    </ol>
+    <div class="creds-head">
+      <p class="label">Certification &amp; training</p>
+      <h3 class="mid relief" data-relief>Credentials</h3>
+    </div>
+    <div class="tags">
+      <button class="tag" type="button" data-cert="datacamp"><span class="tag-hole" aria-hidden="true"></span><h4>Associate Data Analyst</h4><p class="org">DataCamp certification · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span></button>
+      <button class="tag" type="button" data-cert="cisco"><span class="tag-hole" aria-hidden="true"></span><h4>Data Analytics Essentials</h4><p class="org">Cisco Networking Academy course · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-cna.png" alt="Cisco Networking Academy" loading="lazy"></span></button>
+      <button class="tag" type="button" data-cert="sql"><span class="tag-hole" aria-hidden="true"></span><h4>Associate Data Analyst in SQL</h4><p class="org">DataCamp career track, 39 hours · Aug 2026</p><p class="link">View certificate &nbsp;→</p><span class="tag-logo on-light"><img src="assets/logo-datacamp.png" alt="DataCamp" loading="lazy"></span></button>
     </div>
   </section>
 
-  <!-- 06 LEADERSHIP -->
-  <section class="scene leadership light" id="leadership" data-title="Leadership">
-    <div class="sky dusk"></div>
-    <div class="content col center">
-      <div class="glass head rise">
-        <p class="eyebrow">Leadership &nbsp;//&nbsp; 06</p>
-        <h2 class="display md">Beyond the Code</h2>
-        <p class="sub">Teams and communities I design for, build with, or help lead.</p>
-      </div>
-      <div class="grid2 rise d1">
-        <article class="glass inv inv-btn" role="button" tabindex="0" aria-haspopup="dialog" data-org="cisco">
-          <img class="inv-logo" src="assets/logo-netconnect.png" alt="Cisco NetConnect logo" width="62" height="62">
-          <p class="inv-org eyebrow">Cisco NetConnect &nbsp;·&nbsp; PUP – Manila</p>
-          <h3 class="inv-role">Graphic Designer, Creatives Department</h3>
-          <p class="inv-desc detail">Design event recap posts and other graphics for the organization's Facebook page.</p>
-          <div class="chips inv-pills"><span>Visual design</span><span>Figma</span></div>
-          <p class="reveal inv-foot">View deliverables <span aria-hidden="true">→</span></p>
-        </article>
-        <article class="glass inv">
-          <img class="inv-logo" src="assets/logo-ibits.png" alt="IBITS logo" width="62" height="62">
-          <p class="inv-org eyebrow">IBITS &nbsp;·&nbsp; Institute of Bachelors in Information Technology Studies</p>
-          <h3 class="inv-role">Logistics &amp; Resource Operations Member</h3>
-          <p class="inv-desc detail">Member of the Program and Activities Department, working on logistics and resource operations.</p>
-          <div class="chips inv-pills"><span>Logistics</span><span>Event planning</span><span>Resource management</span></div>
-          <a class="inv-foot inv-link" href="https://www.facebook.com/iBITS.Official" target="_blank" rel="noopener">IBITS on Facebook <span aria-hidden="true">→</span></a>
-        </article>
-        <article class="glass inv">
-          <img class="inv-logo" src="assets/logo-gdg-pup.png" alt="Google Developer Groups on Campus, Polytechnic University of the Philippines logo" width="62" height="62">
-          <p class="inv-org eyebrow">Google Developer Groups on Campus &nbsp;·&nbsp; PUP <span class="inv-term">2026–27</span></p>
-          <h3 class="inv-role">Strategy and Insights Associate (Strategic Department)</h3>
-          <p class="inv-desc detail">Turning research and data into meaningful insights to guide organizational decisions, strategic planning, and performance evaluation.</p>
-          <div class="chips inv-pills"><span>Data Analysis</span><span>Strategic Planning</span><span>Research</span></div>
-        </article>
-      </div>
+  <!-- LEADERSHIP: three seals -->
+  <section class="room room-leadership" id="leadership" aria-labelledby="leadTitle">
+    <div class="sec-head">
+      <p class="label">Leadership</p>
+      <h2 class="big relief" data-relief id="leadTitle">Beyond the Code</h2>
+      <p class="sub">Teams and communities I design for, build with, or help lead.</p>
+    </div>
+    <div class="seals">
+      <article class="seal-card s1">
+        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimA" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimA" startOffset="0">CISCO NETCONNECT · PUP MANILA · CISCO NETCONNECT · PUP MANILA ·</textPath></text></svg><img src="assets/logo-netconnect.png" alt="Cisco NetConnect logo" width="86" height="86" loading="lazy"></div>
+        <p class="org-line">Cisco NetConnect &nbsp;·&nbsp; PUP – Manila</p>
+        <h3>Graphic Designer, Creatives Department</h3>
+        <p class="detail">Design event recap posts and other graphics for the organization's Facebook page.</p>
+        <div class="chips"><span>Visual design</span><span>Figma</span></div>
+        <button class="btn-lamp small" type="button" data-org="cisco" aria-haspopup="dialog">View deliverables <span aria-hidden="true">→</span></button>
+      </article>
+      <article class="seal-card s2">
+        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimB" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimB" startOffset="0">IBITS · INSTITUTE OF BACHELORS IN INFORMATION TECHNOLOGY STUDIES ·</textPath></text></svg><img src="assets/logo-ibits.png" alt="IBITS logo" width="86" height="86" loading="lazy"></div>
+        <p class="org-line">IBITS &nbsp;·&nbsp; Institute of Bachelors in Information Technology Studies</p>
+        <h3>Logistics &amp; Resource Operations Member</h3>
+        <p class="detail">Member of the Program and Activities Department, working on logistics and resource operations.</p>
+        <div class="chips"><span>Logistics</span><span>Event planning</span><span>Resource management</span></div>
+        <a class="btn-lamp small" href="https://www.facebook.com/iBITS.Official" target="_blank" rel="noopener">IBITS on Facebook <span aria-hidden="true">→</span></a>
+      </article>
+      <article class="seal-card s3">
+        <div class="seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="rimC" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="68" class="in"/><text><textPath href="#rimC" startOffset="0">GOOGLE DEVELOPER GROUPS ON CAMPUS · PUP · 2026–27 ·</textPath></text></svg><img src="assets/logo-gdg-pup.png" alt="Google Developer Groups on Campus, Polytechnic University of the Philippines logo" width="86" height="86" loading="lazy"></div>
+        <p class="org-line">Google Developer Groups on Campus &nbsp;·&nbsp; PUP <span>2026–27</span></p>
+        <h3>Strategy and Insights Associate (Strategic Department)</h3>
+        <p class="detail">Turning research and data into meaningful insights to guide organizational decisions, strategic planning, and performance evaluation.</p>
+        <div class="chips"><span>Data Analysis</span><span>Strategic Planning</span><span>Research</span></div>
+      </article>
     </div>
   </section>
 
-  <!-- 07 CONTACT -->
-  <section class="scene contact" id="contact" data-title="Contact">
-    <div class="sky"></div>
-
-    <div class="content col center txt-center">
-      <p class="eyebrow rise">Contact &nbsp;//&nbsp; 07</p>
-      <h2 class="display rise d1">Let&rsquo;s talk</h2>
-      <p class="lead rise d1 narrow">I'm looking for data science, analytics and technical internships. If you're hiring, or want to talk about Re:Watch or AURA, email me. Based in Manila, Philippines.</p>
-      <div class="actions rise d2">
-        <p class="sociallinks sl-lg"><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" id="linkedin" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a></p>
-      </div>
-    </div>
+  <!-- CONTACT: the lamp is set down and morning comes -->
+  <section class="room room-contact" id="contact" aria-labelledby="contactTitle">
+    <p class="label">Contact</p>
+    <h2 class="huge relief" data-relief id="contactTitle">Let&rsquo;s talk</h2>
+    <p class="contact-lead">I'm looking for data science, analytics and technical internships. If you're hiring, or want to talk about Re:Watch or AURA, email me. Based in Manila, Philippines.</p>
+    <p class="sociallinks sl-lg"><a class="xlink" href="mailto:imatongeryzamae@gmail.com" aria-label="email, opens your mail app">email <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" href="https://github.com/eryzaimatong" target="_blank" rel="noopener" aria-label="github, opens in a new tab">github <span class="ar" aria-hidden="true">↗</span></a><a class="xlink" id="linkedin" href="https://www.linkedin.com/in/eryza-mae-imatong/" target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin <span class="ar" aria-hidden="true">↗</span></a></p>
   </section>
 </main>
+
+<footer class="foot" id="footer"><p>Eryza Mae Imatong &nbsp;·&nbsp; Manila, Philippines</p></footer>
 
 <!-- Project detail overlay -->
 <div class="overlay" id="projectOverlay" aria-hidden="true">
@@ -313,16 +275,11 @@
   </div>
 </div>
 
-<footer class="pager" id="pager">
-  <button class="arrow" id="prev" aria-label="Previous section">‹</button><span class="plabel prevlabel">Previous</span>
-  <div class="segments" id="segments"></div>
-  <span class="plabel nextlabel">Next</span><button class="arrow" id="next" aria-label="Next section">›</button>
-</footer>
-
-<script src="script.js"></script>
-<script src="signature.js"></script>
-<script src="space.js"></script>
-<script src="motion.js"></script>
+<noscript><style>.relief{color:#e8a25b!important}</style></noscript>
+<script src="dialogs.js"></script>
 <script src="projects-viz.js"></script>
+<script src="lamp.js"></script>
+<script src="rooms.js"></script>
+<script src="sandbox.js"></script>
 </body>
 </html>
