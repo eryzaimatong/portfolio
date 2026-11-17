@@ -2,11 +2,11 @@
 import { useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { SpotLight, Text, useTexture } from "@react-three/drei";
+import { Text, useTexture } from "@react-three/drei";
 import { leadership } from "@/data/profile";
 import { LEAD } from "@/lib/rooms";
 import { OakMaterial, usePBR } from "./Materials";
-import { roomGain } from "./parts";
+import { useSpotRequest, BeamCone } from "./LightPool";
 import { RoundShell } from "./round";
 import { S, set, useStore } from "@/lib/store";
 
@@ -70,7 +70,7 @@ function Cube({ index }: { index: number }) {
     grp.current.rotation.x = tilt.current * 0.4;
   });
   const high = tier === "high";
-  const half = S_CUBE / 2, e = 0.014;
+  const half = S_CUBE / 2, e = 0.008;
   const edges: [number, number, number, number, number, number][] = [];
   for (const sy of [-1, 1]) for (const sz of [-1, 1]) edges.push([0, sy * half, sz * half, S_CUBE, e, e]);
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) edges.push([sx * half, 0, sz * half, e, S_CUBE, e]);
@@ -93,36 +93,24 @@ function Cube({ index }: { index: number }) {
         {edges.map(([x, y, z, a, b, c], i) => (<mesh key={i} position={[x, y, z]}><boxGeometry args={[a, b, c]} /><OakMaterial tint="#15130f" /></mesh>))}
         <Emblem src={it.badge!.src} tilt={tilt} />
       </group>
-      <Text font={SANS_B} fontSize={0.075} maxWidth={1.5} lineHeight={1.15} color="#EDE6D6" fillOpacity={sel ? 1 : 0.55} anchorX="center" anchorY="top" textAlign="center" position={[0, 1.15, 0]} rotation={[0, 0, 0]}>
+      <Text font={SANS_B} fontSize={0.09} maxWidth={1.6} lineHeight={1.15} color="#EDE6D6" fillOpacity={sel ? 1 : 0.55} anchorX="center" anchorY="top" textAlign="center" position={[0, 1.15, 0]} rotation={[0, 0, 0]}>
         {it.date.split(" · ")[0]}
       </Text>
     </group>
   );
 }
 
-/* A single shadow-casting spot that follows the selection, plus a soft fixed light on each cube so all three are lit. */
+/* The spotlight follows the selected cube (light from the pool, visible beam drawn here). */
 function Lights() {
-  const moving = useRef<THREE.SpotLight>(null);
+  const req = useSpotRequest({ pos: [0, h - 0.3, zc], target: [0, 1.5, zc - 4], intensity: 420, color: "#ffe2bd", angle: 0.3, penumbra: 1, distance: 13, centre: zc, reach: 12 });
   const cur = useRef(new THREE.Vector3(...cubePos(0)));
-  useFrame(({ camera }, dt) => {
+  useFrame((_, dt) => {
     const t = cubePos(S.leadSel), k = Math.min(1, dt * 4);
     cur.current.x += (t[0] - cur.current.x) * k; cur.current.z += (t[2] - cur.current.z) * k;
-    const l = moving.current;
-    if (l) {
-      l.position.set(cur.current.x * 0.9, h - 0.3, zc + (cur.current.z - zc) * 0.9);
-      l.target.position.set(cur.current.x, 1.5, cur.current.z); l.target.updateMatrixWorld();
-      l.intensity = 420 * S.lights * roomGain(camera.position.z, zc, 12);
-    }
+    req.pos.set(cur.current.x * 0.9, h - 0.3, zc + (cur.current.z - zc) * 0.9);
+    req.target.set(cur.current.x, 1.5, cur.current.z);
   });
-  return (
-    <>
-      <SpotLight ref={moving as any} castShadow color="#ffe2bd" angle={0.3} penumbra={1} distance={13} decay={2} attenuation={6} anglePower={4} opacity={0.3} radiusTop={0.1} radiusBottom={1.2} shadow-mapSize={[1024, 1024]} shadow-radius={6} shadow-bias={-0.0004} />
-      {LEAD_CUBES.map((_, i) => {
-        const p = cubePos(i);
-        return <pointLight key={i} position={[p[0], p[1] + 1.4, p[2] + 0.4]} intensity={7} distance={5} decay={2} color="#ffdcae" />;
-      })}
-    </>
-  );
+  return <BeamCone req={req} radius={1.1} opacity={0.26} />;
 }
 
 /* Leadership: three glass cubes hang in the air, each holding an organization's real logo. */

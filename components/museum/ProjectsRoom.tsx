@@ -2,11 +2,11 @@
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { SpotLight, Sparkles, Text, useTexture, useDepthBuffer } from "@react-three/drei";
+import { Sparkles, Text, useTexture } from "@react-three/drei";
 import { projects } from "@/data/projects";
 import { PROJ } from "@/lib/rooms";
 import { WallMaterial, ConcreteMaterial, OakMaterial, usePBR } from "./Materials";
-import { roomGain } from "./parts";
+import { useSpotRequest, BeamCone } from "./LightPool";
 import { RoundShell } from "./round";
 import { S, set, useStore } from "@/lib/store";
 
@@ -68,7 +68,7 @@ function Artwork({ index }: { index: number }) {
         {/* the real project image */}
         <mesh position={[0, 0, 0.03]} onClick={onClick} onPointerOver={() => (document.body.style.cursor = "pointer")} onPointerOut={() => (document.body.style.cursor = "")} receiveShadow>
           <planeGeometry args={[aw, ah]} />
-          <meshStandardMaterial ref={art} map={tex} normalMap={grain.normalMap} roughnessMap={grain.roughnessMap} normalScale={new THREE.Vector2(0.06, 0.06)} roughness={0.6} metalness={0} envMapIntensity={0.4} />
+          <meshStandardMaterial ref={art} map={tex} normalMap={grain.normalMap} roughnessMap={grain.roughnessMap} normalScale={new THREE.Vector2(0.015, 0.015)} roughness={0.6} metalness={0} envMapIntensity={0.4} />
         </mesh>
         {/* plaque below: catalogue number, name, year */}
         <group position={[0, -mh / 2 - 0.42, 0.03]}>
@@ -87,32 +87,23 @@ function Artwork({ index }: { index: number }) {
   );
 }
 
-/* One spotlight that slides between the works. Soft cone, soft penumbra, shadow, dust in the beam. */
+/* One spotlight that slides between the works. The light comes from the pool; the visible beam and dust are drawn here. */
 function Spot() {
-  const depth = useDepthBuffer({ size: 512, frames: 1 });
-  const light = useRef<THREE.SpotLight>(null);
+  const req = useSpotRequest({ pos: [0, H - 0.25, zc], target: [0, CY, zc - R], intensity: 520, color: "#ffe2bd", angle: 0.34, penumbra: 1, distance: 14, centre: zc, reach: 12 });
   const dust = useRef<THREE.Group>(null);
   const cur = useRef(new THREE.Vector3());
-  useFrame(({ camera }, dt) => {
+  useFrame((_, dt) => {
     const th = FRAME_ANGLES[S.selected];
-    const rad = R - 1.6;
-    const px = rad * Math.sin(th) * 0.82, pz = zc + rad * Math.cos(th) * 0.82;      // above and in front of the work
     const tx = (R - 0.9) * Math.sin(th), tz = zc + (R - 0.9) * Math.cos(th);
     const k = Math.min(1, dt * 4.5);
     cur.current.x += (tx - cur.current.x) * k; cur.current.z += (tz - cur.current.z) * k;
-    const l = light.current;
-    if (l) {
-      l.position.set(px * 0.0 + cur.current.x * 0.78, H - 0.25, zc + (cur.current.z - zc) * 0.78);
-      l.target.position.set(cur.current.x, CY, cur.current.z);
-      l.target.updateMatrixWorld();
-      l.intensity = 520 * S.lights * roomGain(camera.position.z, zc, 12);
-    }
+    req.pos.set(cur.current.x * 0.78, H - 0.25, zc + (cur.current.z - zc) * 0.78);
+    req.target.set(cur.current.x, CY, cur.current.z);
     if (dust.current) dust.current.position.set(cur.current.x * 0.9, 2.6, zc + (cur.current.z - zc) * 0.9);
   });
   return (
     <>
-      <SpotLight ref={light as any} depthBuffer={depth} castShadow color="#ffe2bd" angle={0.34} penumbra={1} distance={14} decay={2}
-        attenuation={7} anglePower={4} opacity={0.4} radiusTop={0.12} radiusBottom={1.5} shadow-mapSize={[1024, 1024]} shadow-radius={6} shadow-bias={-0.0004} />
+      <BeamCone req={req} radius={1.5} opacity={0.34} />
       <group ref={dust}>
         <Sparkles count={70} scale={[2.6, 3.4, 2.6]} size={2.6} speed={0.12} opacity={0.5} color="#ffe6c0" noise={0.4} />
       </group>

@@ -14,6 +14,29 @@ function webgl() {
   try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
 }
 
+/* A software rasteriser (SwiftShader, llvmpipe, Microsoft Basic Render) can draw this scene, but at seconds per frame: those go to Lite. */
+function softwareRenderer() {
+  try {
+    const c = document.createElement("canvas");
+    const gl = (c.getContext("webgl2") || c.getContext("webgl")) as WebGLRenderingContext | null;
+    const ext = gl?.getExtension("WEBGL_debug_renderer_info");
+    const name = ext ? String(gl!.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+    return /swiftshader|llvmpipe|software|basic render|softpipe/i.test(name);
+  } catch { return false; }
+}
+
+/* Measured: on an Intel UHD integrated GPU the High tier ran at about 12 fps while Balanced ran at 45 to 55, yet detect-gpu rated it "high".
+   Integrated Intel graphics therefore never get High automatically (Arc is the exception). */
+function integratedGpu() {
+  try {
+    const c = document.createElement("canvas");
+    const gl = (c.getContext("webgl2") || c.getContext("webgl")) as WebGLRenderingContext | null;
+    const ext = gl?.getExtension("WEBGL_debug_renderer_info");
+    const name = ext ? String(gl!.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+    return /intel/i.test(name) && !/arc/i.test(name);
+  } catch { return false; }
+}
+
 /* Chooses a tier (High, Balanced, Lite) from the device, `?tier=` for testing, and the footer choice. The 3D bundle loads after first paint. */
 export function Museum({ lite }: { lite: ReactNode }) {
   const tier = useStore((s) => s.tier);
@@ -26,12 +49,12 @@ export function Museum({ lite }: { lite: ReactNode }) {
       try { pref = localStorage.getItem("tier-pref"); } catch {}
       let t: Tier;
       if (q && ["high", "balanced", "lite"].includes(q)) t = q;
-      else if (matchMedia("(prefers-reduced-motion: reduce)").matches || !webgl()) t = "lite";
+      else if (matchMedia("(prefers-reduced-motion: reduce)").matches || !webgl() || softwareRenderer()) t = "lite";
       else if (pref && ["high", "balanced", "lite"].includes(pref)) t = pref as Tier;
       else {
         try {
           const g = await getGPUTier();
-          t = g.tier >= 3 ? "high" : g.tier === 2 ? "balanced" : g.isMobile && g.tier >= 1 ? "balanced" : g.tier >= 1 ? "balanced" : "lite";
+          t = g.tier >= 3 && !integratedGpu() ? "high" : g.tier === 2 ? "balanced" : g.isMobile && g.tier >= 1 ? "balanced" : g.tier >= 1 ? "balanced" : "lite";
         } catch { t = "balanced"; }
       }
       if (alive) set({ tier: t });

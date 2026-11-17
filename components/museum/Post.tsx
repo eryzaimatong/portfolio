@@ -10,9 +10,8 @@ export function Post() {
   const high = tier === "high";
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
-      {high ? <N8AO aoRadius={1.1} distanceFalloff={1.4} intensity={2.4} quality="medium" halfRes /> : <></>}
+      {high ? <N8AO aoRadius={1.1} distanceFalloff={1.4} intensity={2.4} quality="performance" halfRes /> : <></>}
       <Bloom luminanceThreshold={0.95} luminanceSmoothing={0.15} intensity={0.22} mipmapBlur />
-      {high ? <ChromaticAberration offset={new THREE.Vector2(0.0005, 0.0005)} radialModulation modulationOffset={0.6} /> : <></>}
       <Vignette eskil={false} offset={0.28} darkness={0.7} />
       <Noise opacity={0.035} blendFunction={BlendFunction.SOFT_LIGHT} />
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />

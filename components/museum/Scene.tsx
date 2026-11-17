@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
@@ -14,6 +14,7 @@ import { ContactRoom } from "./ContactRoom";
 import { Corridor, RoomGate, applyGates } from "./shell";
 import { Floor } from "./parts";
 import { Post } from "./Post";
+import { LightPool } from "./LightPool";
 import { CORRIDORS } from "@/lib/rooms";
 import { S, set, useStore } from "@/lib/store";
 
@@ -49,6 +50,16 @@ function Warmup() {
   return null;
 }
 
+/* The contact doorway's light, spilling back into the room: the only other real light, always present so the light count never changes. */
+function ContactSpill() {
+  const l = useRef<THREE.RectAreaLight>(null);
+  useFrame(({ camera }) => {
+    const near = Math.min(1, Math.max(0, 1 - (camera.position.z - -135) / 26));
+    if (l.current) l.current.intensity = 26 * S.lights * (0.35 + 0.65 * near) * (near > 0.02 ? 1 : 0);
+  });
+  return <rectAreaLight ref={l} position={[0, 1.7, -138.2]} rotation={[0, Math.PI, 0]} width={2.2} height={2.6} color="#ffdcae" intensity={0} />;
+}
+
 function Expose() {
   const { scene, gl } = useThree();
   useEffect(() => { (window as any).__scene = scene; (window as any).__gl = gl; }, [scene, gl]);
@@ -76,6 +87,8 @@ export default function Scene() {
           <RoomGate centre={-91} range={22}><ExperienceRoom /></RoomGate>
           <RoomGate centre={-110} range={24}><LeadershipRoom /></RoomGate>
           <RoomGate centre={-128} range={24}><ContactRoom /></RoomGate>
+          <LightPool />
+          <ContactSpill />
           <Warmup />
           <CameraRig />
           <LightsDriver />

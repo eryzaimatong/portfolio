@@ -60,7 +60,7 @@ html.menu-open { overflow: hidden; }
 .home-overlay .cue { position: static; transform: none; display: block; margin-top: 2.2rem; }
 
 /* ============ Projects bottom bar ============ */
-.pbar { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: auto 1fr auto; gap: 18px var(--pad); align-items: center; padding: 16px var(--pad) 20px; border-top: 1px solid var(--hairline);
+.pbar { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: auto 1fr auto; gap: 18px var(--pad); align-items: center; padding: 16px var(--pad) 46px; border-top: 1px solid var(--hairline);
   background: linear-gradient(transparent, rgba(12,12,11,.88) 40%); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .4s, transform .4s; }
 .pbar.show { opacity: 1; transform: none; pointer-events: auto; }
 .pb-no { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--brass); border-radius: 50%; font-size: .8rem; color: var(--brass); }
@@ -85,7 +85,7 @@ html.menu-open { overflow: hidden; }
 @media (max-width: 640px) { .inspect { padding-left: 18px; padding-right: 18px; } .facts { grid-template-columns: 1fr; } .facts > div { border-right: 0; border-bottom: 1px solid var(--hairline); } .results li { grid-template-columns: 1fr; gap: 2px; } }
 
 /* ============ tier switch ============ */
-.tierbar { position: fixed; z-index: 55; left: var(--pad); bottom: 8px; display: flex; gap: 10px; align-items: center; font-size: .7rem; color: var(--cream-dim); opacity: .7; }
+.tierbar { position: fixed; z-index: 55; left: var(--pad); bottom: 8px; display: flex; gap: 10px; align-items: center; font-size: .72rem; color: var(--cream-dim); }
 .tierbar button { padding: 3px 6px; border: 1px solid var(--hairline); } .tierbar button[aria-pressed="true"] { border-color: var(--brass); color: var(--cream); }
 .pbar.show ~ .tierbar, .tierbar { bottom: 6px; }
 .lite-on ~ .tierbar { position: static; padding: 24px var(--pad) 36px; }

@@ -32,7 +32,7 @@ export function CameraRig() {
     // turn toward whatever is selected in the current room; portrait screens turn fully, wide screens lean
     const portrait = state.size.width / state.size.height < 1;
     let target = 0;
-    if (room === "Projects") target = (S.selected === 0 ? 1 : -1) * (portrait ? 0.4 : 0.16);
+    if (room === "Projects") target = (S.selected === 0 ? 1 : -1) * (portrait ? 0.47 : 0.16);
     else if (room === "Experience" && z > -95.5) target = Math.max(-0.85, Math.min(0.85, (-EXP_ANGLES[S.expSel] * Math.PI) / 180 * (portrait ? 0.95 : 0.75)));
     else if (room === "Leadership" && z < -103.5 && z > -116) target = (-LEAD_CUBES[S.leadSel].ax * Math.PI) / 180 * (portrait ? 0.85 : 0.6);
     yaw.current += (target - yaw.current) * Math.min(1, dt * 3);

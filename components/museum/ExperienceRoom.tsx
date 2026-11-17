@@ -5,7 +5,7 @@ import { Text, useTexture } from "@react-three/drei";
 import { experience, credentials } from "@/data/profile";
 import { EXP } from "@/lib/rooms";
 import { Floor, Slit } from "./parts";
-import { WallMaterial } from "./Materials";
+import { WallMaterial, usePBR } from "./Materials";
 import { DoorWall } from "./shell";
 import { Frame } from "./frame";
 import { S, set, useStore } from "@/lib/store";
@@ -31,19 +31,20 @@ function useArcs() {
 }
 
 type ItemProps = { x: number; img: string; iw: number; ih: number; date: string; title: string; org?: string; width: number; onClick: () => void; label: string; size?: number };
-function Item({ x, img, iw, ih, date, title, org, width, onClick, label, size = 0.085 }: ItemProps) {
+function Item({ x, img, iw, ih, date, title, org, width, onClick, label, size = 0.098 }: ItemProps) {
   const tex = useTexture(img);
   tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16;
+  const grain = usePBR("oak_veneer_01", [1, 1]);      // a faint print grain, so the picture is a PBR surface
   return (
     <group position={[x, 0, -NICHE_D + 0.02]}>
       <Frame aw={iw} ah={ih} position={[0, 2.0, 0]}>
         <mesh onClick={(e) => { e.stopPropagation(); onClick(); }} {...pointer} userData={{ label }}>
-          <planeGeometry args={[iw, ih]} /><meshStandardMaterial map={tex} roughness={0.7} metalness={0} />
+          <planeGeometry args={[iw, ih]} /><meshStandardMaterial map={tex} normalMap={grain.normalMap} roughnessMap={grain.roughnessMap} normalScale={new THREE.Vector2(0.02, 0.02)} roughness={0.7} metalness={0} />
         </mesh>
       </Frame>
-      <Text font={MONO} fontSize={0.044} color="#C3A979" maxWidth={width} anchorX="center" anchorY="top" position={[0, 1.18, 0.01]} textAlign="center">{date.toUpperCase()}</Text>
+      <Text font={MONO} fontSize={0.056} color="#C3A979" maxWidth={width} anchorX="center" anchorY="top" position={[0, 1.18, 0.01]} textAlign="center">{date.toUpperCase()}</Text>
       <Text font={SANS_B} fontSize={size} lineHeight={1.12} color="#EDE6D6" maxWidth={width} anchorX="center" anchorY="top" position={[0, 1.1, 0.01]} textAlign="center">{title}</Text>
-      {org && <Text font={SANS} fontSize={0.052} lineHeight={1.2} color="#A8A294" maxWidth={width} anchorX="center" anchorY="top" position={[0, 0.62, 0.01]} textAlign="center">{org}</Text>}
+      {org && <Text font={SANS} fontSize={0.062} lineHeight={1.2} color="#A8A294" maxWidth={width} anchorX="center" anchorY="top" position={[0, 0.62, 0.01]} textAlign="center">{org}</Text>}
     </group>
   );
 }
@@ -61,7 +62,7 @@ function Alcove({ ax, index, children }: { ax: number; index: number; children: 
       <mesh position={[0, NICHE_H, -NICHE_D / 2]} rotation={[Math.PI / 2, 0, 0]}><planeGeometry args={[NICHE_W, NICHE_D]} /><WallMaterial repeat={[1, 0.4]} tint="#4a4843" /></mesh>
       <mesh position={[0, 0.004, -NICHE_D / 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[NICHE_W, NICHE_D]} /><WallMaterial repeat={[1, 0.4]} tint="#8a867e" /></mesh>
       {/* concealed light along the niche's top edge */}
-      <Slit position={[0, NICHE_H - 0.01, -NICHE_D / 2 - 0.05]} size={[NICHE_W - 0.3, 0.12]} intensity={sel ? 60 : 38} color="#ffd9a8" centreZ={zc - r * 0.5} reach={30} />
+      <Slit position={[0, NICHE_H - 0.01, -NICHE_D / 2 - 0.05]} size={[NICHE_W - 0.3, 0.12]} intensity={sel ? 120 : 85} color="#ffd9a8" centreZ={zc - r * 0.5} reach={30} />
       {children}
     </group>
   );
