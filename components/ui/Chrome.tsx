@@ -64,7 +64,7 @@ export function ProgressLine() {
 export function HomeOverlay() {
   const t = useStore((s) => s.t);
   const entered = useStore((s) => s.entered);
-  const k = Math.min(1, t / 0.2);
+  const k = Math.min(1, (t * TOTAL_VH) / 70);       // fades over the first 70 screen-heights-percent of walking
   const enter = () => { try { sessionStorage.setItem("ca-entered", "1"); } catch {} set({ entered: true }); };
   const skip = () => { try { sessionStorage.setItem("ca-entered", "1"); } catch {} S.lights = 1; set({ entered: true }); };
   useEffect(() => {

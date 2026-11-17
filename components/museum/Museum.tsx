@@ -6,6 +6,7 @@ import { useStore, set, S, type Tier } from "@/lib/store";
 import { TOTAL_VH } from "@/lib/rooms";
 import { TopBar, ProgressLine, HomeOverlay } from "@/components/ui/Chrome";
 import { ProjectBar, InspectPanel } from "@/components/ui/ProjectUI";
+import { FocusBar, DetailPanel, ContactOverlay } from "@/components/ui/RoomUI";
 
 const Scene = dynamic(() => import("./Scene"), { ssr: false });
 
@@ -16,6 +17,7 @@ function webgl() {
 /* Chooses a tier (High, Balanced, Lite) from the device, `?tier=` for testing, and the footer choice. The 3D bundle loads after first paint. */
 export function Museum({ lite }: { lite: ReactNode }) {
   const tier = useStore((s) => s.tier);
+  const ready = useStore((s) => s.ready);
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -50,13 +52,17 @@ export function Museum({ lite }: { lite: ReactNode }) {
   return (
     <>
       {is3d && <Scene />}
+      {is3d && !ready && <div className="veil" role="status"><p className="mono">Preparing the museum</p><i aria-hidden="true" /></div>}
       {is3d && (
         <>
           <TopBar />
           <ProgressLine />
           <HomeOverlay />
           <ProjectBar />
+          <FocusBar />
+          <ContactOverlay />
           <InspectPanel />
+          <DetailPanel />
           {/* the museum is one long native scroll: this spacer sets its length */}
           <div className="spacer" style={{ height: `${TOTAL_VH + 100}vh` }} aria-hidden="true" />
         </>

@@ -17,21 +17,21 @@ export function roomGain(camZ: number, centre: number, reach: number) {
 }
 
 /* Polished floor. High tier: real planar reflection (crisp near, blurred far). Others: low-roughness PBR plus the environment. */
-export function Floor({ w, l, round, position }: { w: number; l: number; round?: boolean; position: [number, number, number] }) {
+export function Floor({ w, l, round, half, position, flat, tint = "#d2cec6" }: { w: number; l: number; round?: boolean; half?: boolean; position: [number, number, number]; flat?: boolean; tint?: string }) {
   const tier = useStore((s) => s.tier);
   const pbr = usePBR("concrete_floor_worn_001", [w / 3, l / 3]);
-  const geo = round ? <circleGeometry args={[w / 2, 96]} /> : <planeGeometry args={[w, l]} />;
+  const geo = half ? <circleGeometry args={[w / 2, 96, 0, Math.PI]} /> : round ? <circleGeometry args={[w / 2, 96]} /> : <planeGeometry args={[w, l]} />;
   const { metalnessMap: _m, ...rest } = pbr;     // keeps the roughness map (gate 1); the scalar below keeps the polish clear
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={position} receiveShadow>
       {geo}
-      {tier === "high" ? (
+      {tier === "high" && !flat ? (
         <MeshReflectorMaterial
           {...rest}
-          color="#d2cec6" blur={[90, 30]} mixBlur={0.9} mixStrength={4.5} mixContrast={1.2} resolution={1024} mirror={1}
+          color={tint} blur={[90, 30]} mixBlur={0.9} mixStrength={4.5} mixContrast={1.2} resolution={1024} mirror={1}
           depthScale={1.2} minDepthThreshold={0.4} maxDepthThreshold={1.6} metalness={0} roughness={0.32} normalScale={new THREE.Vector2(0.3, 0.3)} />
       ) : (
-        <meshStandardMaterial {...pbr} color="#9b9892" roughness={0.3} metalness={0} envMapIntensity={1.6} normalScale={new THREE.Vector2(0.35, 0.35)} />
+        <meshStandardMaterial {...pbr} color="#a09c95" roughness={0.3} metalness={0} envMapIntensity={1.6} normalScale={new THREE.Vector2(0.35, 0.35)} />
       )}
     </mesh>
   );

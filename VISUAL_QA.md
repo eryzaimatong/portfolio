@@ -46,3 +46,25 @@ About, Skills, Experience, Leadership and Contact in 3D (they exist in Lite with
 
 ## Checkpoint 1 (superseded)
 Brown stained walls, no visible floor reflection, frame stepping 0.85. Kept only for the mobile shot.
+
+---
+
+## Checkpoint 3: all seven rooms in 3D
+
+Screenshots in `visual-qa/`: `about-wide`, `skills-wide`, `experience-wide`, `leadership-wide`, `contact-wide` (all `?tier=balanced`, desktop pane, shot once each). **Close and mobile views for these five rooms are not captured**, so gate 7 is only partly met. Material audit re-run on Leadership + Contact: 113 meshes, the only misses were the logo emblem planes, which now carry a normal + roughness grain (not re-audited after the fix). High tier (planar reflections + transmission glass) was only viewed in Home and Projects; About through Contact were reviewed in Balanced.
+
+| Room | What exists | Honest critique |
+|---|---|---|
+| About | Portrait (`eryza.png`) in an oak frame beside the doorway, warming from grey to colour; heading, lead and the six profile fields; the four existing bio sentences as separate wall labels | Text is small until you are close. The warming is real but subtle in a still. Walls are plain; only one portrait. |
+| Skills | Narrow pale-plaster hallway, wall-washer slits, real simple-icons logos in original colours grouped by the seven live categories, large category titles, names under each logo; light logos sit on a flush graphite inlay | Logos read, but at the wide view they are still smallish; the far end opens into a black void until the next room lights. 22 of 41 technologies have a logo; the rest are typographic marks (see CONTENT_TODO). Right-wall text reads away from the walking direction. |
+| Experience | Flat entry wall, half-round room, three lit niches: School (PUP seal), Scholarship + programme (DOST-SEI, GCI logos), Credentials (the three real certificates); click or "Details" opens an HTML panel | Alcoves are dim and the type is small. A fourth bay was left out (no content). Asymmetric layout. |
+| Leadership | Three floating glass cubes (Cisco NetConnect, IBITS, GDG on Campus PUP) with laminated logo emblems that sway, one sliding spotlight, floor pool | Cube edges are heavy dark lines; the emblem is a laminated PNG (not a true extrusion). Transmission glass not verified on High. |
+| Contact | Calm room opening onto a lit doorway whose light spills across the floor; contact card with email, GitHub, LinkedIn, copy address | Best-looking room. Doorway reads as a bright box rather than a space. |
+
+### Real problems found
+1. **First entry into each room stalled for roughly 15 to 25 seconds in this environment** (the screen goes black while shaders compile for that room's light count). Mitigation added: a "Preparing the museum" veil that compiles every room up front (capped at 20 s so it can never stick). Verified the veil clears; I did **not** verify the stall is gone on a real GPU.
+2. **Frame rate is unmeasured.** Up to about 12 lights and several reflectors can be live at once.
+3. A hidden or backgrounded tab can never finish `compileAsync`; the cap handles that.
+4. The pane's screenshots alternate between a real frame and a black one; every shot above is a real frame.
+5. Wall text is SDF text in the scene, with the same words in the hidden Lite layout for screen readers; the brief's "HTML on hover" for the About labels is not done.
+6. Not done from the brief: the camera does not move in on a clicked cube (it opens the panel), the Re:Watch trait mixer and AURA explainer are not in the Inspect panel, no KTX2.

@@ -12,3 +12,10 @@ Nothing here appears on the page. Each item is omitted or handled as stated unti
 | Wall-label split of the About text | 3-5 labels | The About text is two paragraphs of four sentences; they become 4 labels using the existing sentences verbatim, with no new words. |
 | Inspect tab "Outcome and lessons" | Tab | Uses the existing "Status and limits" text. There is no separate "lessons" text, so the tab is named by the live label instead. |
 | Fonts from Bryl Lim's site | Exact mono + sans | Needs the site URL (and the reference screenshot, which is not in the repo). Until then: Geist Mono + Geist Sans. |
+
+## Added during the room build
+| Item | Detail |
+|---|---|
+| Skills with no simple-icons logo | Power BI, VS Code, ChatGPT, Slack, Excel, Microsoft Teams (brand removed from the set), plus concepts that have no logo by nature: SQL, COBOL, REST APIs, Data cleaning, Exploratory data analysis, Data visualization, Machine learning, Statistical analysis, Database design, Relational database management, AI-assisted development, Prompt engineering. These show the technology's name as plain type on the wall. Supply official logo files to replace them. |
+| Java / Cisco Packet Tracer / Claude Code | Mapped to the OpenJDK, Cisco and Claude marks (closest available); confirm you are happy with those. |
+| Experience bays | Three of four alcoves are used (School; Scholarship + programme; Credentials). |

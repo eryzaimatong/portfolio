@@ -110,3 +110,17 @@ html.menu-open { overflow: hidden; }
 .ls-cert { max-width: 480px; border: 1px solid var(--hairline); } .ls-org { display: grid; gap: 10px; margin-top: 8px; padding: 12px; border: 1px solid var(--hairline); } .ls-org h4 { font: 500 1.05rem var(--mono); }
 .ls-foot { color: var(--cream-dim); font-size: .8rem; }
 @media (max-width: 640px) { .ls-results li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ============ Contact overlay ============ */
+.contact-ov { position: fixed; z-index: 30; left: var(--pad); bottom: 12vh; width: min(560px, calc(100vw - 2 * var(--pad))); padding: 22px 24px; background: rgba(12,12,11,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--hairline); opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .5s, transform .5s; }
+.contact-ov.show { opacity: 1; transform: none; pointer-events: auto; }
+.contact-ov .kicker { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
+.co-title { font: 500 clamp(2rem, 6vw, 3.4rem)/1.05 var(--mono); margin-top: 6px; } .co-lead { margin-top: 12px; color: var(--cream); max-width: 52ch; }
+.co-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; } .co-foot { margin-top: 16px; font-size: .75rem; color: var(--cream-dim); letter-spacing: .08em; }
+.ep-date { font-size: .75rem; color: var(--brass); }
+
+/* loading veil while every room's shaders compile (shown once, never during the walk) */
+.veil { position: fixed; inset: 0; z-index: 70; display: grid; place-content: center; gap: 14px; text-align: center; background: var(--gallery); color: var(--cream-dim); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; }
+.veil i { display: block; width: 120px; height: 1px; margin: 0 auto; background: var(--brass); transform-origin: 0 50%; animation: veil 1.6s ease-in-out infinite; }
+@keyframes veil { 0% { transform: scaleX(0); } 60% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .veil i { animation: none; } }

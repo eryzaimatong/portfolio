@@ -4,9 +4,10 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { SpotLight, Sparkles, Text, useTexture, useDepthBuffer } from "@react-three/drei";
 import { projects } from "@/data/projects";
-import { PROJ, CORRIDOR } from "@/lib/rooms";
+import { PROJ } from "@/lib/rooms";
 import { WallMaterial, ConcreteMaterial, OakMaterial, usePBR } from "./Materials";
-import { Floor, Slit, roomGain, tile } from "./parts";
+import { roomGain } from "./parts";
+import { RoundShell } from "./round";
 import { S, set, useStore } from "@/lib/store";
 
 const { zc, r: R, h: H, door } = PROJ;
@@ -121,57 +122,11 @@ function Spot() {
 
 /* Projects: a round gallery with two doorways (in and through). Two real works flank the doorway you walk out of. */
 export function ProjectsRoom() {
-  const arc = Math.PI - GAP * 2;
-  const arcLen = R * arc;
   return (
-    <group>
-      <Floor w={R * 2} l={R * 2} round position={[0, 0, zc]} />
-      {/* curved wall: two segments, leaving a doorway front (+z) and back (-z) */}
-      {[GAP, Math.PI + GAP].map((start) => (
-        <mesh key={start} position={[0, H / 2, zc]} receiveShadow castShadow>
-          <cylinderGeometry args={[R, R, H, 96, 1, true, start, arc]} />
-          <WallMaterial repeat={tile(arcLen, H)} side={THREE.BackSide} />
-        </mesh>
-      ))}
-      {/* skirting shadow gap */}
-      {[GAP, Math.PI + GAP].map((start) => (
-        <mesh key={"sk" + start} position={[0, 0.045, zc]}>
-          <cylinderGeometry args={[R - 0.025, R - 0.025, 0.09, 96, 1, true, start, arc]} />
-          <WallMaterial repeat={[6, 0.1]} tint="#161513" side={THREE.BackSide} />
-        </mesh>
-      ))}
-      {/* door reveals (the wall has thickness): front and back openings */}
-      {[zc + R - 0.1, zc - R + 0.1].map((z, fi) => [-1, 1].map((s) => (
-        <mesh key={fi + "-" + s} position={[s * (door / 2), 1.6, z + (fi === 0 ? 0.2 : -0.2)]} rotation={[0, -s * Math.PI / 2, 0]}>
-          <planeGeometry args={[0.4, 3.2]} /><ConcreteMaterial repeat={[0.4, 1.3]} tint="#8a8780" />
-        </mesh>
-      )))}
-      {/* ceiling */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, zc]}>
-        <circleGeometry args={[R, 96]} /><WallMaterial repeat={[R / 1.5, R / 1.5]} tint="#4a4843" />
-      </mesh>
-      {/* two ceiling slits wash the floor near the walls */}
-      <Slit position={[-4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={30} centreZ={zc} reach={12} />
-      <Slit position={[4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={30} centreZ={zc} reach={12} />
+    <RoundShell zc={zc} r={R} h={H} door={door}>
       <Artwork index={0} />
       <Artwork index={1} />
       <Spot />
-      <Antechamber />
-    </group>
-  );
-}
-
-/* The space beyond the back doorway: where the walk continues. A lit threshold, so the doorway reads as a doorway. */
-function Antechamber() {
-  const w = CORRIDOR.w, l = 5, h = 3.4, z0 = zc - R, cz = z0 - l / 2;
-  return (
-    <group>
-      <Floor w={w} l={l} position={[0, 0, cz]} />
-      <mesh position={[0, h, cz]} rotation={[Math.PI / 2, 0, 0]}><planeGeometry args={[w, l]} /><WallMaterial repeat={tile(w, l)} tint="#3f3d39" /></mesh>
-      <mesh position={[-w / 2, h / 2, cz]} rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[l, h]} /><WallMaterial repeat={tile(l, h)} /></mesh>
-      <mesh position={[w / 2, h / 2, cz]} rotation={[0, -Math.PI / 2, 0]}><planeGeometry args={[l, h]} /><WallMaterial repeat={tile(l, h)} /></mesh>
-      <mesh position={[0, h / 2, z0 - l]}><planeGeometry args={[w, h]} /><WallMaterial repeat={tile(w, h)} /></mesh>
-      <Slit position={[0, h - 0.02, cz]} size={[0.2, l - 1]} intensity={5} color="#ffd9aa" centreZ={cz} reach={10} />
-    </group>
+    </RoundShell>
   );
 }
