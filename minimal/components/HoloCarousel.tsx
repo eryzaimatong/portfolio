@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { projects, scenes, type Project } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 import { Dialog } from "./Dialogs";
 
 const TABS = ["Overview", "How it works", "Stack and contribution", "Status and limits"] as const;
@@ -50,7 +50,7 @@ function CaseFile({ project, onClose }: { project: Project | null; onClose: () =
 /* Projects: every real screen from both projects floats in a row. Scroll, drag, use the arrows or the arrow keys;
    the one in the middle is projected as a hologram, the others stay as faint wireframes. */
 export function HoloCarousel() {
-  const N = scenes.length;
+  const N = projects.length;
   const track = useRef<HTMLUListElement>(null);
   const items = useRef<(HTMLLIElement | null)[]>([]);
   const [active, setActive] = useState(0);
@@ -112,7 +112,7 @@ export function HoloCarousel() {
     if (d?.moved) { t.classList.remove("drag"); goTo(active); setTimeout(() => { t.style.scrollSnapType = ""; }, 400); }
   };
 
-  const sc = scenes[active], p = sc.project;
+  const p = projects[active];
   return (
     <section id="projects" className="section holo" ref={section} aria-labelledby="proj-h">
       <header className="sec rv">
@@ -122,20 +122,20 @@ export function HoloCarousel() {
       </header>
       <p className="about-sub rv">Two public projects, each built around a real problem.</p>
 
-      <div className="stage rv" role="group" aria-roledescription="carousel" aria-label="Project screens. Scroll sideways, drag, or use the left and right arrow keys.">
+      <div className="stage rv" role="group" aria-roledescription="carousel" aria-label="Projects. Scroll sideways, drag, or use the left and right arrow keys; press Enter on the middle one to open its case file.">
         <i className="beam" aria-hidden="true" /><i className="base" aria-hidden="true" />
         <ul className="track" ref={track} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerLeave={up} onPointerCancel={up}>
-          {scenes.map((s, i) => {
+          {projects.map((pr, i) => {
             const on = i === active;
             return (
-              <li key={i} ref={(el) => { items.current[i] = el; }} className={"hi" + (on ? " is-on" : "")} style={{ "--d": i - active } as React.CSSProperties} aria-roledescription="slide" aria-label={`${i + 1} of ${N}`}>
-                <button type="button" tabIndex={on ? 0 : -1} className="hbtn" aria-label={on ? `Open the ${s.project.title} case file` : `Show ${s.project.title}, ${s.caption}`}
-                  onClick={() => { if (drag.current?.moved) return; if (on) setOpen(s.project); else goTo(i); }}>
+              <li key={pr.slug} ref={(el) => { items.current[i] = el; }} className={"hi" + (on ? " is-on" : "")} style={{ "--d": i - active } as React.CSSProperties} aria-roledescription="slide" aria-label={`${i + 1} of ${N}`}>
+                <button type="button" tabIndex={on ? 0 : -1} className="hbtn" aria-label={on ? `Open the ${pr.title} case file` : `Show ${pr.title}`}
+                  onClick={() => { if (drag.current?.moved) return; if (on) setOpen(pr); else goTo(i); }}>
                   <span className="hfig">
-                    <img src={s.src} alt="" draggable={false} loading={i < 3 ? "eager" : "lazy"} className={s.project.slug} />
+                    <img src={pr.cover} alt="" draggable={false} className={pr.slug} />
                     <i className="tint" /><i className="scanl" /><i className="band" />
                     <b className="br tl" /><b className="br tr" /><b className="br bl" /><b className="br rb" />
-                    <span className="tag mono">scene {String(s.n).padStart(2, "0")}</span>
+                    <span className="tag mono">project {String(i + 1).padStart(2, "0")}</span>
                   </span>
                 </button>
               </li>
@@ -143,20 +143,16 @@ export function HoloCarousel() {
           })}
         </ul>
         <div className="holo-nav">
-          <button type="button" className="btn" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous screen">←</button>
+          <button type="button" className="btn" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous project">←</button>
           <span className="mono dim" aria-hidden="true">{String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}</span>
-          <button type="button" className="btn" onClick={() => goTo(active + 1)} disabled={active === N - 1} aria-label="Next screen">→</button>
+          <button type="button" className="btn" onClick={() => goTo(active + 1)} disabled={active === N - 1} aria-label="Next project">→</button>
         </div>
       </div>
 
       <div className="holo-info rv" aria-live="polite">
         <p className="mono label-red">{p.eyebrow}</p>
         <h3 className="pixel holo-title">{p.title}</h3>
-        <p className="mono dim holo-cap">{sc.caption}</p>
-        <p className="holo-tag">{p.tagline}</p>
-        {p.metrics && <dl className="stats">{p.metrics.map((m) => (<div key={m.label}><dd className="pixel">{m.value}</dd><dt>{m.label}</dt></div>))}</dl>}
-        <ul className="chips">{p.stack.map((t) => <li key={t}>{t}</li>)}</ul>
-        <p className="holo-actions"><button type="button" className="btn solid" onClick={() => setOpen(p)}>Open the case file</button>{p.links?.github && <a className="btn" href={p.links.github} target="_blank" rel="noopener">View on GitHub ↗</a>}</p>
+        <p className="holo-actions"><button type="button" className="btn solid" onClick={() => setOpen(p)}>Open the case file</button></p>
       </div>
       <CaseFile project={open} onClose={() => setOpen(null)} />
     </section>
