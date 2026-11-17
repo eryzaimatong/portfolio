@@ -1,0 +1,37 @@
+"use client";
+import { useMemo } from "react";
+import * as THREE from "three";
+import { useTexture } from "@react-three/drei";
+
+/* PBR sets (Poly Haven, CC0). `arm` packs AO (R), roughness (G), metalness (B): one texture feeds three slots. */
+export type PBRName = "concrete_wall_003" | "concrete_floor_02" | "oak_veneer_01";
+
+export function usePBR(name: PBRName, repeat: [number, number] = [1, 1], rotate = 0) {
+  const [diff, nor, arm] = useTexture([`/textures/${name}/diff.jpg`, `/textures/${name}/nor.jpg`, `/textures/${name}/arm.jpg`]);
+  return useMemo(() => {
+    const out = [diff, nor, arm].map((t, i) => {
+      const c = t.clone();
+      c.wrapS = c.wrapT = THREE.RepeatWrapping;
+      c.repeat.set(repeat[0], repeat[1]);
+      c.rotation = rotate;
+      c.anisotropy = 8;
+      c.colorSpace = i === 0 ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+      c.needsUpdate = true;
+      return c;
+    });
+    return { map: out[0], normalMap: out[1], aoMap: out[2], roughnessMap: out[2], metalnessMap: out[2] };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [diff, nor, arm, repeat[0], repeat[1], rotate]);
+}
+
+/* Wall: board-formed concrete, deliberately dark so the light does the work. */
+export function WallMaterial({ repeat, tint = "#66665f", side }: { repeat: [number, number]; tint?: string; side?: THREE.Side }) {
+  const m = usePBR("concrete_wall_003", repeat);
+  return <meshStandardMaterial {...m} color={tint} roughness={1} metalness={0} normalScale={new THREE.Vector2(1.1, 1.1)} aoMapIntensity={1} envMapIntensity={0.5} side={side} />;
+}
+
+/* Honed oak for frames and plaques. */
+export function OakMaterial({ repeat = [1, 1] as [number, number], tint = "#3a2a1e" }: { repeat?: [number, number]; tint?: string }) {
+  const m = usePBR("oak_veneer_01", repeat);
+  return <meshStandardMaterial {...m} color={tint} roughness={0.9} metalness={0} envMapIntensity={0.6} />;
+}
