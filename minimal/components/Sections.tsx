@@ -1,7 +1,8 @@
 import { about, experience, leadership, credentials, ciscoOrg, contact, profile } from "@/data/profile";
 import { skillGroups, skillNote } from "@/data/skills";
 import logos from "@/data/logos.json";
-import { CertButton, OrgButton } from "./Dialogs";
+import { CertButton } from "./Dialogs";
+import { LeadershipMap } from "./LeadershipMap";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -108,19 +109,7 @@ export function Leadership() {
     <section id="leadership" className="section" aria-labelledby="lead-h">
       <Sec n="05" label="leadership" id="lead-h" />
       <p className="about-sub rv">{leadership.sub}</p>
-      <div className="cards">
-        {leadership.items.map((it) => (
-          <article key={it.title} className="card rv">
-            {it.badge && <img className="card-logo" src={it.badge.src} alt={it.badge.alt} width={44} height={44} />}
-            <p className="mono card-date">{it.date}</p>
-            <h3>{it.title}</h3>
-            <p className="dim">{it.detail}</p>
-            {it.chips && <ul className="chips">{it.chips.map((c) => <li key={c}>{c}</li>)}</ul>}
-            {it.link && <a className="link mono" href={it.link.href} target="_blank" rel="noopener">{it.link.label} →</a>}
-            {it.orgKey === "cisco" && <OrgButton org={ciscoOrg.org} role={ciscoOrg.role} tiles={ciscoOrg.tiles as never} />}
-          </article>
-        ))}
-      </div>
+      <div className="rv"><LeadershipMap items={leadership.items as never} cisco={ciscoOrg as never} name={profile.name} /></div>
     </section>
   );
 }

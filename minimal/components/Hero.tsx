@@ -26,8 +26,6 @@ export function Hero() {
             srcSet="/assets/hero-640.webp 640w, /assets/hero-960.webp 960w, /assets/hero-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px"
             alt="Eryza Mae Imatong looking back over her shoulder beside a concrete wall of valves. The picture is black and white; only the red valve wheels and her lips keep their colour."
             fetchPriority="high" decoding="async" />
-          <i className="ph-wipe" aria-hidden="true" />
-          <i className="ph-reg" aria-hidden="true" />
         </div>
         <figcaption className="mono">{profile.name}</figcaption>
       </figure>
