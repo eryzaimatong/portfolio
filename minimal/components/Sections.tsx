@@ -4,6 +4,13 @@ import logos from "@/data/logos.json";
 import { CertButton, OrgButton } from "./Dialogs";
 
 type Logo = { path: string; hex: string; title: string };
+type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
+
+/* A small monochrome stamp: the real logo, greyed on a light tile, coming back to colour on hover. */
+function Stamp({ b }: { b?: Badge }) {
+  if (!b) return null;
+  return <span className={"stamp" + (b.wide ? " wide" : "") + (b.round ? " round" : "")}><img src={b.src} alt={b.alt} loading="lazy" /></span>;
+}
 const LOGOS = logos as Record<string, Logo>;
 
 /* Numbered section heading with a hairline that bleeds in (and one slow drop) when it scrolls into view. */
@@ -66,10 +73,13 @@ export function Experience() {
         {experience.items.map((it) => (
           <li key={it.title} className="row rv">
             <p className="row-date mono">{it.date}</p>
-            <div>
-              <h3>{it.titleHref ? <a href={it.titleHref} target="_blank" rel="noopener">{it.title}</a> : it.title}</h3>
-              <p className="row-org">{it.org}</p>
-              <p className="dim">{it.detail}</p>
+            <div className="row-main">
+              <Stamp b={it.badge} />
+              <div>
+                <h3>{it.titleHref ? <a href={it.titleHref} target="_blank" rel="noopener">{it.title}</a> : it.title}</h3>
+                <p className="row-org">{it.org}</p>
+                <p className="dim">{it.detail}</p>
+              </div>
             </div>
           </li>
         ))}
@@ -79,9 +89,12 @@ export function Experience() {
         {credentials.items.map((c) => (
           <li key={c.title} className="row rv">
             <p className="row-date mono">{c.date}</p>
-            <div>
-              <h3>{c.title}</h3>
-              {c.cert && <CertButton src={c.cert.src} alt={c.cert.alt} title={c.title} />}
+            <div className="row-main">
+              <Stamp b={c.badge} />
+              <div>
+                <h3>{c.title}</h3>
+                {c.cert && <CertButton src={c.cert.src} alt={c.cert.alt} title={c.title} />}
+              </div>
             </div>
           </li>
         ))}
