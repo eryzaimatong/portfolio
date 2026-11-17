@@ -26,8 +26,12 @@ export function Hero() {
             srcSet="/assets/hero-640.webp 640w, /assets/hero-960.webp 960w, /assets/hero-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px"
             alt="Eryza Mae Imatong looking back over her shoulder beside a concrete wall of valves. The picture is black and white; only the red valve wheels and her lips keep their colour."
             fetchPriority="high" decoding="async" />
+          {/* a red grease-pencil loop, drawn once around the subject like a marked frame on a contact sheet */}
+          <svg className="ph-ring" viewBox="0 0 100 125" aria-hidden="true">
+            <path pathLength="100" d="M69 33.5 C78 33 82 41 80 49 C78 58 70 61 64 58 C57 55 56 44 60 38 C62 35 66 33 71 33.8" />
+          </svg>
         </div>
-        <figcaption className="mono">{profile.name}</figcaption>
+        <figcaption className="mono"><span className="fr">FR 07 ▸</span><span>{profile.name}</span></figcaption>
       </figure>
     </section>
   );

@@ -109,7 +109,7 @@ export function Leadership() {
     <section id="leadership" className="section" aria-labelledby="lead-h">
       <Sec n="05" label="leadership" id="lead-h" />
       <p className="about-sub rv">{leadership.sub}</p>
-      <div className="rv"><LeadershipMap items={leadership.items as never} cisco={ciscoOrg as never} name={profile.name} /></div>
+      <div className="rv"><LeadershipMap items={leadership.items as never} cisco={ciscoOrg as never} /></div>
     </section>
   );
 }
