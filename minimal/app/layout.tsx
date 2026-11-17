@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     images: [{ url: "/assets/og-image.png", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", title, images: ["/assets/og-image.png"] },
-  icons: { icon: [{ url: "/assets/favicon-32.png", sizes: "32x32" }, { url: "/assets/icon-192.png", sizes: "192x192" }], apple: "/assets/apple-touch-icon.png" },
+  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/assets/favicon-32.png", sizes: "32x32", type: "image/png" }, { url: "/assets/icon-192.png", sizes: "192x192", type: "image/png" }], apple: "/assets/apple-touch-icon.png" },
   manifest: "/site.webmanifest",
 };
 export const viewport: Viewport = { themeColor: "#0A0506", colorScheme: "dark" };
