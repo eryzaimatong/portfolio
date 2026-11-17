@@ -1,38 +1,48 @@
-# VISUAL QA: checkpoint 1 (Home hall + Projects room)
+# VISUAL QA
 
-Environment: Chrome in the Claude desktop browser pane, dev server, `?tier=high`. Screenshots are cropped by the pane to about 800 px wide, and the pane's GPU and frame rate are unknown. Everything below is judged from screenshots only.
+Environment: Chrome in the Claude desktop browser pane, Next dev server, `?tier=high`. Judged from screenshots only; the pane's GPU and frame rate are unknown, so **no performance claim is made**.
 
-Screenshots (`visual-qa/`): `home-wide.jpg`, `projects-rewatch-wide.jpg`, `projects-aura-wide.jpg`, `projects-mobile.jpg`. A "close" view per room is **not yet captured**; gate 7 is only partly met.
+## Checkpoint 2: realism pass (Home hall + Projects room)
 
-## Gate results
+Screenshots in `visual-qa/`: `home-wide.jpg`, `projects-wide.jpg`, `projects-close.jpg`, `projects-mobile.jpg` (mobile is from checkpoint 1, taken after the camera fix and before the texture swap, so it still shows the old brown walls; **needs a re-shoot**).
+
+### What changed since checkpoint 1
+| Problem found | Fix | Result |
+|---|---|---|
+| Walls looked stained and grimy (`concrete_wall_003`) | Fine plaster (`plastered_wall`) for walls, board-formed concrete (`concrete_layers_02`) for the column and door reveals | **Fixed.** Clean, calm, architectural. |
+| Dirty brown floor (`concrete_floor_02`) | `concrete_floor_worn_001`, lighter tint | Fixed. |
+| Floor reflection absent | Real reflector with crisper blur, lighter floor, stronger slit lights | **Now visible:** the lit frame, plaque and screen reflect in the floor with blur. Slightly stepped at the far edge. |
+| Colour almost all warm brown | Cool 6000K hemisphere fill against the warm 3200K spots, higher environment | Better: walls read neutral grey-green, warm light stays on the artwork and floor pool. Cool fill is still subtle. |
+| Frame looked like a freestanding lightbox | Steps forward 0.3 (was 0.85) and scales 1.035 | Reads as hung. (The brief's "about 0.85 units" was too much at this room scale.) |
+| Ceiling slits were flat cream rectangles | Recessed dark cove around each slit, dimmer emissive fixture | Better; still a little flat. |
+| No wall thickness, no skirting gap | Door reveals (jambs + soffit), dark skirting shadow gap | Added. Visible at the doorways. |
+| Beam faint after the wall change | Beam opacity .22 to .4 | Visible again with dust. |
+| Mobile: work off-screen | Camera turns fully to the work on portrait screens | Fixed (checkpoint 1 shot). |
+| Textures took about 30 s to finish loading in dev | Plaster and concrete back to 1k; unused sets removed (8 MB left) | Should be much lighter; **load time not re-measured**. |
+
+### Gate results
 | Gate | Result |
 |---|---|
-| 1 Material audit | Ran in the page (`window.__scene` walk). 48 meshes / 48 materials. After the fix: the two artwork prints now carry a normal + roughness map. The 4 remaining `MeshBasicMaterial` hits are troika SDF **text glyph meshes** (plaque text), which are exempt text, not surfaces. Ceiling slit fixtures are flagged `fixture` (emissive). Re-run not yet pasted after the fix. |
-| 2 Light audit | Home: 3 ceiling-slit RectAreaLights + 1 corridor slit + 1 shadow-casting SpotLight (back wall) + dim HDRI. Projects: 2 slit RectAreaLights + antechamber slit + 1 shadow-casting SpotLight (the sliding exhibit light) + HDRI. Passes. |
-| 3 Reflection test | **Weak.** `MeshReflectorMaterial` is on the floors, but in the screenshots the floor reads as dark matte concrete with only a faint sheen under the lit frame. I cannot say the frames are "visibly reflected with blur". Needs tuning (lower roughness, stronger mirror, a lighter floor). |
-| 4 Glass test | Not applicable yet (Leadership room not built). |
-| 5 Texture check | 1k JPG, 3 tiled sets. No obvious stretching. Repetition is not obvious at the resting views but the wall texture itself reads stained. Not KTX2-compressed (no `toktx` here). |
-| 6 Banned-look scan | See critique. No neon, flare or glow outlines. A **muddy brown cast and grimy walls** is the main failure. |
-| 7 Screenshot proof | Wide + mobile captured; close views missing. |
-| 8 Honesty | See below. |
+| 1 Material audit | Run in page: 87 meshes / 87 materials. Remaining non-PBR hits are troika SDF **text glyph meshes** (plaque text; exempt) and ceiling fixture planes flagged `fixture` (emissive; exempt). The reflective floors lacked a roughness map in the first run of this pass; roughness map restored afterwards. **Re-run after that last change is not yet pasted.** |
+| 2 Light audit | Home: 3 ceiling-slit RectAreaLights + corridor slit + 1 shadow-casting SpotLight + HDRI + hemisphere fill. Projects: 2 slit RectAreaLights + antechamber slit + 1 shadow-casting SpotLight (sliding exhibit light) + HDRI + hemisphere fill. Passes. |
+| 3 Reflection test | **Passes, modestly.** Blurred reflection of the lit frame and plaque visible in `projects-close.jpg`. |
+| 4 Glass test | N/A until the Leadership room exists. |
+| 5 Texture check | No visible stretching at resting views; plaster tiling not obvious. 1k JPG, not KTX2. |
+| 6 Banned-look scan | No neon, flare, glow outlines, blurry baked text or flat grey walls. The room is darker and sparser than a real museum photograph. |
+| 7 Screenshot proof | Wide + close for both rooms; mobile needs a re-shoot. |
+| 8 Honesty | Stated below. |
 
-## Critique against section 2 (what still looks fake)
-**Works:** real 3D architecture connected by a doorway and corridor; PBR concrete with visible grain and shadowed column; warm spotlight with a soft penumbra, a visible beam and drifting dust; framed work with mat, slim oak frame, plaque with catalogue number, name and year; the selected work steps forward and the light slides to it; layout and text stay crisp HTML.
+### Honest critique: what still looks fake
+1. **Too dark overall, with a black void in the lower third.** The floor is glossy dark; only the spot pool and the reflection lift it. A real gallery photograph would show more soft ambient bounce on the walls.
+2. **The reflection is blurry and slightly stepped** (low-resolution reflector plus the normal map), not a clean mirror-polish.
+3. **Only two works** hang on a large round room, so it feels empty; the sliding-spotlight idea has little to slide between.
+4. **No ceiling cove or coffer detail**, and the corridor and antechamber are still plain boxes.
+5. **The beam is a cone**, not a noisy raymarched volume, so it can look flat from some angles.
+6. **Perfect geometry**: no scuffs, dust on the floor or panel seams (the brief asks for subtle imperfection).
+7. **Performance is unmeasured.**
 
-**Still fake or weak:**
-1. **The walls look dirty, not refined.** The Poly Haven "Concrete Wall 003" is a stained, weathered concrete. Under warm light it turns brown and mottled, like a basement. A cleaner honed plaster or board-formed concrete is needed; this is the biggest realism problem.
-2. **Floor reflections are not convincing** (gate 3).
-3. **Colour is almost monochrome warm brown.** The brief wants a warm key against a cooler fill; the cool fill is too weak to read.
-4. **The stepped-forward frame looks like a freestanding lightbox.** At 0.85 units forward and 1.06 scale, with a dark gap behind it, it stops reading as hung on the wall.
-5. **Ceiling slit fixtures read as flat cream rectangles** in the corridor and antechamber.
-6. **Walls are thin planes with no thickness**, so doorways have no reveal depth; no skirting shadow gap, no ceiling cove, no panel seams yet.
-7. **Only two works** hang on the wall, so the room is sparse.
-8. **Performance is unmeasured.** First load of the 3D scene took roughly 8 to 10 seconds in the dev server on this machine, before any optimisation, and I cannot measure frame rate here.
+### Not built yet
+About, Skills, Experience, Leadership and Contact in 3D (they exist in Lite with identical content); the Re:Watch trait mixer and AURA pipeline explainer in the Inspect panel; KTX2; a production-build timing.
 
-## Fixed this pass
-- Mobile: the camera now turns fully to the selected work on portrait screens (before: the work was off-screen).
-- Artwork prints are now PBR surfaces for gate 1.
-- Spotlight colour made less orange, wall tint made slightly cooler.
-
-## Not built yet
-About, Skills, Experience, Leadership and Contact in 3D (they exist in the Lite layout, same content); Inspect-panel explainers (trait mixer, AURA pipeline); a "close" screenshot per room; KTX2 compression; production-build performance check.
+## Checkpoint 1 (superseded)
+Brown stained walls, no visible floor reflection, frame stepping 0.85. Kept only for the mobile shot.

@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { SpotLight, Sparkles, Text, useTexture, useDepthBuffer } from "@react-three/drei";
 import { projects } from "@/data/projects";
 import { PROJ, CORRIDOR } from "@/lib/rooms";
-import { WallMaterial, OakMaterial, usePBR } from "./Materials";
+import { WallMaterial, ConcreteMaterial, OakMaterial, usePBR } from "./Materials";
 import { Floor, Slit, roomGain, tile } from "./parts";
 import { S, set, useStore } from "@/lib/store";
 
@@ -36,8 +36,8 @@ function Artwork({ index }: { index: number }) {
     const k = Math.min(1, dt * 5.5);
     const a = S.selected === index ? 1 : 0;
     if (g.current) {
-      g.current.position.z += ((a ? 0.85 : 0) - g.current.position.z) * k;       // steps forward under the spotlight
-      const s = g.current.scale.x + ((a ? 1.06 : 1) - g.current.scale.x) * k;
+      g.current.position.z += ((a ? 0.3 : 0) - g.current.position.z) * k;        // steps forward under the spotlight (kept small so it still reads as hung)
+      const s = g.current.scale.x + ((a ? 1.035 : 1) - g.current.scale.x) * k;
       g.current.scale.setScalar(s);
     }
     dim.current += ((a ? 1 : 0.62) - dim.current) * k;
@@ -62,7 +62,7 @@ function Artwork({ index }: { index: number }) {
           </mesh>
         ))}
         <mesh position={[0, 0, 0.012]} receiveShadow>
-          <boxGeometry args={[mw, mh, 0.024]} /><WallMaterial repeat={[1, 1]} tint="#cfc8b8" />
+          <boxGeometry args={[mw, mh, 0.024]} /><WallMaterial repeat={[1, 1]} tint="#e6dfcf" />
         </mesh>
         {/* the real project image */}
         <mesh position={[0, 0, 0.03]} onClick={onClick} onPointerOver={() => (document.body.style.cursor = "pointer")} onPointerOut={() => (document.body.style.cursor = "")} receiveShadow>
@@ -111,7 +111,7 @@ function Spot() {
   return (
     <>
       <SpotLight ref={light as any} depthBuffer={depth} castShadow color="#ffe2bd" angle={0.34} penumbra={1} distance={14} decay={2}
-        attenuation={7} anglePower={5} opacity={0.22} radiusTop={0.12} radiusBottom={1.5} shadow-mapSize={[1024, 1024]} shadow-radius={6} shadow-bias={-0.0004} />
+        attenuation={7} anglePower={4} opacity={0.4} radiusTop={0.12} radiusBottom={1.5} shadow-mapSize={[1024, 1024]} shadow-radius={6} shadow-bias={-0.0004} />
       <group ref={dust}>
         <Sparkles count={70} scale={[2.6, 3.4, 2.6]} size={2.6} speed={0.12} opacity={0.5} color="#ffe6c0" noise={0.4} />
       </group>
@@ -133,13 +133,26 @@ export function ProjectsRoom() {
           <WallMaterial repeat={tile(arcLen, H)} side={THREE.BackSide} />
         </mesh>
       ))}
+      {/* skirting shadow gap */}
+      {[GAP, Math.PI + GAP].map((start) => (
+        <mesh key={"sk" + start} position={[0, 0.045, zc]}>
+          <cylinderGeometry args={[R - 0.025, R - 0.025, 0.09, 96, 1, true, start, arc]} />
+          <WallMaterial repeat={[6, 0.1]} tint="#161513" side={THREE.BackSide} />
+        </mesh>
+      ))}
+      {/* door reveals (the wall has thickness): front and back openings */}
+      {[zc + R - 0.1, zc - R + 0.1].map((z, fi) => [-1, 1].map((s) => (
+        <mesh key={fi + "-" + s} position={[s * (door / 2), 1.6, z + (fi === 0 ? 0.2 : -0.2)]} rotation={[0, -s * Math.PI / 2, 0]}>
+          <planeGeometry args={[0.4, 3.2]} /><ConcreteMaterial repeat={[0.4, 1.3]} tint="#8a8780" />
+        </mesh>
+      )))}
       {/* ceiling */}
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, zc]}>
-        <circleGeometry args={[R, 96]} /><WallMaterial repeat={[R / 1.5, R / 1.5]} tint="#3f3d39" />
+        <circleGeometry args={[R, 96]} /><WallMaterial repeat={[R / 1.5, R / 1.5]} tint="#4a4843" />
       </mesh>
       {/* two ceiling slits wash the floor near the walls */}
-      <Slit position={[-4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={4} centreZ={zc} reach={12} />
-      <Slit position={[4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={4} centreZ={zc} reach={12} />
+      <Slit position={[-4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={30} centreZ={zc} reach={12} />
+      <Slit position={[4.6, H - 0.02, zc]} size={[0.2, 8]} intensity={30} centreZ={zc} reach={12} />
       <Artwork index={0} />
       <Artwork index={1} />
       <Spot />

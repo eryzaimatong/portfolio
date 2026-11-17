@@ -35,8 +35,9 @@ export default function Scene() {
         <color attach="background" args={["#0c0c0b"]} />
         <fog attach="fog" args={["#0c0c0b", 16, 50]} />
         <Suspense fallback={null}>
-          <Environment files="/hdri/photo_studio_loft_hall_1k.hdr" environmentIntensity={tier === "high" ? 0.16 : 0.2} background={false} />
-          <hemisphereLight args={["#9fb0d8", "#241d18", 0.05]} />
+          <Environment files="/hdri/photo_studio_loft_hall_1k.hdr" environmentIntensity={tier === "high" ? 0.3 : 0.34} background={false} />
+          {/* a cool, very dim fill (about 6000K) against the warm key lights, for natural colour contrast */}
+          <hemisphereLight args={["#a9bde8", "#1c1a18", 0.22]} />
           <Hall />
           <ProjectsRoom />
           <CameraRig />
