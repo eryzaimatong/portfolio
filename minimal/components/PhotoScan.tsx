@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 
-/* A red scan line sweeps down once on load and the photo develops behind it, from dark to clear. Hovering runs it again. */
+/* The photo starts in black and white. A red scan line sweeps down once on load and full colour develops behind it. Hovering runs the scan again. */
 export function PhotoScan({ children }: { children: React.ReactNode }) {
   const [run, setRun] = useState(0);
   const last = useRef(0);
@@ -11,11 +11,13 @@ export function PhotoScan({ children }: { children: React.ReactNode }) {
     last.current = now;
     setRun((r) => r + 1);
   };
+  const cls = run ? " again" : "";
   return (
     <div className="ph" onMouseEnter={again}>
       {children}
-      <i key={"d" + run} className={"ph-dev" + (run ? " again" : "")} aria-hidden="true" />
-      <i key={"s" + run} className={"ph-scan" + (run ? " again" : "")} aria-hidden="true" />
+      <img key={"c" + run} className={"ph-color" + cls} aria-hidden="true" alt="" width={960} height={1200} decoding="async" fetchPriority="low"
+        src="/assets/hero-c-960.webp" srcSet="/assets/hero-c-640.webp 640w, /assets/hero-c-960.webp 960w, /assets/hero-c-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px" />
+      <i key={"s" + run} className={"ph-scan" + cls} aria-hidden="true" />
     </div>
   );
 }

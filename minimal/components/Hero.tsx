@@ -25,7 +25,7 @@ export function Hero() {
           <img
             src="/assets/hero-960.webp" width={960} height={1200}
             srcSet="/assets/hero-640.webp 640w, /assets/hero-960.webp 960w, /assets/hero-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px"
-            alt="Eryza Mae Imatong looking back over her shoulder beside a concrete wall of valves. The picture is black and white; only the red valve wheels and her lips keep their colour."
+            alt="Eryza Mae Imatong looking back over her shoulder beside a concrete wall of red valves. The photo starts in black and white and turns to full colour."
             fetchPriority="high" decoding="async" />
         </PhotoScan>
         <figcaption className="mono"><span>{profile.name}</span></figcaption>
