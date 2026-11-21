@@ -4,6 +4,7 @@ import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
 import { evAttrs, skillRoles } from "@/data/roles";
+import { evidenceFor } from "@/data/evidence";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -52,7 +53,7 @@ export function Skills() {
             {g.skills.map((s) => {
               const l = LOGOS[s.name];
               return (
-                <li key={s.name} className={s.used ? "used" : ""} data-skill={s.name} data-roles={skillRoles(s.name).join(" ")} data-projects={(s.projects ?? []).join(" ")}>
+                <li key={s.name} className={s.used ? "used" : ""} data-skill={s.name} data-roles={skillRoles(s.name).join(" ")} data-projects={(s.projects ?? []).join(" ")} tabIndex={evidenceFor(s.name).length ? 0 : undefined}>
                   {l && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={l.path} fill="currentColor" /></svg>}
                   {s.name}
                 </li>

@@ -5,6 +5,7 @@ import { About, Skills, Experience, Leadership, Contact } from "@/components/Sec
 import { Motion } from "@/components/Motion";
 import { FitReport } from "@/components/FitReport";
 import { RoleProvider } from "@/components/RoleContext";
+import { ThreadLoader } from "@/components/ThreadLoader";
 
 export default function Page() {
   return (
@@ -21,6 +22,7 @@ export default function Page() {
         <Contact />
       </main>
       <Motion />
+      <ThreadLoader />
     </RoleProvider>
   );
 }
