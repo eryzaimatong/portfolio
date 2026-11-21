@@ -2,6 +2,7 @@ import { profile } from "@/data/profile";
 import { ROLES, type Seg } from "@/data/roles";
 import { PhotoScan } from "./PhotoScan";
 import { RoleChips } from "./RoleChips";
+import { Greeting } from "./Greeting";
 
 /* Key phrases are marked the way an editor would: a blood-red line that draws itself under the words. */
 const Hl = ({ i, children }: { i: number; children: React.ReactNode }) => <mark className="hl" style={{ "--i": i } as React.CSSProperties}>{children}</mark>;
@@ -15,6 +16,7 @@ export function Hero() {
     <section id="home" className="hero" aria-label="Home">
       <div className="hero-copy">
         <RoleChips />
+        <Greeting />
         <h1 className="hero-name pixel">{profile.name}<i className="caret" aria-hidden="true" /></h1>
         <p className="mono hero-kicker">{profile.kicker}</p>
         {/* every version of the line sits in the same grid cell, so the box is always as tall as the longest and nothing shifts */}

@@ -4,6 +4,7 @@ import { projects, type Project } from "@/data/projects";
 import { Dialog } from "./Dialogs";
 import { roleById } from "@/data/roles";
 import { useRole } from "./RoleContext";
+import { TasteLoader } from "./TasteLoader";
 
 const TABS = ["Overview", "How it works", "Stack and contribution", "Status and limits"] as const;
 
@@ -19,7 +20,7 @@ function CaseFile({ project, onClose }: { project: Project | null; onClose: () =
       <p className="mono label-red">{p.eyebrow}</p>
       <h3 className="dlg-title pixel">{p.title}</h3>
       <figure className="cf-fig">
-        <img src={g.src} alt={g.caption} className={p.slug} />
+        <img src={g.src} alt={g.caption} className={p.slug} loading="lazy" decoding="async" />
         <figcaption><span>{g.caption}</span><span className="mono">{img + 1} / {p.gallery.length}</span></figcaption>
         <div className="cf-nav">
           <button type="button" className="btn" onClick={() => setImg(Math.max(0, img - 1))} disabled={img === 0} aria-label="Previous picture">←</button>
@@ -144,7 +145,7 @@ export function HoloCarousel() {
                 <button type="button" tabIndex={on ? 0 : -1} className="hbtn" aria-label={on ? `Open the ${pr.title} case file` : `Show ${pr.title}`}
                   onClick={() => { if (drag.current?.moved) return; if (on) setOpen(pr); else goTo(i); }}>
                   <span className="hfig">
-                    <img src={pr.cover} alt="" draggable={false} className={pr.slug} />
+                    <img src={pr.cover} alt="" width={pr.galleryRatio[0]} height={pr.galleryRatio[1]} loading="lazy" decoding="async" draggable={false} className={pr.slug} />
                     <i className="tint" /><i className="scanl" /><i className="band" />
                     <b className="br tl" /><b className="br tr" /><b className="br bl" /><b className="br rb" />
                     <span className="tag mono">project {String(i + 1).padStart(2, "0")}</span>
@@ -166,6 +167,7 @@ export function HoloCarousel() {
         <h3 className="pixel holo-title">{p.title}</h3>
         <p className="holo-actions"><button type="button" className="btn solid" onClick={() => setOpen(p)}>Open the case file</button></p>
       </div>
+      <TasteLoader />
       <CaseFile project={open} onClose={() => setOpen(null)} />
     </section>
   );

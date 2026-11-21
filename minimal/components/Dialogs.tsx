@@ -33,7 +33,7 @@ export function CertButton({ src, alt, title }: { src: string; alt: string; titl
       <button type="button" className="link mono" onClick={() => setOpen(true)} aria-haspopup="dialog">View certificate →</button>
       <Dialog open={open} onClose={() => setOpen(false)} label={title}>
         <h3 className="dlg-title pixel">{title}</h3>
-        <img className="dlg-img" src={src} alt={alt} />
+        <img className="dlg-img" src={src} alt={alt} loading="lazy" decoding="async" />
       </Dialog>
     </>
   );
