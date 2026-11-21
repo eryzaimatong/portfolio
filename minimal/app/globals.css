@@ -236,3 +236,28 @@ html.js .rv.in { opacity: 1; transform: none; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-hover); }
 @media (max-width: 640px) { .pgrid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; } }
+
+/* ================= scene 3: skills corridor ================= */
+.sk3d { position: relative; margin-top: 22px; }
+.sk-stage { position: relative; height: clamp(460px, 76vh, 660px); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.sk-stage .three-canvas { z-index: 1; }
+.sk-poster { position: absolute; inset: 0; z-index: 0; }                 /* a still corridor, so the section is complete before the 3D arrives */
+.sk-poster .w { position: absolute; inset: 0; }
+.sk-poster .l { clip-path: polygon(0 0, 36% 31%, 36% 69%, 0 100%); background: linear-gradient(90deg, rgba(74, 26, 29, .55), rgba(10, 5, 6, .95)), repeating-linear-gradient(90deg, transparent 0 46px, rgba(224, 17, 43, .18) 46px 47px); }
+.sk-poster .r { clip-path: polygon(100% 0, 64% 31%, 64% 69%, 100% 100%); background: linear-gradient(270deg, rgba(74, 26, 29, .55), rgba(10, 5, 6, .95)), repeating-linear-gradient(270deg, transparent 0 46px, rgba(224, 17, 43, .18) 46px 47px); }
+.sk-poster .t { clip-path: polygon(0 0, 100% 0, 64% 31%, 36% 31%); background: linear-gradient(180deg, rgba(58, 26, 31, .5), rgba(10, 5, 6, .95)); }
+.sk-poster .b { clip-path: polygon(0 100%, 100% 100%, 64% 69%, 36% 69%); background: linear-gradient(0deg, rgba(58, 26, 31, .5), rgba(10, 5, 6, .95)); }
+.sk-stage.is-live .sk-poster { opacity: 0; transition: opacity var(--t-layout) var(--ease); }
+.sk-vig { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse 30% 28% at 50% 50%, rgba(10, 5, 6, .9), rgba(10, 5, 6, .45) 60%, transparent 100%); }
+.sk-hint { position: absolute; left: 16px; bottom: 12px; z-index: 3; margin: 0; pointer-events: none; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.sk-hint .h-touch { display: none; } @media (pointer: coarse) { .sk-hint .h-fine { display: none; } .sk-hint .h-touch { display: inline; } }
+.sk-stage.is-focused .sk-hint .h-fine::after { content: " · esc to resume"; }
+.sk-card { position: absolute; left: 0; top: 0; z-index: 4; translate: -50% calc(-100% - 18px); min-width: 180px; max-width: 260px; pointer-events: none; padding: 10px 12px 11px; border: 1px solid var(--blood); border-radius: 8px; background: rgba(18, 8, 9, .94);
+  opacity: 0; transition: opacity var(--t-micro) var(--ease); }
+.sk-card.on { opacity: 1; }
+.sk-card p { margin: 0; } .skc-cat { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--blood-text); }
+.skc-name { font: 600 16px/1.3 var(--sans); margin-top: 3px !important; } .skc-used { font-size: 11.5px; color: var(--dim); margin-top: 4px !important; }
+/* the list: the accessible version of the corridor, shown as-is without JavaScript or WebGL */
+html.js .sk3d:not(.no-gl) .sk-list { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+html:not(.js) .sk-stage, .sk3d.no-gl .sk-stage { display: none; }
+@media (max-width: 640px) { .sk-stage { height: 440px; } }

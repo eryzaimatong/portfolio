@@ -3,6 +3,8 @@ import { skillGroups, skillNote } from "@/data/skills";
 import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
+import { SkillsScene } from "./SkillsScene";
+import { corridorPanels } from "@/data/corridor";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -44,22 +46,27 @@ export function Skills() {
     <section id="skills" className="section" aria-labelledby="skills-h">
       <Sec n="03" label="skills" id="skills-h" />
       <p className="about-sub rv">What I work with across data and software, plus the tools I use to build and collaborate.</p>
-      {skillGroups.map((g) => (
-        <div key={g.id} className="sk-group rv">
-          <h3 className="mono">{g.name}</h3>
-          <ul className="chips">
-            {g.skills.map((s) => {
-              const l = LOGOS[s.name];
-              return (
-                <li key={s.name} className={s.used ? "used" : ""}>
-                  {l && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={l.path} fill="currentColor" /></svg>}
-                  {s.name}
-                </li>
-              );
-            })}
-          </ul>
+      <div className="sk3d">
+        <SkillsScene panels={corridorPanels()} />
+        <div className="sk-list">
+        {skillGroups.map((g) => (
+          <div key={g.id} className="sk-group">
+            <h3 className="mono">{g.name}</h3>
+            <ul className="chips">
+              {g.skills.map((s) => {
+                const l = LOGOS[s.name];
+                return (
+                  <li key={s.name} className={s.used ? "used" : ""}>
+                    {l && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={l.path} fill="currentColor" /></svg>}
+                    {s.name}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
         </div>
-      ))}
+      </div>
       <p className="note rv"><i className="led" aria-hidden="true" /> {skillNote}</p>
     </section>
   );
