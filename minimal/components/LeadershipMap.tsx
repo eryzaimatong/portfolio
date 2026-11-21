@@ -8,9 +8,10 @@ type Cisco = { org: string; role: string; tiles: Tile[] };
 /* A control panel: one switch per team. Flip it on and the team's logo lights up and its details open. Several can be on at once. */
 export function LeadershipMap({ items, cisco }: { items: Item[]; cisco: Cisco }) {
   const [on, setOn] = useState<Set<number>>(new Set([0]));
-  const flip = (i: number) => setOn((s) => { const n = new Set(s); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const [touched, setTouched] = useState<Set<number>>(new Set());          // only rows you have switched animate (never on load)
+  const flip = (i: number) => { setTouched((t) => new Set(t).add(i)); setOn((s) => { const n = new Set(s); n.has(i) ? n.delete(i) : n.add(i); return n; }); };
   const all = on.size === items.length;
-  const setAll = () => setOn(all ? new Set() : new Set(items.map((_, i) => i)));
+  const setAll = () => { setTouched(new Set(items.map((_, i) => i))); setOn(all ? new Set() : new Set(items.map((_, i) => i))); };
 
   return (
     <div className="pnl">
@@ -22,7 +23,7 @@ export function LeadershipMap({ items, cisco }: { items: Item[]; cisco: Cisco })
         {items.map((it, i) => {
           const lit = on.has(i);
           return (
-            <li key={it.title} className={"pnl-row" + (lit ? " is-on" : "")}>
+            <li key={it.title} className={"pnl-row" + (lit ? " is-on" : "")} data-touched={touched.has(i) || undefined} style={{ "--r": i } as React.CSSProperties}>
               <button type="button" role="switch" aria-checked={lit} aria-controls={`pnl-d-${i}`} className="pnl-head" onClick={() => flip(i)}>
                 <span className="pnl-sw" aria-hidden="true"><i /></span>
                 {it.badge && <img className="pnl-logo" src={it.badge.src} alt="" width={40} height={40} loading="lazy" />}
@@ -35,7 +36,7 @@ export function LeadershipMap({ items, cisco }: { items: Item[]; cisco: Cisco })
               <div id={`pnl-d-${i}`} className="pnl-body" role="region" aria-label={`${it.title} details`} inert={!lit}>
                 <div className="pnl-inner">
                   <p className="pnl-detail">{it.detail}</p>
-                  {it.chips && <ul className="chips">{it.chips.map((c) => <li key={c}>{c}</li>)}</ul>}
+                  {it.chips && <ul className="chips">{it.chips.map((c, k) => <li key={c} style={{ "--c": k } as React.CSSProperties}>{c}</li>)}</ul>}
                   <div className="pnl-links">
                     {it.link && <a className="link mono" href={it.link.href} target="_blank" rel="noopener">{it.link.label} →</a>}
                     {it.orgKey === "cisco" && <OrgButton org={cisco.org} role={cisco.role} tiles={cisco.tiles} />}
