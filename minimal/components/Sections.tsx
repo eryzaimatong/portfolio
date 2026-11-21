@@ -4,6 +4,7 @@ import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
 import { SkillsScene } from "./SkillsScene";
+import { SkillGroups } from "./SkillList";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -47,23 +48,9 @@ export function Skills() {
       <p className="about-sub rv">What I work with across data and software, plus the tools I use to build and collaborate.</p>
       <div className="sk3d">
         <SkillsScene />
+        <a className="sk-all mono" href="/skills">View all skills <span aria-hidden="true">→</span></a>
         <div className="sk-list">
-        {skillGroups.map((g) => (
-          <div key={g.id} className="sk-group">
-            <h3 className="mono">{g.name}</h3>
-            <ul className="chips">
-              {g.skills.map((s) => {
-                const l = LOGOS[s.name];
-                return (
-                  <li key={s.name} className={s.used ? "used" : ""}>
-                    {l && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={l.path} fill="currentColor" /></svg>}
-                    {s.name}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+          <SkillGroups />
         </div>
       </div>
       <p className="note rv"><i className="led" aria-hidden="true" /> {skillNote}</p>
