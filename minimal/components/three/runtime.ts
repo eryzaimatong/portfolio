@@ -132,8 +132,8 @@ export function useThreeScene<P>(
 }
 
 /* No scene starts during the page's first load. Three.js and all scene setup wait for the visitor's first interaction
-   (pointer, touch, scroll, wheel or key), or 4 s after the load event, whichever comes first. The static page is complete
-   without them, so nothing is missing in the meantime. */
+   (pointer, touch, scroll, wheel or key). The static page is complete without them (photo, screenshots, skills list),
+   so nothing is missing in the meantime, and the first load never pays for 3D. */
 let gate: Promise<void> | null = null;
 export function intent(): Promise<void> {
   return (gate ??= new Promise<void>((res) => {
@@ -141,8 +141,6 @@ export function intent(): Promise<void> {
     let done = false;
     const go = () => { if (done) return; done = true; evs.forEach((e) => removeEventListener(e, go)); res(); };
     evs.forEach((e) => addEventListener(e, go, { passive: true, once: true }));
-    const later = () => setTimeout(go, 4000);
-    if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
   }));
 }
 /* Give the main thread back between chunks of setup work, so no single task runs long. */
