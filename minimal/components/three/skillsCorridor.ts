@@ -1,6 +1,7 @@
 import type * as T from "three";
-import { disposeScene, type SceneCtx, type SceneHandle } from "./runtime";
+import { disposeScene, yieldToMain, type SceneCtx, type SceneHandle } from "./runtime";
 import { clamp, damp, HOVER, SETTLE, SLOW } from "./motion";
+import { corridorPanels } from "@/data/corridor";
 
 /* Skills corridor. Panels on four walls drift toward you; the camera looks around with the pointer (drag on touch).
    Walls by meaning: data on the left, backend on the right, frontend on the ceiling, tools on the floor.
@@ -10,7 +11,7 @@ import { clamp, damp, HOVER, SETTLE, SLOW } from "./motion";
 
 export type Wall = "left" | "right" | "ceiling" | "floor";
 export type Panel = { name: string; group: string; wall: Wall; usedIn: string | null; brand: { path: string; hex: string } | null; glyph: string | null };
-export type CorridorProps = { panels: Panel[]; card: HTMLElement; touch: boolean };
+export type CorridorProps = { card: HTMLElement; touch: boolean };
 
 const PAPER = "#F1ECEC", RED = "#E0112B";
 const W = 3.7, H = 2.35, SPAN = 34, NEAR = 2.5, PW = 2.7, PH = 1.68, TILT = 0.4;
@@ -18,7 +19,8 @@ const W = 3.7, H = 2.35, SPAN = 34, NEAR = 2.5, PW = 2.7, PH = 1.68, TILT = 0.4;
 function luminance(hex: string) { const n = parseInt(hex.slice(1), 16); const r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255; return 0.2126 * r + 0.7152 * g + 0.0722 * b; }
 const cssVar = (v: string, fb: string) => (getComputedStyle(document.documentElement).getPropertyValue(v).trim() || fb);
 
-export async function createScene({ THREE, renderer, host, reduce, low, invalidate }: SceneCtx, { panels, card, touch }: CorridorProps): Promise<SceneHandle> {
+export async function createScene({ THREE, renderer, host, reduce, low, invalidate }: SceneCtx, { card, touch }: CorridorProps): Promise<SceneHandle> {
+  const panels = corridorPanels();
   const sans = cssVar("--font-geist-sans", "system-ui, sans-serif"), mono = cssVar("--font-geist-mono", "ui-monospace, monospace");
   try { await Promise.all([document.fonts.load(`600 40px ${sans}`), document.fonts.load(`500 18px ${mono}`)]); } catch {}
 
@@ -63,11 +65,13 @@ export async function createScene({ THREE, renderer, host, reduce, low, invalida
   const slots: Slot[] = [];
   const byWall: Record<Wall, Panel[]> = { left: [], right: [], ceiling: [], floor: [] };
   panels.forEach((p) => byWall[p.wall].push(p));
-  (Object.keys(byWall) as Wall[]).forEach((wall) => {
-    const list = byWall[wall]; if (!list.length) return;
+  for (const wall of Object.keys(byWall) as Wall[]) {
+    const list = byWall[wall]; if (!list.length) continue;
     const reps = Math.max(1, Math.ceil(8 / list.length)), seq = Array.from({ length: list.length * reps }, (_, i) => list[i % list.length]);
     const step = SPAN / seq.length;
-    seq.forEach((p, k) => {
+    for (let k = 0; k < seq.length; k++) {
+      const p = seq[k];
+      if (!texCache.has(p.name)) { if (texCache.size % 4 === 3) await yieldToMain(); }
       if (!texCache.has(p.name)) texCache.set(p.name, { bg: panelTex(p), logo: logoTex(p) });
       const t = texCache.get(p.name)!;
       const bgMat = new THREE.MeshBasicMaterial({ map: t.bg, transparent: true });
@@ -82,8 +86,8 @@ export async function createScene({ THREE, renderer, host, reduce, low, invalida
       const hex = p.brand ? (luminance(p.brand.hex) < 0.12 ? PAPER : p.brand.hex) : RED;
       scene.add(bg);
       slots.push({ p, bg, logo, bgMat, logoMat, z0: -(k * step + (wall === "right" || wall === "ceiling" ? step / 2 : 0)), normal, base, pull: 0, brand: new THREE.Color(hex), dimmed: 1 });
-    });
-  });
+    }
+  }
   const paper = new THREE.Color(PAPER);
 
   /* ---- frame rings and corner rails ---- */
@@ -198,6 +202,7 @@ export async function createScene({ THREE, renderer, host, reduce, low, invalida
     renderer.render(scene, cam);
   };
 
+  await renderer.compileAsync(scene, cam);
   return {
     frame, resize,
     animating: () => !reduce,

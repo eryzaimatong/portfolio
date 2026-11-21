@@ -1,5 +1,4 @@
 import type * as T from "three";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { disposeScene, type SceneCtx, type SceneHandle } from "./runtime";
 import { clamp, damp, SLOW } from "./motion";
 
@@ -18,17 +17,11 @@ function glowTexture(THREE: SceneCtx["THREE"]) {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-export function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { photo }: Props): SceneHandle {
+export async function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { photo }: Props): Promise<SceneHandle> {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(BG, 10.5, 15.5);
   const cam = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
   cam.position.set(0, 0, 12);
-
-  // reflections for the metal: a neutral studio environment, kept faint
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  pmrem.dispose();
-  scene.environment = env;
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.05));
   const key = new THREE.DirectionalLight(0xffffff, 0.38); key.position.set(-3, 4, 5); scene.add(key);
@@ -46,7 +39,7 @@ export function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { 
   geo.computeVertexNormals();
 
   const rimU = { value: new THREE.Color(0xff2a2a).multiplyScalar(0.42) };
-  const metal = new THREE.MeshStandardMaterial({ color: 0x0c0607, metalness: 0.9, roughness: 0.34, flatShading: true, envMapIntensity: 0.12 });
+  const metal = new THREE.MeshStandardMaterial({ color: 0x1a0d0f, metalness: 0.55, roughness: 0.38, flatShading: true });
   metal.onBeforeCompile = (sh) => {                     // a soft red rim, strongest on facets that turn away from you
     sh.uniforms.uRim = rimU;
     sh.fragmentShader = sh.fragmentShader
@@ -149,11 +142,12 @@ export function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { 
     renderer.render(scene, cam);
   };
 
+  await renderer.compileAsync(scene, cam);              // shaders compile off the main path
   return {
     frame, resize,
     dispose() {
       removeEventListener("pointermove", onMove); removeEventListener("pointerdown", onMove); document.removeEventListener("pointerleave", onLeave);
-      disposeScene(scene); shapes.forEach((s) => s.dispose()); env.dispose();
+      disposeScene(scene); shapes.forEach((s) => s.dispose());
     },
   };
 }

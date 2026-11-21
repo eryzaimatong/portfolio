@@ -4,7 +4,6 @@ import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
 import { SkillsScene } from "./SkillsScene";
-import { corridorPanels } from "@/data/corridor";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -47,7 +46,7 @@ export function Skills() {
       <Sec n="03" label="skills" id="skills-h" />
       <p className="about-sub rv">What I work with across data and software, plus the tools I use to build and collaborate.</p>
       <div className="sk3d">
-        <SkillsScene panels={corridorPanels()} />
+        <SkillsScene />
         <div className="sk-list">
         {skillGroups.map((g) => (
           <div key={g.id} className="sk-group">

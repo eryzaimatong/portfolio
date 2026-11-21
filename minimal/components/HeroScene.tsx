@@ -9,7 +9,6 @@ export function HeroScene() {
   useThreeScene(host, () => import("./three/heroCrystal"), {
     name: "hero",
     near: "0px",
-    defer: true,
     get props() { photo.current = host.current?.parentElement?.querySelector(".ph") as HTMLElement; return { photo: photo.current! }; },
   });
   return <div ref={host} className="hero-3d" aria-hidden="true" />;

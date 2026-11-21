@@ -36,8 +36,12 @@ let raf = 0;
 const loop = (t: number) => { raf = 0; subs.forEach((f) => f(t)); if (subs.size) raf = requestAnimationFrame(loop); };
 const subscribe = (f: (t: number) => void) => { subs.add(f); if (!raf) raf = requestAnimationFrame(loop); return () => { subs.delete(f); }; };
 
-export function webglOK(): boolean {
-  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
+let glOK: boolean | null = null;
+export function webglOK(): boolean {                           // checked once, after the first load
+  if (glOK !== null) return glOK;
+  try { const c = document.createElement("canvas"); const g = c.getContext("webgl2") || c.getContext("webgl"); glOK = !!g; (g as WebGLRenderingContext | null)?.getExtension("WEBGL_lose_context")?.loseContext(); }
+  catch { glOK = false; }
+  return glOK;
 }
 export function lowPower(): boolean {
   const n = navigator as Navigator & { deviceMemory?: number };
@@ -47,7 +51,7 @@ export function lowPower(): boolean {
 export function useThreeScene<P>(
   host: RefObject<HTMLElement | null>,
   load: () => Promise<SceneModule<P>>,
-  opts: { props: P; name?: string; near?: string; defer?: boolean; onLive?: () => void; onFail?: () => void; handleRef?: MutableRefObject<SceneHandle | null> },
+  opts: { props: P; name?: string; near?: string; onLive?: () => void; onFail?: () => void; handleRef?: MutableRefObject<SceneHandle | null> },
 ) {
   useEffect(() => {
     const el = host.current;
@@ -81,9 +85,9 @@ export function useThreeScene<P>(
     };
 
     const start = async () => {
-      if (!webglOK()) return fail();
-      if (opts.defer) await afterLoadIdle();                   // e.g. the hero: never compete with the first paint
+      await intent();                                          // never during the first load (not even the WebGL check)
       if (dead) return;
+      if (!webglOK()) return fail();
       try {
         const [THREE, mod] = await Promise.all([import("three"), load()]);
         if (dead) return;
@@ -99,6 +103,7 @@ export function useThreeScene<P>(
         if (dead) { handle.dispose(); return; }
         if (opts.handleRef) opts.handleRef.current = handle;
         ro = new ResizeObserver(size); ro.observe(el); size();
+        if (opts.handleRef) opts.handleRef.current = handle;
         handle.frame(0, 0.016);                                 // a finished first frame before anything is shown
         vis = new IntersectionObserver(([e]) => {
           visible = e.isIntersecting;
@@ -126,12 +131,22 @@ export function useThreeScene<P>(
   }, []);
 }
 
-function afterLoadIdle() {
-  return new Promise<void>((res) => {
-    const idle = () => { const w = window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }; if (w.requestIdleCallback) w.requestIdleCallback(() => res(), { timeout: 1200 }); else setTimeout(res, 200); };
-    if (document.readyState === "complete") idle(); else addEventListener("load", idle, { once: true });
-  });
+/* No scene starts during the page's first load. Three.js and all scene setup wait for the visitor's first interaction
+   (pointer, touch, scroll, wheel or key), or 4 s after the load event, whichever comes first. The static page is complete
+   without them, so nothing is missing in the meantime. */
+let gate: Promise<void> | null = null;
+export function intent(): Promise<void> {
+  return (gate ??= new Promise<void>((res) => {
+    const evs = ["pointermove", "pointerdown", "touchstart", "wheel", "scroll", "keydown"] as const;
+    let done = false;
+    const go = () => { if (done) return; done = true; evs.forEach((e) => removeEventListener(e, go)); res(); };
+    evs.forEach((e) => addEventListener(e, go, { passive: true, once: true }));
+    const later = () => setTimeout(go, 4000);
+    if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
+  }));
 }
+/* Give the main thread back between chunks of setup work, so no single task runs long. */
+export const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
 
 /* Free everything a scene created. */
 export function disposeScene(root: THREE_NS.Object3D) {

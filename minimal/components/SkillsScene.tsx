@@ -1,16 +1,15 @@
 "use client";
 import { useRef } from "react";
 import { useThreeScene } from "./three/runtime";
-import type { Panel } from "./three/skillsCorridor";
 
-/* The skills corridor. The stage is decorative for assistive tech (aria-hidden); the full skills list right after it is
+/* The skills corridor. Its panels (icons included) are built inside the lazily loaded scene chunk, not sent with the page. The stage is decorative for assistive tech (aria-hidden); the full skills list right after it is
    the accessible version, visually hidden while the corridor runs and shown as-is if WebGL is unavailable. */
-export function SkillsScene({ panels }: { panels: Panel[] }) {
+export function SkillsScene() {
   const host = useRef<HTMLDivElement>(null);
   const card = useRef<HTMLDivElement>(null);
   useThreeScene(host, () => import("./three/skillsCorridor"), {
     name: "skills",
-    get props() { return { panels, card: card.current!, touch: matchMedia("(pointer: coarse)").matches }; },
+    get props() { return { card: card.current!, touch: matchMedia("(pointer: coarse)").matches }; },
     onFail: () => host.current?.closest(".sk3d")?.classList.add("no-gl"),
   });
   return (

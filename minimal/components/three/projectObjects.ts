@@ -1,5 +1,5 @@
 import type * as T from "three";
-import { disposeScene, type SceneCtx, type SceneHandle } from "./runtime";
+import { disposeScene, yieldToMain, type SceneCtx, type SceneHandle } from "./runtime";
 import { damp, easeInOutCubic, HOVER, SLOW } from "./motion";
 
 /* Project objects. Each project is its own object built from its real screenshots:
@@ -74,6 +74,7 @@ export async function createScene({ THREE, renderer, reduce, low, invalidate }: 
   type L = { pivot: T.Object3D; mesh: T.Mesh; mat: T.MeshBasicMaterial; k: number; jitter: number };
   const layers: L[] = [];
   for (let i = 0; i < N; i++) {
+    await yieldToMain();
     // the front-most layer shows the cover (first screenshot)
     const front = i === N - 1;
     const mat = new THREE.MeshBasicMaterial({ map: shotTex(imgs[N - 1 - i], TW, TH, front), transparent: !deck, opacity: deck ? 1 : front ? 0.97 : 0.42 + 0.3 * (i / Math.max(1, N - 1)) });
@@ -146,6 +147,7 @@ export async function createScene({ THREE, renderer, reduce, low, invalidate }: 
     zoomFrom = zoomT; zoomTo = to; zoomStart = performance.now(); zoomDur = ms; zoomResolve = res; invalidate(ms + 100);
   });
 
+  await renderer.compileAsync(scene, cam);
   return {
     frame, resize,
     animating: () => !reduce || fan !== fanTarget || !!zoomResolve,
