@@ -1,5 +1,6 @@
 import { profile } from "@/data/profile";
 import { PhotoScan } from "./PhotoScan";
+import { HeroScene } from "./HeroScene";
 
 /* Key phrases are marked the way an editor would: a blood-red line that draws itself under the words. */
 const Hl = ({ i, children }: { i: number; children: React.ReactNode }) => <mark className="hl" style={{ "--i": i } as React.CSSProperties}>{children}</mark>;
@@ -21,6 +22,7 @@ export function Hero() {
         </p>
       </div>
       <figure className="hero-photo">
+        <HeroScene />
         <PhotoScan>
           <img
             src="/assets/hero-960.webp" width={960} height={1200}

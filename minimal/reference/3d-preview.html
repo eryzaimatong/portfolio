@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eryza 3D Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout idea: the current sidebar + long scroll stays; each section gets one real 3D scene (crystal, rotating stacks, skills corridor) */
+  --ink:#080506; --ink2:#120a0b; --line:#2a1a1b; --paper:#ece4da; --dim:#92847d; --red:#ff3b30; --deep:#b3121a;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace; --sans:'DM Sans',system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+a{color:inherit}
+
+/* sidebar */
+aside{position:fixed;left:0;top:0;bottom:0;width:224px;padding:26px 22px;border-right:1px solid var(--line);background:var(--ink);z-index:30;display:flex;flex-direction:column;justify-content:space-between;font:400 12px/1.4 var(--mono)}
+aside .brand{display:flex;gap:10px;align-items:center;font-weight:500;letter-spacing:.02em;margin-bottom:34px}
+aside .brand i{width:10px;height:10px;background:var(--red);box-shadow:0 0 12px var(--red)}
+aside ul{list-style:none;display:grid;gap:4px}
+aside a.n{display:flex;gap:10px;padding:9px 10px;text-decoration:none;color:var(--dim);border-left:2px solid transparent;transition:.2s}
+aside a.n b{color:var(--red);font-weight:500}
+aside a.n:hover,aside a.n.on{color:var(--paper);border-left-color:var(--red);background:linear-gradient(90deg,rgba(179,18,26,.3),transparent)}
+.open{display:inline-flex;gap:8px;align-items:center;color:var(--paper);font-size:11px}
+.open i{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+main{margin-left:224px}
+@media(max-width:860px){
+  aside{position:sticky;top:0;width:auto;bottom:auto;flex-direction:row;align-items:center;padding:12px 16px;border-right:0;border-bottom:1px solid var(--line)}
+  aside .brand{margin:0}aside ul{display:flex;gap:2px}aside a.n{padding:6px 8px;border-left:0}aside a.n span{display:none}aside .foot{display:none}
+  main{margin-left:0}
+}
+
+section{position:relative;padding:0 clamp(18px,4vw,56px)}
+.eyebrow{font:500 12px/1 var(--mono);color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+h2{font:500 clamp(30px,4.6vw,52px)/1.05 var(--mono);letter-spacing:-.03em;text-wrap:balance}
+.btn{font:500 13px/1 var(--mono);padding:14px 20px;border:1px solid var(--line);border-radius:3px;text-decoration:none;display:inline-block;transition:.25s}
+.btn.solid{background:var(--deep);border-color:var(--deep)}
+.btn:hover{border-color:var(--red);box-shadow:0 0 26px rgba(255,59,48,.35)}
+canvas{display:block;width:100%;height:100%;touch-action:pan-y}
+
+/* hero: crystal */
+.hero{height:min(86vh,720px);min-height:560px;overflow:hidden;background:radial-gradient(ellipse 60% 55% at 68% 48%,rgba(179,18,26,.28),transparent 70%),linear-gradient(var(--ink),#0d0708 90%)}
+.hero .stage{position:absolute;inset:0}
+.hero .copy{position:absolute;left:clamp(18px,4vw,56px);top:50%;transform:translateY(-50%);max-width:min(480px,86%);pointer-events:none;z-index:2}
+.hero .copy>*{pointer-events:auto}
+.hero h1{font:500 clamp(40px,6.4vw,84px)/.98 var(--mono);letter-spacing:-.045em;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.role{font:500 12px/1.4 var(--mono);color:var(--red);letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+.lede{font-size:17px;color:#d6cbc1;max-width:40ch}.lede b{color:var(--paper)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.hero .side{position:absolute;right:clamp(18px,4vw,56px);bottom:70px;max-width:230px;font:400 12px/1.6 var(--mono);color:var(--dim);z-index:2;text-align:left}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(transparent,var(--ink));pointer-events:none;z-index:1}
+@media(max-width:860px){.hero .copy{top:auto;bottom:70px;transform:none}.hero .side{display:none}.hero .stage{inset:-6% 0 38% 0}}
+
+/* projects: stacks */
+.projects{padding-top:80px;padding-bottom:40px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:34px}
+@media(max-width:860px){.pgrid{grid-template-columns:1fr}}
+.pcard{position:relative;border:1px solid var(--line);border-radius:4px;background:linear-gradient(180deg,#0e0809,#090506);overflow:hidden}
+.pcard .cv{height:300px;cursor:pointer}
+.pcard .meta{padding:6px 22px 22px;display:flex;justify-content:space-between;gap:14px;align-items:flex-end}
+.pcard h3{font:500 26px/1.1 var(--mono);letter-spacing:-.02em}
+.pcard p{font-size:14px;color:var(--dim);margin-top:6px;max-width:34ch}
+.pcard .tagl{position:absolute;left:22px;top:18px;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--red);pointer-events:none}
+.pcard .hint{position:absolute;left:22px;top:40px;font:400 11px/1 var(--mono);color:var(--dim);letter-spacing:.1em;pointer-events:none}
+
+/* skills: corridor */
+.skills{padding-top:70px;padding-bottom:60px}
+.tun{position:relative;height:min(82vh,700px);min-height:520px;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--ink)}
+.tun .cv{position:absolute;inset:0}
+.tun .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 34% 30% at 50% 50%,rgba(8,5,6,.92),rgba(8,5,6,.6) 60%,transparent 100%)}
+.tun .mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:min(420px,80%);pointer-events:none}
+.tun .mid h2{margin-bottom:10px}
+.tun .mid p{font-size:15px;color:#cfc3b9}
+.tun .mid small{display:block;margin-top:14px;font:400 11px/1 var(--mono);letter-spacing:.12em;color:var(--dim)}
+.tip{position:absolute;z-index:5;pointer-events:none;padding:10px 12px;background:var(--ink2);border:1px solid var(--red);border-radius:3px;font:400 12px/1.5 var(--mono);opacity:0;transform:translate(14px,14px);transition:opacity .15s;max-width:220px}
+.tip b{display:block;font-weight:500;color:var(--paper);font-size:14px}
+.tip span{color:var(--red);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.tip div{color:var(--dim)}
+
+/* case file */
+.case{position:fixed;inset:0;z-index:80;background:rgba(5,3,4,.88);display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s;backdrop-filter:blur(8px)}
+.case.on{opacity:1;visibility:visible;transition:opacity .35s}
+.case .box{width:min(640px,100%);max-height:88vh;overflow:auto;border:1px solid var(--red);background:var(--ink2);padding:28px;border-radius:4px;box-shadow:0 0 80px rgba(255,59,48,.25);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,1.2,.4,1)}
+.case.on .box{transform:none}
+.case h3{font:500 34px/1.1 var(--mono);letter-spacing:-.03em;margin:8px 0 12px}
+.case p{color:#d6cbc1;margin-bottom:16px}
+.tag{display:inline-block;font:500 11px/1 var(--mono);padding:6px 8px;border:1px solid var(--line);border-radius:2px;margin:0 6px 6px 0;color:var(--dim)}
+.nogl{display:none;padding:30px;font:400 13px/1.6 var(--mono);color:var(--dim)}
+footer{padding:50px clamp(18px,4vw,56px);font:400 11px/1.6 var(--mono);color:var(--dim);border-top:1px solid var(--line);margin-top:40px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<aside>
+  <div>
+    <div class="brand"><i></i><span>Eryza Mae Imatong</span></div>
+    <ul>
+      <li><a class="n on" href="#home"><b>01</b><span>Home</span></a></li>
+      <li><a class="n" href="#projects"><b>02</b><span>Projects</span></a></li>
+      <li><a class="n" href="#skills"><b>03</b><span>Skills</span></a></li>
+    </ul>
+  </div>
+  <div class="foot"><span class="open"><i></i>Open to internships</span></div>
+</aside>
+
+<main>
+<section class="hero" id="home">
+  <div class="stage" id="heroStage"><canvas id="heroCv" aria-label="3D crystal with floating fragments that move away from your cursor"></canvas></div>
+  <div class="copy">
+    <div class="role">Data science · Analytics · Developer</div>
+    <h1>Eryza Mae <em>Imatong</em></h1>
+    <p class="lede">BSIT student at PUP Manila, specializing in <b>Data Science</b>. Looking for data science, analytics and technical internships.</p>
+    <div class="cta"><a class="btn solid" href="#projects">See projects</a><a class="btn" href="#skills">Skills</a></div>
+  </div>
+  <div class="side">Every fragment is a piece of the work. Move your cursor through them.</div>
+  <div class="fade"></div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="eyebrow">02 · Projects</div>
+  <h2>Two stacks. Touch one.</h2>
+  <div class="pgrid">
+    <div class="pcard" data-p="rewatch">
+      <div class="tagl">PROJECT 01 · WEB APP · DEPLOYED</div><div class="hint">HOVER TO FAN · CLICK TO OPEN</div>
+      <div class="cv"><canvas></canvas></div>
+      <div class="meta"><div><h3>Re:Watch</h3><p>Movie, TV and anime picks matched to how you want to feel.</p></div><button class="btn solid">Open case file</button></div>
+    </div>
+    <div class="pcard" data-p="aura">
+      <div class="tagl">PROJECT 02 · MOBILE · IN DEVELOPMENT</div><div class="hint">HOVER TO FAN · CLICK TO OPEN</div>
+      <div class="cv"><canvas></canvas></div>
+      <div class="meta"><div><h3>AURA</h3><p>Your digital vanity. A face-shape classifier that shows its reasons.</p></div><button class="btn solid">Open case file</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="eyebrow">03 · Skills</div>
+  <div class="tun" id="tun">
+    <div class="cv"><canvas id="tunCv" aria-label="3D corridor of skill panels. Move the cursor to look around and hover a panel."></canvas></div>
+    <div class="vig"></div>
+    <div class="mid"><h2>The skills behind the work.</h2><p>Data, backend, frontend and design, mounted on the walls.</p><small>MOVE TO LOOK AROUND · HOVER A PANEL</small></div>
+    <div class="tip" id="tip"></div>
+  </div>
+</section>
+<div class="nogl" id="nogl">This preview needs WebGL, which your browser did not start.</div>
+<footer>Eryza Mae Imatong · Manila, Philippines · Preview of the 3D sections only. Your other sections stay as they are.</footer>
+</main>
+
+<div class="case" id="case" aria-hidden="true"><div class="box" id="caseBox"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!window.THREE){$('#nogl').style.display='block';return}
+const DPR=Math.min(devicePixelRatio||1,1.75);
+let px=innerWidth*.62,py=innerHeight*.4;
+addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY},{passive:true});
+const views=[];let ok=true;
+function mk(canvas){
+  try{const r=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});r.setPixelRatio(DPR);r.outputEncoding=THREE.sRGBEncoding;return r}
+  catch(e){ok=false;$('#nogl').style.display='block';return null}
+}
+function track(el,renderer,cam,fn,onsize){
+  const v={on:true,fn};views.push(v);
+  new IntersectionObserver(e=>v.on=e[0].isIntersecting,{rootMargin:'120px'}).observe(el);
+  const size=()=>{const w=el.clientWidth,h=el.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();onsize&&onsize(w/h)};
+  new ResizeObserver(size).observe(el);size();return v;
+}
+function npx(el){const r=el.getBoundingClientRect();return {x:clamp((px-r.left)/r.width*2-1,-1.4,1.4),y:-clamp((py-r.top)/r.height*2-1,-1.4,1.4),inside:px>r.left&&px<r.right&&py>r.top&&py<r.bottom}}
+function tex(c){const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t}
+
+/* ---------- 1. HERO CRYSTAL ---------- */
+function hero(){
+  const el=$('#heroStage'),r=mk($('#heroCv'));if(!r)return;
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(32,1,.1,60);cam.position.set(0,0,10);
+  scene.add(new THREE.AmbientLight(0xffffff,.22));
+  const key=new THREE.DirectionalLight(0xffffff,.95);key.position.set(-3,4,5);scene.add(key);
+  const red=new THREE.PointLight(0xff2a2a,1.7,16);red.position.set(3,-1.5,3);scene.add(red);
+  const rim=new THREE.PointLight(0xff5a48,1.3,14);rim.position.set(-3,2.5,-3);scene.add(rim);
+  const grp=new THREE.Group();scene.add(grp);
+  const geo=new THREE.IcosahedronGeometry(1.55,1),pos=geo.attributes.position;
+  for(let i=0;i<pos.count;i++){const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    const n=1+.2*Math.sin(x*2.3+y*1.7)*Math.cos(z*2.9-x*1.1)+.1*Math.sin(y*4.1+z*3.3);pos.setXYZ(i,x*n,y*n*1.1,z*n)}
+  geo.computeVertexNormals();
+  const mat=new THREE.MeshStandardMaterial({color:0x0c0809,metalness:.9,roughness:.3,flatShading:true});
+  const core=new THREE.Mesh(geo,mat);grp.add(core);
+  const eg=new THREE.EdgesGeometry(geo,8),ea=eg.attributes.position.array,keep=[];
+  for(let i=0;i<ea.length;i+=6){const h=Math.abs(Math.sin(i*12.9898)*43758.5453)%1;if(h>.42)keep.push(ea[i],ea[i+1],ea[i+2],ea[i+3],ea[i+4],ea[i+5])}
+  const vg=new THREE.BufferGeometry();vg.setAttribute('position',new THREE.Float32BufferAttribute(keep,3));
+  const veins=new THREE.LineSegments(vg,new THREE.LineBasicMaterial({color:0xff3b30}));veins.scale.setScalar(1.006);core.add(veins);
+  const shapes=[new THREE.TetrahedronGeometry(1),new THREE.OctahedronGeometry(1),new THREE.DodecahedronGeometry(1)];
+  const redm=new THREE.MeshBasicMaterial({color:0xff3b30});
+  const fr=[];
+  for(let i=0;i<70;i++){
+    const m=new THREE.Mesh(shapes[i%3],i%9===0?redm:mat);const s=.04+Math.pow(Math.random(),2.2)*.22;m.scale.set(s,s*(.6+Math.random()*.8),s);
+    scene.add(m);
+    fr.push({m,r:2.1+Math.random()*1.7,phi:.35+Math.random()*2.4,a:Math.random()*6.28,sp:(.08+Math.random()*.22)*(Math.random()<.5?-1:1),rs:new THREE.Vector3(Math.random()-.5,Math.random()-.5,Math.random()-.5).multiplyScalar(.02),off:new THREE.Vector3(),vel:new THREE.Vector3()});
+  }
+  let ox=0;
+  const v=track(el,r,cam,t=>{
+    const p=npx(el);
+    grp.rotation.y=lerp(grp.rotation.y,p.x*.5+(reduce?0:t*.18),.05);grp.rotation.x=lerp(grp.rotation.x,-p.y*.3,.05);
+    // pointer in world plane z=0
+    const n=new THREE.Vector3(p.x,p.y,.5).unproject(cam).sub(cam.position).normalize();
+    const k=-cam.position.z/n.z,pw=cam.position.clone().add(n.multiplyScalar(k));
+    for(const f of fr){
+      f.a+=reduce?0:f.sp*.012;
+      const bx=f.r*Math.sin(f.phi)*Math.cos(f.a)+ox,by=f.r*Math.cos(f.phi)*.9,bz=f.r*Math.sin(f.phi)*Math.sin(f.a);
+      const dx=bx+f.off.x-pw.x,dy=by+f.off.y-pw.y,d=Math.hypot(dx,dy);
+      if(d<1.5&&p.inside){const q=(1.5-d)*.05;f.vel.x+=dx/(d||1)*q;f.vel.y+=dy/(d||1)*q;f.vel.z+=(Math.random()-.5)*q*.4}
+      f.vel.multiplyScalar(.9);f.off.add(f.vel);f.off.multiplyScalar(.965);
+      f.m.position.set(bx+f.off.x,by+f.off.y,bz+f.off.z);f.m.rotation.x+=f.rs.x+f.vel.length()*.5;f.m.rotation.y+=f.rs.y;f.m.rotation.z+=f.rs.z;
+    }
+    red.position.x=3+Math.sin(t*.6)*1.2;
+    r.render(scene,cam);
+  },asp=>{ox=asp>1.15?1.9:0;grp.position.set(ox,asp>1.15?0:.6,0);cam.position.z=asp>1.15?10:13});
+  v.fn(0);
+}
+
+/* ---------- 2. PROJECT STACKS ---------- */
+function faceTex(no,name,sub,kind){
+  const c=document.createElement('canvas');c.width=768;c.height=480;const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,768,480);gr.addColorStop(0,'#241315');gr.addColorStop(1,'#0c0708');g.fillStyle=gr;g.fillRect(0,0,768,480);
+  g.strokeStyle='rgba(255,59,48,.6)';g.lineWidth=3;g.strokeRect(18,18,732,444);
+  g.fillStyle='#ff3b30';g.font='500 22px "IBM Plex Mono",monospace';g.fillText(no,44,62);
+  g.fillStyle='#ece4da';g.font='500 92px "IBM Plex Mono",monospace';g.fillText(name,44,300);
+  g.fillStyle='#92847d';g.font='400 26px "IBM Plex Mono",monospace';g.fillText(sub,44,352);
+  g.strokeStyle='#ff3b30';g.lineWidth=3;
+  if(kind==='radar'){g.save();g.translate(600,150);g.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i*Math.PI*2/5;g.lineTo(Math.cos(a)*80,Math.sin(a)*80)}g.closePath();g.globalAlpha=.4;g.stroke();g.globalAlpha=1;
+    g.beginPath();[.8,.5,.7,.9,.45].forEach((v,i)=>{const a=-Math.PI/2+i*Math.PI*2/5;g.lineTo(Math.cos(a)*80*v,Math.sin(a)*80*v)});g.closePath();g.fillStyle='rgba(255,59,48,.3)';g.fill();g.stroke();g.restore()}
+  else{g.save();g.translate(600,150);g.beginPath();g.ellipse(0,0,56,76,0,0,7);g.globalAlpha=.7;g.stroke();g.globalAlpha=1;g.setLineDash([6,8]);g.beginPath();g.moveTo(-56,0);g.lineTo(56,0);g.moveTo(-42,48);g.lineTo(42,48);g.stroke();g.setLineDash([]);g.fillStyle='#ff3b30';[[-56,0],[56,0],[-42,48],[42,48],[0,76]].forEach(([x,y])=>{g.beginPath();g.arc(x,y,6,0,7);g.fill()});g.restore()}
+  return tex(c);
+}
+function shadowTex(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(255,59,48,.5)');gr.addColorStop(.5,'rgba(120,10,15,.22)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)}
+const caseData={
+ rewatch:{n:'Re:Watch',s:'Web app · Deployed',t:'Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model, and every score lists the reasons that add up to it.',tags:['Java','Spring Boot','PostgreSQL','React']},
+ aura:{n:'AURA',s:'Mobile · In development',t:'Your digital vanity. A face-shape classifier that shows which features drove the result.',tags:['Python','scikit-learn','NumPy','FastAPI']}};
+function openCase(k){const d=caseData[k];$('#caseBox').innerHTML=`<div class="eyebrow">${d.s}</div><h3>${d.n}</h3><p>${d.t}</p>${d.tags.map(x=>`<span class="tag">${x}</span>`).join('')}<div style="margin-top:18px"><button class="btn solid" id="cc">Close</button></div>`;
+  $('#case').classList.add('on');$('#case').setAttribute('aria-hidden','false');$('#cc').onclick=closeCase;$('#cc').focus()}
+function closeCase(){$('#case').classList.remove('on');$('#case').setAttribute('aria-hidden','true')}
+$('#case').addEventListener('click',e=>{if(e.target.id==='case')closeCase()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeCase()});
+
+function stack(card){
+  const holder=card.querySelector('.cv'),cv=card.querySelector('canvas'),r=mk(cv);if(!r)return;
+  const key=card.dataset.p,isR=key==='rewatch';
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,40);cam.position.set(0,2.9,8.2);cam.lookAt(0,-.1,0);
+  scene.add(new THREE.AmbientLight(0xffffff,.7));
+  const dl=new THREE.DirectionalLight(0xffffff,1.1);dl.position.set(-3,6,4);scene.add(dl);
+  const rl=new THREE.PointLight(0xff2a2a,2.4,14);rl.position.set(3,1,3);scene.add(rl);
+  const N=26,H=.052,geo=new THREE.BoxGeometry(3,.05,1.9);
+  const e1=new THREE.MeshStandardMaterial({color:0xe2dad0,roughness:1}),e2=new THREE.MeshStandardMaterial({color:0xb5aa9e,roughness:1});
+  const dark=new THREE.MeshStandardMaterial({color:0x1a0f10,roughness:.6});
+  const face=new THREE.MeshStandardMaterial({map:faceTex(isR?'01':'02',isR?'Re:Watch':'AURA',isR?'TasteDNA recommender':'Face-shape classifier',isR?'radar':'face'),roughness:.5});
+  const grp=new THREE.Group();grp.rotation.x=.18;scene.add(grp);
+  const slabs=[];
+  for(let i=0;i<N;i++){const ed=i%2?e1:e2,m=new THREE.Mesh(geo,[ed,ed,i===N-1?face:dark,ed,ed,ed]);grp.add(m);slabs.push(m)}
+  const bandMat=new THREE.MeshStandardMaterial({color:0x7d0d14,roughness:.6,emissive:0x1a0204});
+  const band=new THREE.Mesh(new THREE.BoxGeometry(.5,N*H+.06,1.98),bandMat);grp.add(band);
+  const sh=new THREE.Mesh(new THREE.PlaneGeometry(5,5),new THREE.MeshBasicMaterial({map:shadowTex(),transparent:true,depthWrite:false}));sh.rotation.x=-Math.PI/2;sh.position.y=-1.5;scene.add(sh);
+  let hov=false,s=0,spin=0;
+  card.addEventListener('pointerenter',()=>hov=true);card.addEventListener('pointerleave',()=>hov=false);
+  holder.addEventListener('pointerdown',()=>hov=true);addEventListener('pointerup',()=>{if(matchMedia('(pointer:coarse)').matches)hov=false});
+  holder.addEventListener('click',()=>openCase(key));card.querySelector('button').addEventListener('click',()=>openCase(key));
+  const v=track(holder,r,cam,t=>{
+    s=lerp(s,hov?1:0,.07);spin+=(reduce?0:.006+s*.012);
+    grp.rotation.y=spin;grp.position.y=Math.sin(t*1.2)*.07+s*.18;
+    slabs.forEach((m,i)=>{const k=i/(N-1);m.position.y=(i-(N-1)/2)*H*(1+s*1.7);m.rotation.y=s*k*1.25});
+    band.scale.x=Math.max(.001,1-s*1.4);band.visible=band.scale.x>.02;
+    sh.scale.setScalar(1-s*.1+Math.sin(t*1.2)*.03);rl.intensity=2.4+s*2;
+    r.render(scene,cam);
+  },asp=>{cam.position.z=asp<1.3?10.6:8.2;});
+  v.fn(0);
+}
+
+/* ---------- 3. SKILLS CORRIDOR ---------- */
+const skills=[['Python','Data','Used in AURA'],['SQL','Data','Queries and analysis'],['Pandas','Data','Cleaning and EDA'],['scikit-learn','Data','Used in AURA'],['Power BI','Data','Dashboards'],['Java','Backend','Used in Re:Watch'],['Spring Boot','Backend','Used in Re:Watch'],['FastAPI','Backend','Used in AURA'],['PostgreSQL','Backend','Used in Re:Watch'],['React','Frontend','Used in Re:Watch'],['Figma','Design','Layouts and graphics'],['Visual design','Design','Event posts'],['Event planning','Ops','Logistics'],['Strategic planning','Ops','Research and reports']];
+function skillTex(n,c){
+  const cv=document.createElement('canvas');cv.width=640;cv.height=400;const g=cv.getContext('2d');
+  const gr=g.createLinearGradient(0,0,640,400);gr.addColorStop(0,'#321a1c');gr.addColorStop(1,'#160c0d');g.fillStyle=gr;g.fillRect(0,0,640,400);
+  g.strokeStyle='rgba(255,59,48,.75)';g.lineWidth=3;g.strokeRect(14,14,612,372);
+  g.strokeStyle='rgba(236,228,218,.12)';g.lineWidth=1;for(let i=1;i<6;i++){g.beginPath();g.moveTo(14,14+i*62);g.lineTo(626,14+i*62);g.stroke()}
+  g.fillStyle='#ff3b30';g.font='500 24px "IBM Plex Mono",monospace';g.fillText(c.toUpperCase(),42,66);
+  g.fillStyle='#ece4da';let fs=76;g.font=`500 ${fs}px "IBM Plex Mono",monospace`;while(g.measureText(n).width>560&&fs>30){fs-=4;g.font=`500 ${fs}px "IBM Plex Mono",monospace`}
+  g.fillText(n,42,330);
+  g.fillStyle='#ff3b30';g.beginPath();g.arc(582,52,8,0,7);g.fill();
+  return tex(cv);
+}
+function tunnel(){
+  const el=$('#tun'),r=mk($('#tunCv'));if(!r)return;
+  const bg=0x080506,scene=new THREE.Scene();scene.fog=new THREE.Fog(bg,10,32);
+  const cam=new THREE.PerspectiveCamera(62,1,.1,60);cam.position.set(0,0,3);
+  const texs=skills.map(([n,c])=>skillTex(n,c));
+  const W=4.4,Hh=2.6,SPAN=28,STEP=2.8,tiles=[],rings=[];
+  const walls=[{rx:0,ry:Math.PI/2,x:-W,axis:'y',lim:1.5},{rx:0,ry:-Math.PI/2,x:W,axis:'y',lim:1.5},{rx:-Math.PI/2,ry:0,y:-Hh,axis:'x',lim:2.8},{rx:Math.PI/2,ry:0,y:Hh,axis:'x',lim:2.8}];
+  let si=0;
+  walls.forEach((w,wi)=>{for(let k=0;k<10;k++){
+    const idx=(si++*5+wi*3)%skills.length,sc=1+Math.random()*.7;
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(2.3*sc,1.44*sc),new THREE.MeshBasicMaterial({map:texs[idx],color:0xd2cac6,transparent:true,fog:true}));
+    m.rotation.set(w.rx,w.ry,0);const off=(Math.random()*2-1)*w.lim;
+    if(w.axis==='y'){m.position.set(w.x,off,0)}else{m.position.set(off,w.y,0)}
+    m.userData={z0:-(k*STEP+Math.random()*STEP*.7)-wi*.7,idx};scene.add(m);tiles.push(m)}});
+  const lm=new THREE.LineBasicMaterial({color:0x4a1a1d,fog:true,transparent:true});
+  for(let k=0;k<10;k++){const g=new THREE.BufferGeometry().setFromPoints([[-W,-Hh],[W,-Hh],[W,Hh],[-W,Hh],[-W,-Hh]].map(([x,y])=>new THREE.Vector3(x,y,0)));
+    const l=new THREE.Line(g,lm.clone());l.userData={z0:-k*STEP};scene.add(l);rings.push(l)}
+  const cg=new THREE.BufferGeometry().setFromPoints([[-W,-Hh],[W,-Hh],[W,Hh],[-W,Hh]].flatMap(([x,y])=>[new THREE.Vector3(x,y,4),new THREE.Vector3(x,y,-SPAN)]));
+  scene.add(new THREE.LineSegments(cg,lm));
+  const ray=new THREE.Raycaster(),tip=$('#tip');let d=0,hovT=null,cx=0,cy=0;
+  const zOf=z0=>((z0+d+3)%SPAN+SPAN)%SPAN-SPAN+2.6;
+  const v=track(el,r,cam,t=>{
+    if(!reduce)d+=.012;
+    tiles.forEach(m=>{const z=zOf(m.userData.z0);m.position.z=z;m.material.opacity=clamp((2.6-z)/2.2,0,1)});
+    rings.forEach(l=>{const z=zOf(l.userData.z0);l.position.z=z;l.material.opacity=clamp((2.6-z)/2.2,0,1)});
+    const p=npx(el);cx=lerp(cx,p.x,.06);cy=lerp(cy,p.y,.06);
+    cam.position.x=cx*1.1;cam.position.y=cy*.7;cam.rotation.y=-cx*.2;cam.rotation.x=cy*.12;
+    ray.setFromCamera(new THREE.Vector2(p.x,p.y),cam);
+    const hit=p.inside?ray.intersectObjects(tiles)[0]:null,nt=hit?hit.object:null;
+    if(nt!==hovT){if(hovT)hovT.material.color.setHex(0xd2cac6);hovT=nt;if(nt){nt.material.color.setHex(0xffffff);const s=skills[nt.userData.idx];tip.innerHTML=`<span>${s[1]}</span><b>${s[0]}</b><div>${s[2]}</div>`}tip.style.opacity=nt?1:0;el.style.cursor=nt?'pointer':'default'}
+    if(nt){const rc=el.getBoundingClientRect();tip.style.left=(px-rc.left)+'px';tip.style.top=(py-rc.top)+'px'}
+    r.render(scene,cam);
+  });
+  v.fn(0);
+}
+
+/* sidebar highlight */
+const secs=$$('main section'),links=$$('aside a.n');
+secs.forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'}).observe(s));
+
+function loop(t){if(ok){for(const v of views)if(v.on)v.fn(t/1000)}requestAnimationFrame(loop)}
+const start=()=>{hero();$$('.pcard').forEach(stack);tunnel();requestAnimationFrame(loop)};
+Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1500))]).then(start);
+})();
+</script>
+</body>
+</html>

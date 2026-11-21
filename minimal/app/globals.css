@@ -238,3 +238,19 @@ html.js .rv.in { opacity: 1; transform: none; }
 @keyframes ph-scan { 0% { top: 0; opacity: 1; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 .hero-photo figcaption { display: flex; justify-content: space-between; gap: 12px; }
 @media (prefers-reduced-motion: reduce) { .ph-scan { display: none; } .ph-color { animation: none; } }
+
+/* ================= motion tokens (shared with components/three/motion.ts) ================= */
+:root { --ease: cubic-bezier(.22, 1, .36, 1); --t-micro: 200ms; --t-hover: 450ms; --t-layout: 600ms; }
+
+/* ================= 3D scenes: common ================= */
+.main { overflow-x: clip; }                                 /* scene layers may extend past the column, never past the page */
+.three-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity var(--t-layout) var(--ease); }
+.is-live > .three-canvas { opacity: 1; }
+
+/* ================= scene 1: hero crystal (behind the portrait, under the text) ================= */
+.hero-copy { position: relative; z-index: 1; }
+.hero-photo { position: relative; }
+.hero-photo .ph, .hero-photo figcaption { position: relative; z-index: 1; }
+.hero-3d { position: absolute; z-index: 0; top: -24%; bottom: -18%; left: -58%; right: -58%; pointer-events: none; }
+@media (max-width: 900px) { .hero-3d { top: -16%; bottom: -10%; left: -40%; right: -55%; } }
+@media (prefers-reduced-motion: reduce) { .three-canvas { transition: none; } }
