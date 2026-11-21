@@ -1,7 +1,9 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { projects, type Project } from "@/data/projects";
 import { Dialog } from "./Dialogs";
+import { roleById } from "@/data/roles";
+import { useRole } from "./RoleContext";
 
 const TABS = ["Overview", "How it works", "Stack and contribution", "Status and limits"] as const;
 
@@ -50,7 +52,14 @@ function CaseFile({ project, onClose }: { project: Project | null; onClose: () =
 /* Projects: every real screen from both projects floats in a row. Scroll, drag, use the arrows or the arrow keys;
    the one in the middle is projected as a hologram, the others stay as faint wireframes. */
 export function HoloCarousel() {
-  const N = projects.length;
+  const { role } = useRole();
+  /* the role decides which project is shown first (see data/roles.ts) */
+  const ordered = useMemo(() => {
+    if (role === "all") return projects;
+    const order = roleById(role).projectOrder;
+    return [...projects].sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
+  }, [role]);
+  const N = ordered.length;
   const track = useRef<HTMLUListElement>(null);
   const items = useRef<(HTMLLIElement | null)[]>([]);
   const [active, setActive] = useState(0);
@@ -112,7 +121,10 @@ export function HoloCarousel() {
     if (d?.moved) { t.classList.remove("drag"); goTo(active); setTimeout(() => { t.style.scrollSnapType = ""; }, 400); }
   };
 
-  const p = projects[active];
+  /* a new order starts again at the first project */
+  useLayoutEffect(() => { const t = track.current; if (t) { t.scrollLeft = 0; update(); } }, [ordered, update]);
+
+  const p = ordered[Math.min(active, N - 1)];
   return (
     <section id="projects" className="section holo" ref={section} aria-labelledby="proj-h">
       <header className="sec rv">
@@ -125,10 +137,10 @@ export function HoloCarousel() {
       <div className="stage rv" role="group" aria-roledescription="carousel" aria-label="Projects. Scroll sideways, drag, or use the left and right arrow keys; press Enter on the middle one to open its case file.">
         <i className="beam" aria-hidden="true" /><i className="base" aria-hidden="true" />
         <ul className="track" ref={track} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerLeave={up} onPointerCancel={up}>
-          {projects.map((pr, i) => {
+          {ordered.map((pr, i) => {
             const on = i === active;
             return (
-              <li key={pr.slug} ref={(el) => { items.current[i] = el; }} className={"hi" + (on ? " is-on" : "")} style={{ "--d": i - active } as React.CSSProperties} aria-roledescription="slide" aria-label={`${i + 1} of ${N}`}>
+              <li key={pr.slug} ref={(el) => { items.current[i] = el; }} className={"hi" + (on ? " is-on" : "")} data-ev={`project-${pr.slug}`} style={{ "--d": i - active, viewTransitionName: `proj-${pr.slug}` } as React.CSSProperties} aria-roledescription="slide" aria-label={`${i + 1} of ${N}`}>
                 <button type="button" tabIndex={on ? 0 : -1} className="hbtn" aria-label={on ? `Open the ${pr.title} case file` : `Show ${pr.title}`}
                   onClick={() => { if (drag.current?.moved) return; if (on) setOpen(pr); else goTo(i); }}>
                   <span className="hfig">

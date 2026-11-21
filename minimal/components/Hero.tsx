@@ -1,19 +1,30 @@
 import { profile } from "@/data/profile";
+import { ROLES, type Seg } from "@/data/roles";
 import { PhotoScan } from "./PhotoScan";
+import { RoleChips } from "./RoleChips";
 
 /* Key phrases are marked the way an editor would: a blood-red line that draws itself under the words. */
 const Hl = ({ i, children }: { i: number; children: React.ReactNode }) => <mark className="hl" style={{ "--i": i } as React.CSSProperties}>{children}</mark>;
+const Line = ({ segs }: { segs: Seg[] }) => {
+  let i = 0;
+  return <>{segs.map((s, k) => (typeof s === "string" ? s : <Hl key={k} i={i++}>{s.hl}</Hl>))}</>;
+};
 
 export function Hero() {
   return (
     <section id="home" className="hero" aria-label="Home">
       <div className="hero-copy">
+        <RoleChips />
         <h1 className="hero-name pixel">{profile.name}<i className="caret" aria-hidden="true" /></h1>
         <p className="mono hero-kicker">{profile.kicker}</p>
-        <p className="hero-intro">
-          <Hl i={0}>BSIT student</Hl> at <Hl i={1}>PUP Manila</Hl>, specializing in <Hl i={2}>Data Science</Hl>.
-          {" "}Looking for <Hl i={3}>data science, analytics and technical internships</Hl>. Based in <em className="serif">Manila, Philippines.</em>
-        </p>
+        {/* every version of the line sits in the same grid cell, so the box is always as tall as the longest and nothing shifts */}
+        <div className="rl hero-line" style={{ viewTransitionName: "hero-line" }}>
+          <p data-for="all" className="hero-intro">
+            <Hl i={0}>BSIT student</Hl> at <Hl i={1}>PUP Manila</Hl>, specializing in <Hl i={2}>Data Science</Hl>.
+            {" "}Looking for <Hl i={3}>data science, analytics and technical internships</Hl>. Based in <em className="serif">Manila, Philippines.</em>
+          </p>
+          {ROLES.map((r) => (<p key={r.id} data-for={r.id} className="hero-intro"><Line segs={r.hero} /></p>))}
+        </div>
         <p className="hero-links mono">
           <a href={profile.github} target="_blank" rel="noopener" aria-label="github, opens in a new tab">github ↗</a>
           <a href={profile.linkedin} target="_blank" rel="noopener" aria-label="linkedin, opens in a new tab">linkedin ↗</a>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { OrgButton, type Tile } from "./Dialogs";
+import { evAttrs } from "@/data/roles";
 
 type Item = { date: string; title: string; detail: string; chips?: string[]; link?: { href: string; label: string }; orgKey?: string; badge?: { src: string; alt: string } };
 type Cisco = { org: string; role: string; tiles: Tile[] };
@@ -22,7 +23,7 @@ export function LeadershipMap({ items, cisco }: { items: Item[]; cisco: Cisco })
         {items.map((it, i) => {
           const lit = on.has(i);
           return (
-            <li key={it.title} className={"pnl-row" + (lit ? " is-on" : "")}>
+            <li key={it.title} className={"pnl-row" + (lit ? " is-on" : "")} {...evAttrs(it.title)}>
               <button type="button" role="switch" aria-checked={lit} aria-controls={`pnl-d-${i}`} className="pnl-head" onClick={() => flip(i)}>
                 <span className="pnl-sw" aria-hidden="true"><i /></span>
                 {it.badge && <img className="pnl-logo" src={it.badge.src} alt="" width={40} height={40} loading="lazy" />}

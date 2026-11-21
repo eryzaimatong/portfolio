@@ -3,6 +3,7 @@ import { skillGroups, skillNote } from "@/data/skills";
 import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
+import { evAttrs, skillRoles } from "@/data/roles";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -51,7 +52,7 @@ export function Skills() {
             {g.skills.map((s) => {
               const l = LOGOS[s.name];
               return (
-                <li key={s.name} className={s.used ? "used" : ""}>
+                <li key={s.name} className={s.used ? "used" : ""} data-skill={s.name} data-roles={skillRoles(s.name).join(" ")} data-projects={(s.projects ?? []).join(" ")}>
                   {l && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={l.path} fill="currentColor" /></svg>}
                   {s.name}
                 </li>
@@ -72,7 +73,7 @@ export function Experience() {
       <p className="about-sub rv">{experience.sub}</p>
       <ol className="rows">
         {experience.items.map((it) => (
-          <li key={it.title} className="row rv">
+          <li key={it.title} className="row rv" {...evAttrs(it.title)}>
             <p className="row-date mono">{it.date}</p>
             <div className="row-main">
               <Stamp b={it.badge} />
@@ -88,7 +89,7 @@ export function Experience() {
       <h3 className="sub-h pixel rv">{credentials.heading}<span className="mono dim"> · {credentials.label}</span></h3>
       <ol className="rows">
         {credentials.items.map((c) => (
-          <li key={c.title} className="row rv">
+          <li key={c.title} className="row rv" {...evAttrs(c.title)}>
             <p className="row-date mono">{c.date}</p>
             <div className="row-main">
               <Stamp b={c.badge} />
