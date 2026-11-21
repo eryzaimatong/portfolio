@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/profile";
 import { Mark } from "./Mark";
 
@@ -10,6 +10,16 @@ export function Sidebar() {
   const [active, setActive] = useState<string>("home");
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  // a chapter card each time the reader crosses into a new section (not on load, not with reduced motion)
+  const [chapter, setChapter] = useState<{ n: number; k: number } | null>(null);
+  const prev = useRef<string | null>(null);
+  useEffect(() => {
+    if (prev.current !== null && prev.current !== active && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const n = NAV.findIndex((x) => x.toLowerCase() === active);
+      if (n > 0) setChapter((c) => ({ n, k: (c?.k ?? 0) + 1 }));
+    }
+    prev.current = active;
+  }, [active]);
 
   useEffect(() => {
     const els = NAV.map((n) => document.getElementById(n.toLowerCase())).filter(Boolean) as HTMLElement[];
@@ -23,6 +33,8 @@ export function Sidebar() {
   const copy = async () => { try { await navigator.clipboard.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1600); } catch {} };
 
   return (
+    <>
+      {chapter && (<div key={chapter.k} className="chapter" aria-hidden="true" onAnimationEnd={(e) => { if (e.animationName === "chapter") setChapter(null); }}><b className="pixel">{String(chapter.n).padStart(2, "0")}</b><span className="mono">{NAV[chapter.n].toLowerCase()}</span><i /></div>)}
     <aside className="side">
       <div className="side-top">
         <a className="side-name" href="#home" aria-label="Eryza Mae Imatong, back to the top" onClick={() => setOpen(false)}><Mark size={26} /><span className="pixel">{profile.name}</span></a>
@@ -46,5 +58,6 @@ export function Sidebar() {
         </div>
       </nav>
     </aside>
+    </>
   );
 }
