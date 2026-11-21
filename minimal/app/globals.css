@@ -271,8 +271,13 @@ html:not(.js) .sk-stage, .sk3d.no-gl .sk-stage { display: none; }
     html.js .rv { opacity: 1; transform: none; transition: none; }          /* the scroll timeline takes over the reveal */
 
     /* sections rise out of depth as they enter */
-    html.js .main > section:not(.hero) { animation: sx-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
-    @keyframes sx-rise { from { opacity: 0; transform: translateY(56px) scale(.985); } to { opacity: 1; transform: none; } }
+    /* section to section: travelling forward through depth. The next section emerges from further back and settles;
+       the one you are leaving zooms gently toward you and fades as it passes. */
+    html.js .main > section { animation: sx-in linear backwards, sx-out linear forwards; animation-timeline: view(), view();
+      animation-range: cover 0% cover 22%, exit 45% exit 100%; transform-origin: 50% 0%; }
+    html.js .main > section.showcase, html.js .main > section.hero { animation-name: none, sx-out; }
+    @keyframes sx-in { from { opacity: 0; transform: translateY(64px) scale(.9); } to { opacity: 1; transform: none; } }
+    @keyframes sx-out { from { opacity: 1; transform: none; } to { opacity: .1; transform: scale(1.07); } }
 
     /* the hero leaves in two depths: the text lifts away faster than the photo */
     .hero-copy { animation: sx-copy-out linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
