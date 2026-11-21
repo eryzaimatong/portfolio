@@ -15,10 +15,8 @@ export function PhotoScan({ children }: { children: React.ReactNode }) {
   return (
     <div className="ph" onMouseEnter={again}>
       {children}
-      <div key={"r" + run} className={"ph-rev" + cls} aria-hidden="true">
-        <img className="ph-color" alt="" width={960} height={1200} decoding="async" fetchPriority="low"
-          src="/assets/hero-c-960.webp" srcSet="/assets/hero-c-640.webp 640w, /assets/hero-c-960.webp 960w, /assets/hero-c-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px" />
-      </div>
+      <img key={"c" + run} className={"ph-color" + cls} aria-hidden="true" alt="" width={960} height={1200} decoding="async" fetchPriority="low"
+        src="/assets/hero-c-960.webp" srcSet="/assets/hero-c-640.webp 640w, /assets/hero-c-960.webp 960w, /assets/hero-c-1280.webp 1280w" sizes="(max-width: 900px) 80vw, 340px" />
       <i key={"s" + run} className={"ph-scan" + cls} aria-hidden="true" />
     </div>
   );
