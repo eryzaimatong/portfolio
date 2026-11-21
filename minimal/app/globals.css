@@ -335,3 +335,23 @@ html:not(.js) .sk-all, .sk3d.no-gl .sk-all { display: none; }
 .sp-k { font-size: 14px; } .sp-k span { color: var(--blood-text); }
 .sp-title { font-size: clamp(30px, 6vw, 52px); line-height: 1.05; margin: 10px 0 12px; font-weight: 400; }
 .skills-page .sk-group h2 { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin: 0; }
+
+/* ================= backdrop: data grid, pointer glow, click ring, slow scan ================= */
+.bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.main, .skills-page { position: relative; z-index: 1; }
+.bg-grid { position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(241, 236, 236, .085) 1px, transparent 1.4px),
+    linear-gradient(rgba(179, 0, 27, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(179, 0, 27, .07) 1px, transparent 1px);
+  background-size: 28px 28px, 168px 168px, 168px 168px; background-position: 14px 14px, 0 0, 0 0;
+  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 40%, transparent 100%); mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 40%, transparent 100%); }
+.bg-glow { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform; }
+.bg-glow i { position: absolute; left: -320px; top: -320px; width: 640px; height: 640px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 17, 43, .16), rgba(179, 0, 27, .06) 38%, transparent 66%); transition: opacity .8s var(--ease); }
+/* idle or touch: the glow wanders slowly on its own */
+.bg-fx.idle .bg-glow i { animation: bg-wander 22s ease-in-out infinite alternate; }
+@keyframes bg-wander { 0% { transform: translate(0, 0); } 33% { transform: translate(-28vw, 22vh); } 66% { transform: translate(-48vw, -8vh); } 100% { transform: translate(-12vw, 40vh); } }
+.bg-ring { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border: 1px solid var(--blood-hot); border-radius: 50%; opacity: .7; transform: scale(.1); animation: bg-ring .7s var(--ease) forwards; }
+@keyframes bg-ring { to { transform: scale(1.6); opacity: 0; } }
+.bg-scan { position: absolute; left: 0; right: 0; top: 0; height: 22vh; background: linear-gradient(transparent, rgba(224, 17, 43, .045), transparent); transform: translateY(-30vh); animation: bg-scan 14s linear infinite; }
+@keyframes bg-scan { 70%, 100% { transform: translateY(130vh); } }
+@media (prefers-reduced-motion: reduce) { .bg-scan, .bg-fx.idle .bg-glow i { animation: none; } }

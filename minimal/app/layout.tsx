@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel/square";
 import "./globals.css";
+import { Backdrop } from "@/components/Backdrop";
 import { profile } from "@/data/profile";
 
 /* Same family as the reference site's type (Geist, Geist Mono, Geist Pixel) with a serif italic for a few words of emphasis. */
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <a className="skip" href="#main">Skip to content</a>
+        <Backdrop />
         {children}
       </body>
     </html>
