@@ -237,7 +237,7 @@ html.js .rv.in { opacity: 1; transform: none; }
 .hero-photo .ph-rev img.ph-color { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; animation: ph-rev-in 1.6s .6s cubic-bezier(.45, 0, .25, 1) backwards; }
 .ph-scan { position: absolute; inset: 0; z-index: 3; pointer-events: none; animation: ph-scan 1.6s .6s cubic-bezier(.45, 0, .25, 1) both; }
 .ph-scan::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; margin-top: -1px; background: var(--blood-hot); box-shadow: 0 0 12px 2px rgba(224, 17, 43, .7); }
-.ph-rev.again, .ph-rev.again img, .ph-scan.again, .ph-tag.again { animation-delay: 0s; }
+.ph-rev.again, .ph-rev.again img, .ph-scan.again { animation-delay: 0s; }
 @keyframes ph-rev { from { transform: translateY(-100%); } to { transform: none; } }
 @keyframes ph-rev-in { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes ph-scan { 0% { transform: translateY(0); opacity: 1; } 92% { opacity: 1; } 100% { transform: translateY(100%); opacity: 0; } }
@@ -317,15 +317,3 @@ html[data-hot="aura"] li[data-projects~="aura"] { border-color: var(--blood-hot)
 
 /* decorative loops stop while their section is off screen */
 .off *, .off *::before, .off *::after { animation-play-state: paused !important; }
-
-/* ---- portrait scan: mesh, tag, skip. Armed (.go) only once the mesh is ready, so nothing runs before it can be seen. ---- */
-.ph:not(.go) .ph-rev, .ph:not(.go) .ph-rev img.ph-color, .ph:not(.go) .ph-scan { animation-play-state: paused; }
-.ph:not(.go) .ph-scan, .ph:not(.go) .ph-tag { visibility: hidden; }
-.ph-mesh { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; pointer-events: none; }
-.ph-scan { z-index: 4; }
-.ph-tag { position: absolute; left: 10px; top: 10px; z-index: 5; pointer-events: none; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--blood-text); background: rgba(10, 5, 6, .66); border: 1px solid rgba(179, 0, 27, .6); border-radius: 4px; padding: 3px 7px; animation: ph-tag 2.3s .6s both; }
-@keyframes ph-tag { 0% { opacity: 0; } 10%, 78% { opacity: 1; } 100% { opacity: 0; } }
-.ph-skip { all: unset; box-sizing: border-box; position: absolute; right: 10px; bottom: 10px; z-index: 6; cursor: pointer; font: 500 10.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text); background: rgba(10, 5, 6, .72); border: 1px solid var(--line-2); border-radius: 4px; padding: 6px 9px; transition: border-color var(--t-micro) var(--ease); }
-.ph-skip:hover { border-color: var(--blood); } .ph-skip:focus-visible { outline: 2px solid var(--blood-hot); outline-offset: 2px; }
-.ph.skip .ph-rev, .ph.skip .ph-rev img.ph-color, .ph.skip .ph-scan, .ph.skip .ph-tag { animation-duration: .01s !important; animation-delay: 0s !important; }
-@media (prefers-reduced-motion: reduce) { .ph-mesh, .ph-tag, .ph-skip { display: none; } }
