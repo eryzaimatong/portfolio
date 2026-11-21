@@ -1,15 +1,14 @@
 import { profile } from "@/data/profile";
 import { PhotoScan } from "./PhotoScan";
-import { HeroScene } from "./HeroScene";
 
 /* Key phrases are marked the way an editor would: a blood-red line that draws itself under the words. */
 const Hl = ({ i, children }: { i: number; children: React.ReactNode }) => <mark className="hl" style={{ "--i": i } as React.CSSProperties}>{children}</mark>;
 
 export function Hero() {
   return (
-    <section id="home" className="hero" aria-label="Home">
+    <section id="hello" className="hero" aria-label="Introduction">
       <div className="hero-copy">
-        <h1 className="hero-name pixel">{profile.name}<i className="caret" aria-hidden="true" /></h1>
+        <h2 className="hero-name pixel">{profile.name}<i className="caret" aria-hidden="true" /></h2>
         <p className="mono hero-kicker">{profile.kicker}</p>
         <p className="hero-intro">
           <Hl i={0}>BSIT student</Hl> at <Hl i={1}>PUP Manila</Hl>, specializing in <Hl i={2}>Data Science</Hl>.
@@ -22,7 +21,6 @@ export function Hero() {
         </p>
       </div>
       <figure className="hero-photo">
-        <HeroScene />
         <PhotoScan>
           <img
             src="/assets/hero-960.webp" width={960} height={1200}

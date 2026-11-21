@@ -6,7 +6,7 @@ import { clamp, damp, SLOW } from "./motion";
    The fragments are pushed away by the pointer (or touch point) and spring back. The crystal turns slowly and leans toward
    the pointer. Dark metal with a soft red rim, red veins on some edges, a faint inner glow. Far fragments sink into fog. */
 
-type Props = { photo: HTMLElement };
+type Props = { photo: HTMLElement; center?: boolean };
 const BG = 0x0a0506;
 
 function glowTexture(THREE: SceneCtx["THREE"]) {
@@ -17,7 +17,7 @@ function glowTexture(THREE: SceneCtx["THREE"]) {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-export async function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { photo }: Props): Promise<SceneHandle> {
+export async function createScene({ THREE, renderer, host, reduce, low }: SceneCtx, { photo, center }: Props): Promise<SceneHandle> {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(BG, 10.5, 15.5);
   const cam = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
@@ -90,10 +90,11 @@ export async function createScene({ THREE, renderer, host, reduce, low }: SceneC
     docL = hr.left + scrollX; docT = hr.top + scrollY;                       // cached: no layout reads per frame
     const pcx = pr.left - hr.left + pr.width / 2, pcy = pr.top - hr.top + pr.height / 2;
     // the crystal sits behind the photo, a little up and to the right, so it peeks out around the frame
-    cx = (pcx + pr.width * 0.16 - w / 2) * u; cy = -(pcy - pr.height * 0.1 - h / 2) * u;
-    crystalR = Math.max(pr.width, pr.height) * 0.44 * u;
+    const ox = center ? 0 : pr.width * 0.16, oy = center ? 0 : pr.height * 0.1;      // centred when featured on its own
+    cx = (pcx + ox - w / 2) * u; cy = -(pcy - oy - h / 2) * u;
+    crystalR = Math.max(pr.width, pr.height) * (center ? 0.5 : 0.44) * u;
     group.position.set(cx, cy, 0); core.scale.setScalar(crystalR); glow.scale.setScalar(crystalR * 3.4);
-    rx = pr.width * 0.74 * u; ry = pr.height * 0.68 * u;
+    rx = pr.width * (center ? 1.05 : 0.74) * u; ry = pr.height * (center ? 0.8 : 0.68) * u;
   };
 
   /* ---- pointer: mouse anywhere, or the touch point (never blocks scrolling) ---- */
