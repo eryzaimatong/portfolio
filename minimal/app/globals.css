@@ -118,42 +118,6 @@ html.js .rv.in { opacity: 1; transform: none; }
 .decisions { display: grid; gap: 9px; } .decisions li { padding-left: 16px; position: relative; } .decisions li::before { content: ""; position: absolute; left: 0; top: .8em; width: 8px; height: 1px; background: var(--blood-hot); }
 .dlg-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 
-/* ============ projects: the hologram ============ */
-.holo .stage { position: relative; margin: 26px calc(var(--pad) * -1) 0; perspective: 1200px; }
-.track { position: relative; z-index: 2; display: flex; gap: 28px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 20px calc(50% - 170px) 84px; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; }
-.track::-webkit-scrollbar { display: none; } .track.drag { cursor: grabbing; }
-.hi { flex: 0 0 340px; scroll-snap-align: center; transform-style: preserve-3d;
-  --a: clamp(0, calc(1 - var(--d) * var(--d)), 1);                         /* 1 at the centre, 0 two items away */
-  transform: rotateY(calc(var(--d) * -22deg)) scale(calc(.74 + var(--a) * .26)); opacity: calc(.28 + var(--a) * .72); transition: transform .35s cubic-bezier(.22, 1, .36, 1), opacity .35s; }
-.hbtn { display: block; width: 100%; padding: 0; text-align: left; }
-.hfig { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 5; overflow: hidden; border: 1px dashed rgba(179,0,27,.5); background: rgba(179,0,27,.03); }
-.hfig img { max-width: 92%; max-height: 92%; width: auto; height: auto; object-fit: contain; filter: grayscale(1) contrast(1.1) brightness(.5) sepia(1) hue-rotate(-50deg) saturate(4); transition: filter .4s; user-select: none; }
-.hfig .tint, .hfig .scanl, .hfig .band { position: absolute; inset: 0; pointer-events: none; }
-.hfig .scanl { background: repeating-linear-gradient(0deg, rgba(0,0,0,.34) 0 1px, transparent 1px 3px); opacity: .5; z-index: 3; }
-.hfig .tint { display: none; }
-.hfig .band { z-index: 4; height: 22%; inset: auto 0 auto 0; top: -25%; background: linear-gradient(transparent, rgba(255,110,122,.30), transparent); opacity: 0; }
-.hfig .br { position: absolute; width: 14px; height: 14px; z-index: 5; border: 1px solid var(--blood-hot); opacity: 0; transition: opacity .3s; }
-.br.tl { left: 6px; top: 6px; border-right: 0; border-bottom: 0; } .br.tr { right: 6px; top: 6px; border-left: 0; border-bottom: 0; } .br.bl { left: 6px; bottom: 6px; border-right: 0; border-top: 0; } .br.rb { right: 6px; bottom: 6px; border-left: 0; border-top: 0; }
-.tag { position: absolute; left: 10px; bottom: 8px; z-index: 6; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--blood-text); opacity: .0; }
-/* the projected one */
-.hi.is-on .hfig { border-style: solid; border-color: rgba(224,17,43,.6); background: radial-gradient(ellipse at 50% 55%, rgba(179,0,27,.16), transparent 72%); box-shadow: 0 0 34px rgba(179,0,27,.28); animation: float 4.2s ease-in-out infinite, flick 7s steps(1) infinite; }
-.hi.is-on .hfig img { filter: grayscale(1) contrast(1.3) brightness(1.05) sepia(1) hue-rotate(-50deg) saturate(7) drop-shadow(0 0 8px rgba(224,17,43,.55)); }
-.hi.is-on .hfig .band { opacity: 1; animation: band 3.4s linear infinite; } .hi.is-on .hfig .br, .hi.is-on .tag { opacity: 1; } .hi.is-on .hfig .scanl { opacity: .8; }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-@keyframes band { to { top: 110%; } }
-@keyframes flick { 0%, 100% { opacity: 1; } 91% { opacity: .86; transform: translateX(0); } 92% { opacity: 1; transform: translateX(3px) skewX(2deg); } 93% { opacity: .9; transform: translateX(-2px); } 94% { opacity: 1; transform: none; } }
-/* projector: a cone of light rising from a glowing ellipse under the middle item */
-.beam { position: absolute; z-index: 1; left: 50%; bottom: 56px; width: 340px; height: 320px; transform: translateX(-50%); clip-path: polygon(18% 100%, 82% 100%, 100% 0, 0 0); background: linear-gradient(0deg, rgba(224,17,43,.32), rgba(179,0,27,.08) 60%, transparent); filter: blur(.5px); pointer-events: none; }
-.base { position: absolute; z-index: 1; left: 50%; bottom: 36px; width: 280px; height: 44px; transform: translateX(-50%); border-radius: 50%; pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(224,17,43,.9) 0 18%, rgba(179,0,27,.55) 19% 34%, transparent 36%), repeating-radial-gradient(ellipse at center, transparent 0 9px, rgba(224,17,43,.5) 9px 10px);
-  box-shadow: 0 0 38px 8px rgba(179,0,27,.45); animation: pulse 3s ease-in-out infinite; }
-@keyframes pulse { 50% { box-shadow: 0 0 50px 14px rgba(224,17,43,.5); } }
-.holo-nav { position: absolute; z-index: 3; left: 50%; bottom: 0; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; }
-.holo-info { margin-top: 18px; max-width: 640px; margin-inline: auto; text-align: center; }
-.holo-title { font-size: clamp(26px, 4vw, 38px); line-height: 1.1; margin-top: 4px; } .holo-cap { font-size: 12.5px; margin-top: 4px; } .holo-tag { margin: 12px auto 0; max-width: 56ch; }
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; border: 1px solid var(--line); border-radius: 8px; text-align: left; } .stats > div { padding: 12px 14px; border-right: 1px solid var(--line); } .stats > div:last-child { border-right: 0; }
-.stats dd { font-size: 24px; line-height: 1.1; } .stats dt { margin-top: 4px; font-size: 12.5px; color: var(--dim); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.holo-info .chips { justify-content: center; } .holo-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 
 /* ============ small screens: the side column becomes a top bar ============ */
 @media (max-width: 900px) {
@@ -169,18 +133,14 @@ html.js .rv.in { opacity: 1; transform: none; }
   .hero-name { white-space: normal; }
   .hero { grid-template-columns: 1fr; gap: 28px; }
   .row { grid-template-columns: 1fr; gap: 4px; }
-  .track { padding-inline: calc(50% - 130px); } .hi { flex-basis: 260px; } .beam, .base { width: 230px; }
   .stats { grid-template-columns: 1fr; } .stats > div { border-right: 0; border-bottom: 1px solid var(--line); } .stats > div:last-child { border-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  html.js .rv { opacity: 1; transform: none; } .bleed::before { transform: scaleX(1); } .hi { transition: none; }
+  html.js .rv { opacity: 1; transform: none; } .bleed::before { transform: scaleX(1); }
 }
 
-/* the AURA cover is a light picture: pull it down so the projection stays dark and glowing */
-.hi.is-on .hfig img.aura { filter: grayscale(1) contrast(1.2) brightness(.72) sepia(1) hue-rotate(-50deg) saturate(7) drop-shadow(0 0 8px rgba(224,17,43,.55)); }
-.hi:not(.is-on) .hfig img.aura { filter: grayscale(1) contrast(1.1) brightness(.4) sepia(1) hue-rotate(-50deg) saturate(4); }
 
 /* small logo stamps on experience and credentials */
 .row-main { display: flex; gap: 14px; align-items: flex-start; }
@@ -254,3 +214,25 @@ html.js .rv.in { opacity: 1; transform: none; }
 .hero-3d { position: absolute; z-index: 0; top: -24%; bottom: -18%; left: -58%; right: -58%; pointer-events: none; }
 @media (max-width: 900px) { .hero-3d { top: -16%; bottom: -10%; left: -40%; right: -55%; } }
 @media (prefers-reduced-motion: reduce) { .three-canvas { transition: none; } }
+
+/* ================= scene 2: projects, one 3D object per card ================= */
+.pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+.pcard { border: 1px solid var(--line); border-radius: 12px; background: linear-gradient(180deg, var(--surface), var(--bg)); overflow: hidden; transition: border-color var(--t-hover) var(--ease); }
+.pcard:hover, .pcard:focus-within { border-color: var(--line-2); }
+.pstage { position: relative; aspect-ratio: 5 / 4; overflow: hidden; cursor: pointer; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  background: radial-gradient(ellipse 70% 45% at 50% 80%, rgba(179, 0, 27, .2), transparent 70%); }
+.pstage-poster { position: absolute; left: 50%; top: 46%; width: 78%; height: auto; max-height: 76%; object-fit: contain; transform: translate(-50%, -50%); border-radius: 6px; border: 1px solid rgba(224, 17, 43, .55); transition: opacity var(--t-layout) var(--ease); }
+.pstage-poster.aura { width: auto; height: 76%; }
+.pstage.is-live .pstage-poster { opacity: 0; }
+.pstage-no { position: absolute; left: 14px; top: 12px; z-index: 2; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--blood-text); pointer-events: none; }
+.cursor-tag { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text);
+  padding: 4px 8px; border: 1px solid var(--blood); border-radius: 999px; background: rgba(10, 5, 6, .72); opacity: 0; transition: opacity var(--t-micro) var(--ease); }
+@media (hover: hover) { .pstage:hover .cursor-tag { opacity: 1; } }
+.pmeta { padding: 16px 20px 20px; border-top: 1px solid var(--line); }
+.ptitle { font-size: clamp(24px, 3vw, 32px); line-height: 1.1; margin: 4px 0 14px; }
+/* the card's object and the case file's first picture are one element as far as the View Transition is concerned */
+.dlg[open] .cf-fig img { view-transition-name: case-shot; }
+::view-transition-group(case-shot) { animation-duration: var(--t-layout); animation-timing-function: var(--ease); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-hover); }
+@media (max-width: 640px) { .pgrid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; } }

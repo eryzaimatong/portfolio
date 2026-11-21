@@ -38,7 +38,6 @@ export function Sidebar() {
             </li>
           ))}
         </ul>
-        <p className="side-hint mono"><kbd>←</kbd><kbd>→</kbd> browse projects</p>
         <div className="side-foot">
           <p className="side-status"><i aria-hidden="true" />{profile.availability}</p>
           <p className="side-mail-label mono">reach me at</p>

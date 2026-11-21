@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/Sidebar";
 import { Hero } from "@/components/Hero";
-import { HoloCarousel } from "@/components/HoloCarousel";
+import { Projects } from "@/components/Projects";
 import { About, Skills, Experience, Leadership, Contact } from "@/components/Sections";
 import { Motion } from "@/components/Motion";
 
@@ -11,7 +11,7 @@ export default function Page() {
       <main id="main" className="main">
         <Hero />
         <About />
-        <HoloCarousel />
+        <Projects />
         <Skills />
         <Experience />
         <Leadership />

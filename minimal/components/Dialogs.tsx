@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
 /* Native <dialog>: focus trap, Esc and an inert background for free; focus returns to the opener. */
 export function Dialog({ open, onClose, label, children }: { open: boolean; onClose: () => void; label: string; children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null);
   const opener = useRef<Element | null>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {                              // layout effect: the dialog is open in the same commit (lets View Transitions capture it)
     const d = ref.current; if (!d) return;
     if (open && !d.open) { opener.current = document.activeElement; d.showModal(); document.documentElement.classList.add("locked"); }
     if (!open && d.open) d.close();
