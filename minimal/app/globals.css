@@ -191,11 +191,12 @@ html.js .rv.in { opacity: 1; transform: none; }
 @media (max-width: 560px) { .pnl-inner { padding-left: 18px; } .pnl-head { gap: 12px; padding: 12px 14px; } .pnl-state { display: none; } }
 @media (prefers-reduced-motion: reduce) { .pnl-body, .pnl-sw i { transition: none; } }
 /* ---- hero photo: scan, black and white to colour ---- */
-.hero-photo img.ph-color { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; display: block; clip-path: inset(0 0 0 0); animation: ph-color 1.6s .6s cubic-bezier(.45, 0, .25, 1) backwards; pointer-events: none; }
-.ph-scan { position: absolute; left: -10px; right: -10px; top: 0; z-index: 3; height: 2px; background: var(--blood-hot); box-shadow: 0 0 14px 2px rgba(224, 17, 43, .75); animation: ph-scan 1.6s .6s cubic-bezier(.45, 0, .25, 1) both; pointer-events: none; }
-.ph-color.again, .ph-scan.again { animation-delay: 0s; }
+.hero-photo img.ph-color { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; display: block; clip-path: inset(0 0 0 0); animation: ph-color 1.6s .4s cubic-bezier(.45, 0, .25, 1) backwards; pointer-events: none; }
+.ph-scan { position: absolute; left: -10px; right: -10px; top: 0; bottom: 0; z-index: 3; pointer-events: none; animation: ph-scan 1.6s .4s cubic-bezier(.45, 0, .25, 1) both; }
+.ph-scan::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; margin-top: -1px; background: var(--blood-hot); box-shadow: 0 0 12px 2px rgba(224, 17, 43, .7); }
+.ph-color.again, .ph-scan.again, .ph-fact.again { animation-delay: 0s; }
 @keyframes ph-color { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes ph-scan { 0% { top: 0; opacity: 1; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes ph-scan { 0% { transform: translateY(0); opacity: 1; } 92% { opacity: 1; } 100% { transform: translateY(100%); opacity: 0; } }
 .hero-photo figcaption { display: flex; justify-content: space-between; gap: 12px; }
 @media (prefers-reduced-motion: reduce) { .ph-scan { display: none; } .ph-color { animation: none; } }
 
@@ -421,3 +422,57 @@ html:not(.js) .sk-all, .sk3d.no-gl .sk-all { display: none; }
 .sound.on i:nth-child(2) { animation-delay: -.3s; } .sound.on i:nth-child(3) { animation-delay: -.6s; } .sound.on i:nth-child(4) { animation-delay: -.15s; }
 @keyframes lvl { from { transform: scaleY(.25); } to { transform: scaleY(1); } }
 @media (prefers-reduced-motion: reduce) { .sound.on i { animation: none; } }
+
+/* ================= audit pass: one motion language (scan, trace, depth) ================= */
+/* the photo scan waits until the photo is actually on screen */
+.ph:not(.go) .ph-color, .ph:not(.go) .ph-scan, .ph:not(.go) .ph-fact { animation-play-state: paused; }
+.ph:not(.go) .ph-scan { visibility: hidden; }
+/* facts pinned to the photo as the scan line passes them */
+.ph-fact { position: absolute; z-index: 4; translate: 0 -50%; padding: 4px 8px; font: 500 10.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text); white-space: nowrap;
+  background: rgba(10, 5, 6, .82); border: 1px solid var(--blood); border-radius: 4px; pointer-events: none;
+  animation: ph-fact .45s calc(.4s + var(--at) * 1.25s) var(--ease) backwards; }
+.ph-fact.l { left: -14px; } .ph-fact.r { right: -14px; }
+.ph-fact.l::before, .ph-fact.r::after { content: ""; position: absolute; top: 50%; width: 10px; height: 1px; background: var(--blood-hot); }
+.ph-fact.l::before { right: -10px; } .ph-fact.r::after { left: -10px; }
+@keyframes ph-fact { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+.ph-fact.r { animation-name: ph-fact-r; } @keyframes ph-fact-r { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 560px) { .ph-fact.l { left: 8px; } .ph-fact.r { right: 8px; } .ph-fact::before, .ph-fact::after { display: none; } }
+@media (prefers-reduced-motion: reduce) { .ph-fact { animation: none; } }
+
+/* skill pills are labels, not buttons: no hover lift or border change */
+.chips li { cursor: default; } .chips li:hover { transform: none; border-color: var(--line-2); }
+.chips li.used:hover { border-color: rgba(224, 17, 43, .55); }
+
+/* leadership: keep the sweep (scan) and the cascade; drop the spark and flicker */
+.pnl-row.is-on[data-touched] .pnl-sw::after, .pnl-row.is-on[data-touched] .pnl-logo, .pnl-row.is-on[data-touched] .pnl-state,
+.pnl-row[data-touched]:not(.is-on) .pnl-logo, .pnl-row[data-touched]:not(.is-on) .pnl-state { animation: none; }
+
+/* the photo section no longer repeats the name: its intro opens it */
+.hero .hero-intro { margin-top: 0; font-size: 17px; }
+
+/* project proof: one real number, drawn as the card arrives */
+.proof { margin: 0 0 16px; }
+.proof-n { display: flex; align-items: baseline; gap: 10px; margin: 0; } .proof-n b { font-size: 26px; font-weight: 400; color: var(--text); } .proof-n span { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.proof-bar { position: relative; height: 8px; margin-top: 10px; border-radius: 2px; background: var(--line); }
+.proof-fill { position: absolute; inset: 0; border-radius: 2px; background: var(--blood-hot); transform-origin: 0 50%; transform: scaleX(var(--v)); }
+.proof-bar.ticks { background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 4px); }
+.proof-bar.ticks .proof-fill { background: repeating-linear-gradient(90deg, var(--blood-hot) 0 2px, transparent 2px 4px); }
+.proof-limit { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--text); }
+.proof-limit span { position: absolute; top: -18px; left: 50%; translate: -50% 0; font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
+.proof { padding-top: 14px; } .proof figcaption { margin-top: 8px; font-size: 11px; color: var(--dim); }
+
+/* experience: a red trace draws down the date column as you read */
+.rows { position: relative; }
+.rows::before { content: ""; position: absolute; left: -14px; top: 0; bottom: 0; width: 1px; background: linear-gradient(var(--blood-hot), var(--blood)); transform-origin: 50% 0; transform: scaleY(1); opacity: .7; }
+
+/* skills: the full list opens in place under the corridor */
+html.js .sk3d.show-list:not(.no-gl) .sk-list { position: static; width: auto; height: auto; margin: 26px 0 0; overflow: visible; clip: auto; white-space: normal; }
+
+@media (prefers-reduced-motion: no-preference) { @supports (animation-timeline: view()) {
+  .proof-fill { animation: proof-draw linear both; animation-timeline: view(); animation-range: entry 30% cover 45%; }
+  @keyframes proof-draw { from { transform: scaleX(0); } to { transform: scaleX(var(--v)); } }
+  .rows::before { animation: trace linear both; animation-timeline: view(); animation-range: entry 10% exit 60%; }
+  @keyframes trace { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+} }
+@media (max-width: 900px) { .rows::before { left: -10px; } }
+.proof-n b { white-space: nowrap; } .proof-n { flex-wrap: wrap; row-gap: 2px; } .proof-bar { margin-top: 24px; }

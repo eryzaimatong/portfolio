@@ -5,6 +5,7 @@ import { CertButton } from "./Dialogs";
 import { LeadershipMap } from "./LeadershipMap";
 import { SkillsScene } from "./SkillsScene";
 import { SkillGroups } from "./SkillList";
+import { SkillsToggle } from "./SkillsToggle";
 
 type Logo = { path: string; hex: string; title: string };
 type Badge = { src: string; alt: string; round?: boolean; wide?: boolean };
@@ -48,8 +49,8 @@ export function Skills() {
       <p className="about-sub rv">What I work with across data and software, plus the tools I use to build and collaborate.</p>
       <div className="sk3d">
         <SkillsScene />
-        <a className="sk-all mono" href="/skills">View all skills <span aria-hidden="true">→</span></a>
-        <div className="sk-list">
+        <SkillsToggle />
+        <div className="sk-list" id="skills-list">
           <SkillGroups />
         </div>
       </div>

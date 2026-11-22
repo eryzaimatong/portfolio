@@ -8,8 +8,6 @@ export function Hero() {
   return (
     <section id="hello" className="hero" aria-label="Introduction">
       <div className="hero-copy">
-        <h2 className="hero-name pixel">{profile.name}<i className="caret" aria-hidden="true" /></h2>
-        <p className="mono hero-kicker">{profile.kicker}</p>
         <p className="hero-intro">
           <Hl i={0}>BSIT student</Hl> at <Hl i={1}>PUP Manila</Hl>, specializing in <Hl i={2}>Data Science</Hl>.
           {" "}Looking for <Hl i={3}>data science, analytics and technical internships</Hl>. Based in <em className="serif">Manila, Philippines.</em>

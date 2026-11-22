@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 
 /* The page backdrop: a faint data grid, a soft red glow that follows the pointer (and drifts on its own when idle or on touch),
-   a small ring where you click, and a slow scan band. Transform and opacity only, one rAF while the pointer moves. */
+   and a slow scan band. Transform and opacity only, one rAF while the pointer moves. */
 export function Backdrop() {
   const glow = useRef<HTMLDivElement>(null);
   const fx = useRef<HTMLDivElement>(null);
@@ -22,16 +22,10 @@ export function Backdrop() {
       clearTimeout(idle); idle = window.setTimeout(() => root.classList.add("idle"), 4000);
       if (!raf) raf = requestAnimationFrame(tick);
     };
-    const down = (e: PointerEvent) => {
-      if (reduce || root.childElementCount > 6) return;
-      const r = document.createElement("i"); r.className = "bg-ring";
-      r.style.left = `${e.clientX}px`; r.style.top = `${e.clientY}px`;
-      root.appendChild(r); r.addEventListener("animationend", () => r.remove(), { once: true });
-    };
     g.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     if (matchMedia("(pointer: coarse)").matches) root.classList.add("idle");
-    addEventListener("pointermove", move, { passive: true }); addEventListener("pointerdown", down, { passive: true });
-    return () => { removeEventListener("pointermove", move); removeEventListener("pointerdown", down); cancelAnimationFrame(raf); clearTimeout(idle); };
+    addEventListener("pointermove", move, { passive: true });
+    return () => { removeEventListener("pointermove", move); cancelAnimationFrame(raf); clearTimeout(idle); };
   }, []);
   return (
     <div ref={fx} className="bg-fx" aria-hidden="true">
