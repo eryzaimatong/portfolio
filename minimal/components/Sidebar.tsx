@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/profile";
 import { Mark } from "./Mark";
+import { SoundToggle } from "./Soundtrack";
 
 /* Live-site section names, in the live site's order. */
 const NAV = ["Home", "About", "Projects", "Skills", "Experience", "Leadership", "Contact"] as const;
@@ -38,6 +39,7 @@ export function Sidebar() {
     <aside className="side">
       <div className="side-top">
         <a className="side-name" href="#home" aria-label="Eryza Mae Imatong, back to the top" onClick={() => setOpen(false)}><Mark size={26} /><span className="pixel">{profile.name}</span></a>
+        <SoundToggle />
         <button type="button" className="side-burger mono" aria-expanded={open} aria-controls="sidenav" onClick={() => setOpen((o) => !o)}>{open ? "close" : "menu"}</button>
       </div>
       <nav id="sidenav" className={"side-nav" + (open ? " open" : "")} aria-label="Primary">

@@ -28,7 +28,7 @@ export const about = {
     ["Scholarship", "DOST-SEI merit scholar"],
     ["Expected graduation", "2028"],
     ["Featured projects", "2"],
-    ["Credentials", "3"],
+    ["Credentials", "4"],
   ] as [string, string][],
   photo: { src: "/assets/eryza.png", alt: "Portrait of Eryza Mae Imatong" },
 };
@@ -58,6 +58,7 @@ export const leadership = {
     { date: "Cisco NetConnect · PUP – Manila", title: "Graphic Designer, Creatives Department", detail: "Design event recap posts and other graphics for the organization's Facebook page.", chips: ["Visual design", "Figma"], orgKey: "cisco", badge: { src: "/assets/logo-netconnect.png", alt: "Cisco NetConnect logo", round: true } },
     { date: "IBITS · Institute of Bachelors in Information Technology Studies", title: "Logistics & Resource Operations Member", detail: "Member of the Program and Activities Department, working on logistics and resource operations.", chips: ["Logistics", "Event planning", "Resource management"], link: { href: "https://www.facebook.com/iBITS.Official", label: "IBITS on Facebook" }, badge: { src: "/assets/logo-ibits.png", alt: "IBITS logo", round: true } },
     { date: "Google Developer Groups on Campus · PUP · 2026–27", title: "Strategy and Insights Associate (Strategic Department)", detail: "Turning research and data into meaningful insights to guide organizational decisions, strategic planning, and performance evaluation.", chips: ["Data Analysis", "Strategic Planning", "Research"], badge: { src: "/assets/logo-gdg-pup.png", alt: "Google Developer Groups on Campus, Polytechnic University of the Philippines logo", round: true } },
+    { date: "AWS Student Builder Group · PUP", title: "Program Manager, Programs Department", detail: "Program Manager in the Programs Department of the AWS Student Builder Group at the Polytechnic University of the Philippines.", badge: { src: "/assets/logo-aws-pup.png", alt: "AWS Student Builder Group, Polytechnic University of the Philippines logo", round: true } },
   ] as Panel[],
 };
 
@@ -77,6 +78,7 @@ export const credentials = {
     { date: "DataCamp certification · Aug 2026", title: "Associate Data Analyst", cert: { src: "/assets/cert-datacamp.png", alt: "DataCamp Associate Data Analyst certificate" }, badge: { src: "/assets/logo-datacamp.png", alt: "DataCamp", wide: true, light: true } },
     { date: "Cisco Networking Academy course · Aug 2026", title: "Data Analytics Essentials", cert: { src: "/assets/cert-cisco.png", alt: "Cisco Networking Academy Data Analytics Essentials certificate" }, badge: { src: "/assets/logo-cna.png", alt: "Cisco Networking Academy", wide: true, light: true } },
     { date: "DataCamp career track, 39 hours · Aug 2026", title: "Associate Data Analyst in SQL", cert: { src: "/assets/cert-sql.png", alt: "DataCamp Associate Data Analyst in SQL certificate" }, badge: { src: "/assets/logo-datacamp.png", alt: "DataCamp", wide: true, light: true } },
+    { date: "DataCamp career track, 50 hours · Nov 2026", title: "Data Analyst in Power BI", cert: { src: "/assets/cert-powerbi.jpg", alt: "DataCamp Data Analyst in Power BI statement of accomplishment" }, badge: { src: "/assets/logo-datacamp.png", alt: "DataCamp", wide: true, light: true } },
   ]) as Panel[],
 };
 
