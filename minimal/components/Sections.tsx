@@ -1,4 +1,4 @@
-import { about, experience, leadership, credentials, ciscoOrg, contact, profile } from "@/data/profile";
+import { about, experience, leadership, credentials, ciscoOrg, contact, profile, journey } from "@/data/profile";
 import { skillGroups, skillNote } from "@/data/skills";
 import logos from "@/data/logos.json";
 import { CertButton } from "./Dialogs";
@@ -36,8 +36,12 @@ export function About() {
       <p className="about-sub rv">{about.lead}</p>
       {about.bio.map((b) => <p key={b} className="about-bio rv">{b}</p>)}
       <dl className="facts rv">
-        {about.fields.map(([k, v]) => (<div key={k}><dt className="mono">{k}</dt><dd>{v}</dd></div>))}
+        {about.fields.filter(([k]) => k !== "Featured projects" && k !== "Credentials").map(([k, v]) => (<div key={k}><dt className="mono">{k}</dt><dd>{v}</dd></div>))}
       </dl>
+      <h4 className="journey-h mono rv">The path so far</h4>
+      <ol className="journey rv">
+        {journey.map((j) => (<li key={j.when + j.what}><span className="mono">{j.when}</span><p>{j.what}</p></li>))}
+      </ol>
     </section>
   );
 }
@@ -73,24 +77,32 @@ export function Experience() {
               <div>
                 <h3>{it.titleHref ? <a href={it.titleHref} target="_blank" rel="noopener">{it.title}</a> : it.title}</h3>
                 <p className="row-org">{it.org}</p>
-                <p className="dim">{it.detail}</p>
+                {it.did ? <p className="dos"><span className="mono">What I do</span>{it.did}</p> : <p className="dim">{it.detail}</p>}
+                {it.contributed && <p className="dos"><span className="mono">Contributed</span>{it.contributed}</p>}
+                {it.learned && <p className="dos"><span className="mono">Learned</span>{it.learned}</p>}
               </div>
             </div>
           </li>
         ))}
       </ol>
       <h3 className="sub-h pixel rv">{credentials.heading}<span className="mono dim"> · {credentials.label}</span></h3>
-      <ol className="rows">
-        {credentials.items.map((c) => (
-          <li key={c.title} className="row rv">
-            <p className="row-date mono">{c.date}</p>
-            <div className="row-main">
-              <Stamp b={c.badge} />
-              <div>
-                <h3>{c.title}</h3>
-                {c.cert && <CertButton src={c.cert.src} alt={c.cert.alt} title={c.title} />}
-              </div>
-            </div>
+      <p className="ledger-sum mono rv">{credentials.items.length} credentials · Aug to Nov 2026 · grouped by what they cover</p>
+      <ol className="rows ledger">
+        {[...new Set(credentials.items.map((c) => c.area ?? "Other"))].map((area) => (
+          <li key={area} className="row rv">
+            <p className="row-date mono ledger-area">{area}</p>
+            <ul className="ledger-items">
+              {credentials.items.filter((c) => (c.area ?? "Other") === area).map((c) => (
+                <li key={c.title} className="row-main">
+                  <Stamp b={c.badge} />
+                  <div>
+                    <h3>{c.title}</h3>
+                    <p className="mono ledger-meta">{c.date}</p>
+                    {c.cert && <CertButton src={c.cert.src} alt={c.cert.alt} title={c.title} />}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ol>

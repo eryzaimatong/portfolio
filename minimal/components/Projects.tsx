@@ -99,6 +99,7 @@ function ProjectCard({ p, n, onOpen }: { p: Project; n: number; onOpen: (p: Proj
       <div className="pmeta">
         <p className="mono label-red">{p.eyebrow}</p>
         <h3 className="pixel ptitle">{p.title}</h3>
+        <p className="ptag">{p.tagline}</p>
         <button type="button" className="btn solid" onClick={open}>Open the case file</button>
       </div>
     </article>

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { OrgButton, type Tile } from "./Dialogs";
 
-type Item = { date: string; title: string; detail: string; chips?: string[]; link?: { href: string; label: string }; orgKey?: string; badge?: { src: string; alt: string } };
+type Item = { date: string; title: string; detail: string; contributed?: string; chips?: string[]; link?: { href: string; label: string }; orgKey?: string; badge?: { src: string; alt: string } };
 type Cisco = { org: string; role: string; tiles: Tile[] };
 
 /* A control panel: one switch per team. Flip it on and the team's logo lights up and its details open. Several can be on at once. */
@@ -36,6 +36,7 @@ export function LeadershipMap({ items, cisco }: { items: Item[]; cisco: Cisco })
               <div id={`pnl-d-${i}`} className="pnl-body" role="region" aria-label={`${it.title} details`} inert={!lit}>
                 <div className="pnl-inner">
                   <p className="pnl-detail">{it.detail}</p>
+                  {it.contributed && <p className="dos"><span className="mono">Contributed</span>{it.contributed}</p>}
                   {it.chips && <ul className="chips">{it.chips.map((c, k) => <li key={c} style={{ "--c": k } as React.CSSProperties}>{c}</li>)}</ul>}
                   <div className="pnl-links">
                     {it.link && <a className="link mono" href={it.link.href} target="_blank" rel="noopener">{it.link.label} →</a>}

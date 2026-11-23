@@ -20,6 +20,7 @@ export function Showcase() {
       <div className="sc-copy">
         <h1 className="sc-title pixel">developer<span className="sc-dot">.</span>yza<i className="caret" aria-hidden="true" /></h1>
         <p className="sc-sub mono">Eryza Mae Imatong · Data Science, Analytics &amp; Developer</p>
+        <p className="sc-pitch">BSIT (Data Science) student at PUP Manila, open to data science, analytics and technical internships.</p>
       </div>
       <a className="sc-cue mono" href="#hello">scroll <span aria-hidden="true">↓</span></a>
     </section>
