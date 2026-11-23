@@ -450,16 +450,6 @@ html:not(.js) .sk-all, .sk3d.no-gl .sk-all { display: none; }
 /* the photo section no longer repeats the name: its intro opens it */
 .hero .hero-intro { margin-top: 0; font-size: 17px; }
 
-/* project proof: one real number, drawn as the card arrives */
-.proof { margin: 0 0 16px; }
-.proof-n { display: flex; align-items: baseline; gap: 10px; margin: 0; } .proof-n b { font-size: 26px; font-weight: 400; color: var(--text); } .proof-n span { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
-.proof-bar { position: relative; height: 8px; margin-top: 10px; border-radius: 2px; background: var(--line); }
-.proof-fill { position: absolute; inset: 0; border-radius: 2px; background: var(--blood-hot); transform-origin: 0 50%; transform: scaleX(var(--v)); }
-.proof-bar.ticks { background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 4px); }
-.proof-bar.ticks .proof-fill { background: repeating-linear-gradient(90deg, var(--blood-hot) 0 2px, transparent 2px 4px); }
-.proof-limit { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--text); }
-.proof-limit span { position: absolute; top: -18px; left: 50%; translate: -50% 0; font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
-.proof { padding-top: 14px; } .proof figcaption { margin-top: 8px; font-size: 11px; color: var(--dim); }
 
 /* experience: a red trace draws down the date column as you read */
 .rows { position: relative; }
@@ -469,10 +459,7 @@ html:not(.js) .sk-all, .sk3d.no-gl .sk-all { display: none; }
 html.js .sk3d.show-list:not(.no-gl) .sk-list { position: static; width: auto; height: auto; margin: 26px 0 0; overflow: visible; clip: auto; white-space: normal; }
 
 @media (prefers-reduced-motion: no-preference) { @supports (animation-timeline: view()) {
-  .proof-fill { animation: proof-draw linear both; animation-timeline: view(); animation-range: entry 30% cover 45%; }
-  @keyframes proof-draw { from { transform: scaleX(0); } to { transform: scaleX(var(--v)); } }
   .rows::before { animation: trace linear both; animation-timeline: view(); animation-range: entry 10% exit 60%; }
   @keyframes trace { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 } }
 @media (max-width: 900px) { .rows::before { left: -10px; } }
-.proof-n b { white-space: nowrap; } .proof-n { flex-wrap: wrap; row-gap: 2px; } .proof-bar { margin-top: 24px; }

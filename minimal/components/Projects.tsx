@@ -99,38 +99,9 @@ function ProjectCard({ p, n, onOpen }: { p: Project; n: number; onOpen: (p: Proj
       <div className="pmeta">
         <p className="mono label-red">{p.eyebrow}</p>
         <h3 className="pixel ptitle">{p.title}</h3>
-        <Proof p={p} />
         <button type="button" className="btn solid" onClick={open}>Open the case file</button>
       </div>
     </article>
-  );
-}
-
-/* One real number per project, drawn when the card arrives, so the proof is visible without opening anything. */
-function Proof({ p }: { p: Project }) {
-  if (p.slug === "aura") {
-    const m = p.metrics?.find((x) => x.value.includes("pts"));
-    if (!m) return null;
-    const gap = parseFloat(m.value), limit = 5, max = 25;
-    return (
-      <figure className="proof">
-        <p className="proof-n"><b className="pixel">{m.value}</b><span className="mono">accuracy gap across skin-tone bands</span></p>
-        <div className="proof-bar" role="img" aria-label={`Accuracy gap ${gap} points against a ${limit}-point launch limit`}>
-          <i className="proof-fill" style={{ "--v": gap / max } as React.CSSProperties} />
-          <i className="proof-limit" style={{ left: `${(limit / max) * 100}%` }}><span className="mono">{limit}-pt limit</span></i>
-        </div>
-        <figcaption className="mono">held back from launch by my own fairness gate until it passes</figcaption>
-      </figure>
-    );
-  }
-  const m = p.metrics?.find((x) => /trials/.test(x.label));
-  if (!m) return null;
-  return (
-    <figure className="proof">
-      <p className="proof-n"><b className="pixel">{m.value}</b><span className="mono">randomized trials</span></p>
-      <div className="proof-bar ticks" role="img" aria-label={m.label}><i className="proof-fill" style={{ "--v": 1 } as React.CSSProperties} /></div>
-      <figcaption className="mono">in the test that checks every score equals the sum of its reasons</figcaption>
-    </figure>
   );
 }
 
