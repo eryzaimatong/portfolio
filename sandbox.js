@@ -23,7 +23,7 @@
     choc:     { hi: '#7a5642', mid: '#3a2013', lo: '#1a0d07', ink: '#f0c88c', e: .30, d: .0021, f: .45 }
   };
   const SPEC = [
-    { n: 'Python', shape: 'hex', metal: 'brass' }, { n: 'R', shape: 'disc', metal: 'copper' }, { n: 'SQL', shape: 'slab', metal: 'bronze' },
+    { n: 'Python', shape: 'hex', metal: 'brass' }, { n: 'SQL', shape: 'slab', metal: 'bronze' },
     { n: 'Power BI', shape: 'bar', metal: 'gold' }, { n: 'React', shape: 'oct', metal: 'champagne' }, { n: 'Figma', shape: 'pill', metal: 'orange' }, { n: 'Java', shape: 'rrect', metal: 'choc' }
   ];
 

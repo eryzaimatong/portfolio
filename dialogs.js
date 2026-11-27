@@ -42,8 +42,8 @@
       lead: 'Finds movies, TV, anime and K-drama by how you want to feel. Match scores come from a taste model I built, and every score lists the reasons that add up to it.',
       facts: [['Role', 'Solo project'], ['Timeline', 'Jul 2026 to present'], ['Status', 'Deployed']],
       buttons: [['View on GitHub', 'https://github.com/eryzaimatong/rewatch'], ['Live demo', 'https://rewatch-stories.vercel.app']],
-      note: 'The free-tier backend sleeps when idle, so the first load can take a couple of minutes.',
-      results: [['10', 'taste traits in every profile'], ['3', 'hosted services: Vercel, Render and Neon'], ['200', 'randomized trials in the test that checks every score equals the sum of its reasons']],
+      note: 'If the backend has been idle, the first load can take a couple of minutes while it wakes up.',
+      results: [['10', 'taste traits in every profile'], ['1.0% vs 1.5%', 'hit rate at 10, genre-only tier vs random, on 1,942 held-out users: no better than chance, and I traced why'], ['200', 'randomized trials in the test that checks every score equals the sum of its reasons']],
       problem: 'Recommenders usually rank by genre and popularity, so two titles with the same tag can feel nothing alike. Re:Watch is for people who scroll longer than they watch, and for groups choosing something together.',
       built: "Each title and each person is a ten-trait vector (family, nostalgia, pacing, humor, comfort and others). A title's vector is derived from TMDB genres and a keyword lexicon I wrote by hand. A person's profile is rebuilt by replaying their rating history, and a match score is the sum of per-trait contributions, so the reasons always add up to the number shown. Movie Night lets friends answer five questions on their own phones and ranks titles so agreement beats one strong veto.",
       decisions: [
@@ -52,7 +52,7 @@
         'Contributions can go negative, so "tensions" are real, and rounding keeps the printed parts summing to the whole.',
         'Backend: Spring Boot, stateless JWT, Flyway migrations. Checks: JUnit, Playwright and axe-core accessibility audits, run in CI.'
       ],
-      limits: 'Built and deployed: everything described above. Limits: the keyword lexicon is hand-written, not learned. Not done yet: an offline evaluation of the recommendations against held-out ratings, so I make no accuracy claim.',
+      limits: 'Built and deployed: everything described above. Limits: the keyword lexicon is hand-written, not learned. Held-out test (1,942 users, public MovieTweetings data, time-based split): the genre-only tier does not beat random ranking, because its scores saturate at 99. The keyword and overview tiers are not tested yet, so I make no accuracy claim.',
       stack: ['React', 'Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Playwright', 'Vercel', 'Render', 'Neon'],
       gallery: [
         ['assets/projects/rewatch-01-home.jpg', 'Home with a match score'],
